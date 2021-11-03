@@ -4,7 +4,48 @@
   "description": "Indeed Front End",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "cross-env NODE_ENV=development webpack serve --mode development",
+    "start-prod": "cross-env NODE_ENV=production webpack serve",
+    "build": "cross-env NODE_ENV=production webpack --mode production",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint:fix": "eslint . --fix --ext .js,.jsx",
+    "prettier": "prettier --write .",
+    "prepare": "cd .. && husky install"
   },
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.16.0",
+    "@babel/core": "^7.16.0",
+    "@babel/preset-env": "^7.16.0",
+    "@babel/preset-react": "^7.16.0",
+    "babel-loader": "^8.2.3",
+    "cross-env": "^7.0.3",
+    "css-loader": "^6.5.1",
+    "dotenv": "^10.0.0",
+    "dotenv-webpack": "^7.0.3",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.26.1",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.5.0",
+    "husky": "^7.0.4",
+    "node-sass": "^6.0.1",
+    "prettier": "^2.4.1",
+    "sass-loader": "^12.3.0",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.61.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.4.0"
+  },
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "lint-staged": {
+    "*.{js,jsx,scss,css,json,md,babelrc,html}": "prettier --write",
+    "*.{js,jsx}": "eslint --fix"
+  }
 }
