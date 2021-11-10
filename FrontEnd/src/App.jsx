@@ -9,6 +9,7 @@ import EmployeeLandingPage from './components/Employee/EmployeeLandingPage';
 import PostJob from './components/Employee/PostJob';
 import FindCandidates from './components/Employee/FindCandidates';
 import Products from './components/Employee/Products';
+import Resources from './components/Employee/Resources';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
       <Route exact path="/PostJob" component={PostJob} />
       <Route exact path="/FindCandidates" component={FindCandidates} />
       <Route exact path="/Products" component={Products} />
+      <Route exact path="/Resources" component={Resources} />
     </>
   );
 }
