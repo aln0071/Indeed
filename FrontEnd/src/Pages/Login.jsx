@@ -5,7 +5,6 @@ jsx-a11y/anchor-is-valid: 0,
 jsx-a11y/label-has-associated-control: 0
 */
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -13,11 +12,16 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Helmet } from 'react-helmet';
+import Stack from '@mui/material/Stack';
 import styles from '../styles.scss';
+import IndeedLogo from '../svg/indeed.svg';
+import GoogleLogo from '../svg/google.svg';
+import AppleLogo from '../svg/apple.svg';
+import FacebookLogo from '../svg/facebook.svg';
 
 function Copyright(props) {
   return (
@@ -52,12 +56,11 @@ export default function Login() {
   };
 
   return (
-    <ThemeProvider theme={theme} className={styles.login}>
-      <Container
-        component="main"
-        maxWidth="xs"
-        className={styles.loginContainer}
-      >
+    <ThemeProvider theme={theme}>
+      <Container component="main" className={styles.loginContainer}>
+        <Helmet>
+          <style>{'body { background-color: #f3f2f1; }'}</style>
+        </Helmet>
         <CssBaseline />
         <Box
           sx={{
@@ -67,9 +70,7 @@ export default function Login() {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
+          <img src={IndeedLogo} width="120" height="80" alt="Indeed Logo" />
           <Box className={styles.loginBody}>
             <Typography
               component="h1"
@@ -87,7 +88,7 @@ export default function Login() {
               {' '}
               <a href="#">Cookie Policy</a>
               {' '}
-              and
+              and&nbsp;
               <a href="#">Privacy Policy</a>
               .
             </p>
@@ -130,9 +131,57 @@ export default function Login() {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                style={{ marginBottom: '0px' }}
               >
                 Sign In
               </Button>
+              <div className={styles.loginOr}>
+                <hr />
+                <span>or</span>
+                <hr />
+              </div>
+              <Stack direction="column" spacing={2}>
+                <Button
+                  variant="outlined"
+                  startIcon={(
+                    <img
+                      src={GoogleLogo}
+                      width="20px"
+                      style={{ position: 'absolute', left: 10, top: 7 }}
+                      alt="Google Logo"
+                    />
+                  )}
+                >
+                  Sign in with Google
+                </Button>
+                <Button
+                  variant="outlined"
+                  startIcon={(
+                    <img
+                      src={AppleLogo}
+                      width="20px"
+                      style={{ position: 'absolute', left: 10, top: 7 }}
+                      alt="Apple Logo"
+                    />
+                  )}
+                >
+                  Sign in with Apple
+                </Button>
+                <Button
+                  variant="outlined"
+                  startIcon={(
+                    <img
+                      src={FacebookLogo}
+                      width="20px"
+                      style={{ position: 'absolute', left: 10, top: 7 }}
+                      alt="Facebook Logo"
+                    />
+                  )}
+                >
+                  Sign in with Facebook
+                </Button>
+              </Stack>
+              <br />
               <div className={styles.loginCentered}>
                 <Link href="#" variant="body2">
                   New to Indeed? Create an account
