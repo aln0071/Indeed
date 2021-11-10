@@ -1,0 +1,25 @@
+.login {
+  // background-color: #f3f2f1;
+  &__container {
+  }
+  &__body {
+    background: white;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  &__policy {
+    font-size: small;
+  }
+  &__input {
+    div {
+      margin-top: 3px;
+    }
+    label {
+      font-weight: bold;
+    }
+  }
+  &__centered {
+    width: 100%;
+    text-align: center;
+  }
+}

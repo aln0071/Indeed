@@ -1,4 +1,5 @@
 import React from 'react';
+import Login from './Pages/Login';
 import { Route } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import LandingPage from './components';
@@ -16,6 +17,7 @@ function App() {
     <>
       <CssBaseline />
       <Route exact path="/" component={LandingPage} />
+      <Route exact path="/Login" component={Login} />
       <Route exact path="/FindJobs" component={FindJobs} />
       <Route exact path="/CompanyReviews" component={CompanyReviews} />
       <Route exact path="/FindSalaries" component={FindSalaries} />
