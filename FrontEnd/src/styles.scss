@@ -1,11 +1,11 @@
 .login {
-  // background-color: #f3f2f1;
   &__container {
   }
   &__body {
     background: white;
-    padding: 10px;
+    padding: 24px;
     margin-bottom: 10px;
+    max-width: 480px;
   }
   &__policy {
     font-size: small;
@@ -16,10 +16,44 @@
     }
     label {
       font-weight: bold;
+      margin-top: 13px;
     }
   }
   &__centered {
     width: 100%;
     text-align: center;
+  }
+
+  &__or {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    position: relative;
+    font-family: Noto Sans, Helvetica Neue, Helvetica, Arial, Liberation Sans,
+      Roboto, Noto, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    padding: 24px 0px;
+    hr {
+      top: 2rem;
+      left: 0;
+      display: inline-block;
+      position: absolute;
+      width: 40%;
+    }
+    span {
+      color: #6f6f6f;
+      font-size: 1rem;
+      line-height: 1.75;
+      letter-spacing: 0;
+      font-weight: 400;
+      display: inline-block;
+      margin: 0 auto;
+      width: 100%;
+      text-align: center;
+    }
+    & :last-child {
+      left: unset;
+      right: 0px;
+    }
   }
 }
