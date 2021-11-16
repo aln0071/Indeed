@@ -57,3 +57,45 @@
     }
   }
 }
+
+.register {
+  &__header {
+    font-size: 21px !important;
+    font-weight: 800 !important;
+  }
+  &__policy {
+    font-size: 11px;
+  }
+  &__input {
+    div {
+      margin-top: 3px;
+      margin-bottom: 14px;
+    }
+    label {
+      font-weight: bold;
+      margin-top: 13px;
+    }
+    span {
+      font-family: "Helvetica Neue", "Helvetica", "Arial", "Liberation Sans",
+        "Roboto", "Noto", sans-serif;
+      color: rgb(118, 118, 118);
+      font-size: 0.875rem;
+      margin-bottom: 0.25rem;
+    }
+  }
+  &__radio {
+    &__button {
+      border: 1px solid black;
+      margin: 6px 0px;
+      border-radius: 10px;
+      border-color: rgb(118, 118, 118);
+      &:hover {
+        border-color: #2a8ef1;
+      }
+    }
+  }
+  &__checkbox {
+    margin-top: 18px;
+    margin-bottom: 4px;
+  }
+}

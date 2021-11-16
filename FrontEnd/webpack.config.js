@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const dotenv = require('dotenv');
 const Dotenv = require('dotenv-webpack');
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 
 const { PORT, CSS_PREFIX } = dotenv.config().parsed;
 const { NODE_ENV } = process.env;
@@ -65,5 +66,6 @@ module.exports = {
       template: 'public/index.html',
     }),
     new Dotenv(),
+    new NodePolyfillPlugin(),
   ],
 };

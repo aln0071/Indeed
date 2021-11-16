@@ -1,7 +1,8 @@
 import React from 'react';
-import Login from './Pages/Login';
 import { Route } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import Login from './Pages/Login';
+import Register from './Pages/Register';
 import LandingPage from './components';
 import FindJobs from './components/JobSeeker/FindJobs';
 import FindSalaries from './components/JobSeeker/FindSalaries';
@@ -18,6 +19,7 @@ function App() {
       <CssBaseline />
       <Route exact path="/" component={LandingPage} />
       <Route exact path="/Login" component={Login} />
+      <Route exact path="/Register" component={Register} />
       <Route exact path="/FindJobs" component={FindJobs} />
       <Route exact path="/CompanyReviews" component={CompanyReviews} />
       <Route exact path="/FindSalaries" component={FindSalaries} />
