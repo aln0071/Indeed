@@ -1,18 +1,18 @@
-// mysql = require('mysql');
-// var db;
+mysql = require('mysql');  //eslint-disable-line
+let db;
+require('dotenv').config();
 
-// function dbConnectionProvider() {
-//     if (!db) {
-//         db = mysql.createPool({
-//             connectionLimit: 10,
-//             host: "indeed.crmxoy9swngf.us-east-2.rds.amazonaws.com",
-//             port: 3306,
-//             user: "admin",
-//             password: "Indeed273",
-//             database: "indeed"
-//         });
-//     }
-//     return db;
-
-// }
-// module.exports = dbConnectionProvider();
+function dbConnectionProvider() {
+  if (!db) {
+        db = mysql.createPool({   //eslint-disable-line
+      connectionLimit: 10,
+      host: process.env.host,
+      port: process.env.port,
+      user: process.env.user,
+      password: process.env.password,
+      database: 'indeed',
+    });
+  }
+  return db;
+}
+module.exports = dbConnectionProvider();
