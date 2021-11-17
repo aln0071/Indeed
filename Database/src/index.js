@@ -1,4 +1,3 @@
-/* eslint-disable no-irregular-whitespace */
 /* eslint-disable max-len */
 const express = require('express');
 
@@ -6,7 +5,8 @@ const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const review = require('../routes/review');
+const redis = require('redis');
+const review = require('../routes/Review');
 
 app.use(cors(
   { exposedHeaders: 'token' },
@@ -29,6 +29,15 @@ const options = {
   useUnifiedTopology: true,
   maxPoolSize: 100,
 };
+
+const client = redis.createClient(6379);
+
+client.setex('test', 3600, 'hello');
+
+client.get('test', (err, data) => {
+  console.log(err);
+  console.log(data);
+});
 
 mongoose.connect(mongoDB, options, (err) => {
   if (err) {
