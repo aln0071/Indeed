@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const kafka = require('../../kafka/connection');
+const kafka = require('../../kafka/client');
 
 router.post('/jobseeker/:companyId/reviews', async (req, res) => {
   const request = {
