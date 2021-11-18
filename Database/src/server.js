@@ -2,6 +2,7 @@
 const mongoose = require('mongoose');
 const connection = require('./kafka/Connection');
 
+require('dotenv').config();
 const registerCustomer = require('./services/reviews/GetReviews');
 
 const { mongoDB } = require('../Config');
