@@ -1,5 +1,6 @@
 const router = require('express').Router();
-const kafka = require('../../kafka/client');
+const kafka = require('../kafka/Client');
+const redisCli = require('../redis/Connection');
 
 router.post('/jobseeker/:companyId/reviews', async (req, res) => {
   const request = {
@@ -24,6 +25,10 @@ router.get('/jobseeker/:companyId/reviews', async (req, res) => {
     if (error) {
       res.status(400).send(error);
     } else {
+      if (results) {
+        const { url } = req;
+        redisCli.setex(url, 3600, JSON.stringify(results));
+      }
       res.status(200).send(results);
     }
   });

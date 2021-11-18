@@ -1,8 +1,9 @@
 /* eslint-disable no-shadow */
 const mongoose = require('mongoose');
-const connection = require('../kafka/Connection');
+const connection = require('./kafka/Connection');
 
-const registerCustomer = require('../services/reviews/getReviews');
+require('dotenv').config();
+const registerCustomer = require('./services/reviews/GetReviews');
 
 const { mongoDB } = require('../Config');
 
