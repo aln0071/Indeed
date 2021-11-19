@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const kafka = require('../kafka/Client');
 const redisCli = require('../redis/Connection');
+const { checkRedis } = require('../redis/Middleware');
 
 router.post('/jobseeker/:companyId/reviews', async (req, res) => {
   const request = {
@@ -16,7 +17,7 @@ router.post('/jobseeker/:companyId/reviews', async (req, res) => {
   });
 });
 
-router.get('/jobseeker/:companyId/reviews', async (req, res) => {
+router.get('/jobseeker/:companyId/reviews', checkRedis, async (req, res) => {
   const request = {
     query: req.query, params: req.params, body: req.body,
   };

@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const uuid = require('uuid');
 const bcrypt = require('bcrypt');
-const con = require('../../dbConn/DbConnection');
+const con = require('../dbConn/DbConnection');
 
 const saltRounds = 10;
 

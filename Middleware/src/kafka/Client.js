@@ -1,6 +1,6 @@
 /* eslint-disable global-require */
 /* eslint-disable camelcase */
-const rpc = new (require('./kafkarpc'))();
+const rpc = new (require('./Kafkarpc'))();
 
 // make request to kafka
 function make_request(queue_name, msg_payload, callback) {
