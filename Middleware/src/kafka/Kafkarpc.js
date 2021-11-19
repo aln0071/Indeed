@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-multi-assign */
 const crypto = require('crypto');
-const conn = require('./connection');
+const conn = require('./Connection');
 
 const TIMEOUT = 100000; // time to wait for response in ms
 let self;
