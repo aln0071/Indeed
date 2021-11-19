@@ -23,7 +23,7 @@ router.post('/jobseeker/:companyId/reviews', async (req, res) => {
 
 router.get('/jobseeker/:companyId/reviews', redisCache, async (req, res) => {
   const { companyId } = req.params;
-  const reviews = await Reviews.find({ companyId });
+  const reviews = await Reviews.find({ companyId }, { comment: 1 });
   if (reviews) {
     const { url } = req;
     redisCli.setex(url, 3600, JSON.stringify(reviews));
