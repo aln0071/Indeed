@@ -50,4 +50,4 @@ function handleTopicRequest(topicName, fname) {
   });
 }
 
-handleTopicRequest('indeed.get.reviews', registerCustomer);
+handleTopicRequest('indeed_get_reviews', registerCustomer);
