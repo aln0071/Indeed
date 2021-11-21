@@ -27,3 +27,4 @@ function ConnectionProvider() {
   };
 }
 exports = module.exports = new ConnectionProvider();
+console.log('hello');
