@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import { ToastContainer } from 'react-toastify';
 import Login from './Pages/Login';
 import Register from './Pages/Register';
 import LandingPage from './components';
@@ -12,10 +13,22 @@ import PostJob from './components/Employee/PostJob';
 import FindCandidates from './components/Employee/FindCandidates';
 import Products from './components/Employee/Products';
 import Resources from './components/Employee/Resources';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
     <>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnVisibilityChange
+        draggable
+        pauseOnHover
+      />
       <CssBaseline />
       <Route exact path="/" component={LandingPage} />
       <Route exact path="/Login" component={Login} />

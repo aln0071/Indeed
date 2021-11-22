@@ -22,11 +22,15 @@ import { Helmet } from 'react-helmet';
 import Stack from '@mui/material/Stack';
 import HCaptcha from '@hcaptcha/react-hcaptcha';
 import { verify } from 'hcaptcha';
+import { toast } from 'react-toastify';
 import styles from '../styles.scss';
 import IndeedLogo from '../svg/indeed.svg';
 import GoogleLogo from '../svg/google.svg';
 import AppleLogo from '../svg/apple.svg';
 import FacebookLogo from '../svg/facebook.svg';
+import { registerUser } from '../utils/endpoints';
+import { toastOptions, createToastBody } from '../utils';
+import { validations, isValid } from '../utils/validations';
 
 function Copyright(props) {
   return (
@@ -52,18 +56,46 @@ const theme = createTheme();
 let verified = false;
 
 export default function Register() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-    if (verified) {
-      // proceed with form submission
-    } else {
-      // wrong captche
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [userType, setUserType] = React.useState('');
+  const [errors, setErrors] = React.useState({});
+
+  const removeError = (key) => {
+    const clone = { ...errors };
+    delete clone[key];
+    setErrors(clone);
+  };
+
+  const handleSubmit = async () => {
+    const data = {
+      email,
+      password,
+      userType,
+    };
+    try {
+      if (!verified) {
+        throw new Error('Error! Invalid captche');
+      }
+      const localErrors = {};
+      const userProfile = validations.register.user;
+      Object.keys(userProfile).forEach((key) => {
+        if (!isValid(userProfile[key].regex, data[key])) {
+          localErrors[key] = userProfile[key].message;
+        }
+      });
+      setErrors(localErrors);
+      if (Object.keys(localErrors).length > 0) {
+        throw new Error('Error! Invalid data');
+      }
+      await registerUser({
+        email,
+        password,
+        userType,
+      });
+      toast.success('Success! User registered', toastOptions);
+    } catch (error) {
+      toast.error(createToastBody(error), toastOptions);
     }
   };
 
@@ -164,31 +196,45 @@ export default function Register() {
             </div>
             <Box
               component="form"
-              onSubmit={handleSubmit}
+              onSubmit={(e) => e.preventDefault()}
               noValidate
               sx={{ mt: 1 }}
             >
               <div className={styles.registerInput}>
                 <label>Email Address</label>
                 <TextField
+                  onChange={(e) => {
+                    removeError('email');
+                    setEmail(e.target.value);
+                  }}
+                  value={email}
                   margin="normal"
                   required
                   fullWidth
                   id="email"
                   name="email"
                   autoComplete="email"
+                  error={errors.email !== undefined}
+                  helperText={errors.email}
                   autoFocus
                 />
               </div>
               <div className={styles.registerInput}>
                 <label>Password</label>
                 <TextField
+                  onChange={(e) => {
+                    removeError('password');
+                    setPassword(e.target.value);
+                  }}
+                  value={password}
                   margin="normal"
                   required
                   fullWidth
                   name="password"
                   type="password"
                   id="password"
+                  error={errors.password !== undefined}
+                  helperText={errors.password}
                   autoComplete="current-password"
                 />
               </div>
@@ -197,13 +243,26 @@ export default function Register() {
                   <label>Your role</label>
                   <br />
                   <span>Let us know how you&apos;ll be using our products</span>
+                  {errors.userType && (
+                    <span>
+                      <br />
+                      {errors.userType}
+                    </span>
+                  )}
                 </div>
                 <FormControl
                   component="fieldset"
                   fullWidth
                   style={{ paddingLeft: '10px' }}
                 >
-                  <RadioGroup aria-label="role" name="radio-buttons-group">
+                  <RadioGroup
+                    aria-label="role"
+                    name="radio-buttons-group"
+                    onChange={(e) => {
+                      removeError('userType');
+                      setUserType(e.target.value);
+                    }}
+                  >
                     <FormControlLabel
                       className={styles.registerRadioButton}
                       value="employer"
@@ -229,6 +288,7 @@ export default function Register() {
                 onVerify={(token) => onVerifyCaptcha(token)}
               />
               <Button
+                onClick={() => handleSubmit()}
                 type="submit"
                 fullWidth
                 variant="contained"

@@ -60,6 +60,11 @@ module.exports = {
     port: PORT,
     hot: true,
     liveReload: true,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers':
+        'Origin, X-Requested-With, Content-Type, Accept',
+    },
   },
   plugins: [
     new HtmlWebpackPlugin({
