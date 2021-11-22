@@ -23,6 +23,7 @@ import Stack from '@mui/material/Stack';
 import HCaptcha from '@hcaptcha/react-hcaptcha';
 import { verify } from 'hcaptcha';
 import { toast } from 'react-toastify';
+import { useHistory } from 'react-router-dom';
 import styles from '../styles.scss';
 import IndeedLogo from '../svg/indeed.svg';
 import GoogleLogo from '../svg/google.svg';
@@ -61,6 +62,8 @@ export default function Register() {
   const [userType, setUserType] = React.useState('');
   const [errors, setErrors] = React.useState({});
 
+  const history = useHistory();
+
   const removeError = (key) => {
     const clone = { ...errors };
     delete clone[key];
@@ -94,6 +97,7 @@ export default function Register() {
         userType,
       });
       toast.success('Success! User registered', toastOptions);
+      history.push('Login');
     } catch (error) {
       toast.error(createToastBody(error), toastOptions);
     }
