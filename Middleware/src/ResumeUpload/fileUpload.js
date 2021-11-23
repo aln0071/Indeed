@@ -6,7 +6,7 @@ require('dotenv').config();
 const bucketName = 'userprofileresume';
 const region = 'us-east-2';
 
-const { awsAccessKey } = process.env;
+const awsAccessKey = process.env.awsSecretKey;
 const { awsSecretKey } = process.env;
 
 console.log(awsSecretKey);
@@ -17,17 +17,7 @@ const s3 = new aws.S3({
   awsSecretKey,
 });
 
-console.log('hello');
-const isImage = (req, file, callbck) => {
-  if (file.mimetype.startsWith('image')) {
-    callbck(null, true);
-  } else {
-    callbck(new Error('Only Image is allowed'));
-  }
-};
-
 const upload = multer({
-  fileFilter: isImage,
   storage: multerS3({
     s3,
     bucket: bucketName,
@@ -37,11 +27,10 @@ const upload = multer({
     },
     key(req, file, cb) {
       const ext = file.mimetype.split('/')[1];
-      const filePath = `${req.params.entity}/${Date.now().toString()}.${ext}`;
-      console.log('hello');
-      cb(null, filePath);
+      const imagePath = `${req.params.entity}/${Date.now().toString()}.${ext}`;
+      cb(null, imagePath);
     },
   }),
 });
 
-exports.upload = upload;
+module.exports = upload;

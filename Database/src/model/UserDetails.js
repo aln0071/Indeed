@@ -40,5 +40,5 @@ const userDetailsSchema = new Schema({
   readyToWork: { type: Boolean },
 });
 
-const useDeatails = mongoose.model('useDetails', userDetailsSchema);
-module.exports = useDeatails;
+const userDetails = mongoose.model('userDetails', userDetailsSchema);
+module.exports = userDetails;

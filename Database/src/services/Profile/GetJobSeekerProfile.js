@@ -5,7 +5,7 @@ async function handleRequest(msg, callback) {
   {
     const userId = msg.id;
     console.log('msg', userId);
-    const userDetails = await UserDetails.find(
+    const userDetails = await UserDetails.findOne(
       { userId },
       {
         firstName: 1,
@@ -16,9 +16,12 @@ async function handleRequest(msg, callback) {
         readyToWork: 1,
       },
     );
+    console.log('here', userDetails);
     if (!userDetails) {
+      console.log('user not found');
       callback(null, { msg: 'User not found' });
     } else {
+      console.log('user found');
       callback(null, userDetails);
     }
   }

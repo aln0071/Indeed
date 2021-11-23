@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const fileUpload = require('express-fileupload');
 
 // import helmet for extra security
 const helmet = require('helmet');
@@ -19,6 +20,8 @@ app.use(bodyParser.json());
 
 // add Helmet for extra security
 app.use(helmet());
+
+app.use(fileUpload());
 
 // adding morgan to log HTTP requests
 app.use(morgan('combined'));
