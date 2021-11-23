@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const connection = require('./kafka/Connection');
 
 require('dotenv').config();
-const registerCustomer = require('./services/reviews/GetReviews');
-
+const GetReviews = require('./services/reviews/GetReviews');
+const getJobSeekerProfile = require('./services/Profile/GetJobSeekerProfile');
 const { mongoDB } = require('../Config');
 
 const options = {
@@ -50,4 +50,5 @@ function handleTopicRequest(topicName, fname) {
   });
 }
 
-handleTopicRequest('indeed_get_reviews', registerCustomer);
+handleTopicRequest('indeed_get_reviews', GetReviews);
+handleTopicRequest('indeed_get_jobseeker_profile', getJobSeekerProfile);
