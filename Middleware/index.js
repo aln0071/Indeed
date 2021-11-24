@@ -4,14 +4,12 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
-const UserRegistration = require("./routes/registration/UserRegistration");
+const UserRegistration = require("./src/routes/registration/UserRegistration");
 const app = express();
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-const review = require("./routes/reviews/Reviews");
-const jobs = require("./routes/jobs/Jobs");
-const company = require("./routes/company/Company");
+const review = require('./src/routes/reviews/Reviews');
 
 app.use(
   cors({
@@ -30,18 +28,16 @@ app.use(
 //     console.log("connected");
 // })
 
-app.use("/indeed/api", review);
-app.use("/indeed/api", jobs);
-app.use("/indeed/api", company);
+app.use('/indeed/api', review);
 app.use("/indeed/user", UserRegistration);
 
 app.get("/", (req, res) => {
   res.send("hello");
 });
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3003;
 
-app.listen(PORT, () => {
+app.listen(3003, () => {
   console.log(`Running on port ${PORT}`); //eslint-disable-line
 });
 

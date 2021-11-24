@@ -3,7 +3,13 @@ const mongoose = require('mongoose');
 const connection = require('./kafka/Connection');
 
 require('dotenv').config();
-const registerCustomer = require('./services/reviews/GetReviews');
+const getReviews = require('./services/reviews/GetReviews');
+const postJob = require('./services/jobs/PostJob');
+const getJobsForCompany = require('./services/jobs/GetJobsForCompany');
+const getAllJobs = require('./services/jobs/GetAllJobs');
+const getJob = require('./services/jobs/GetJob');
+const postCompany = require('./services/company/PostCompany');
+const getJobLocations = require('./services/jobs/GetJobLocations');
 
 const { mongoDB } = require('../Config');
 
@@ -50,4 +56,12 @@ function handleTopicRequest(topicName, fname) {
   });
 }
 
-handleTopicRequest('indeed_get_reviews', registerCustomer);
+handleTopicRequest('indeed_get_reviews', getReviews);
+
+handleTopicRequest('indeed_post_job', postJob);
+handleTopicRequest('indeed_get_jobs', getJobsForCompany);
+handleTopicRequest('indeed_get_all_jobs', getAllJobs);
+handleTopicRequest('indeed_get_job', getJob);
+handleTopicRequest('indeed_get_all_job_locations', getJobLocations);
+
+handleTopicRequest('indeed_post_company', postCompany);
