@@ -16,7 +16,6 @@ router.get('/jobseeker/profile/:id', async (req, res) => {
         });
         res.status(400).end();
       } else {
-        console.log('inside else', results);
         res.status(200).send(results);
       }
     },
