@@ -19,4 +19,20 @@ router.post('/company', async (req, res) => {
   });
 });
 
+router.get('/admin/companies', async (req, res) => {
+  const request = {
+    query: req.query,
+    params: req.params,
+    body: req.body,
+  };
+
+  kafka.make_request('indeed_get_all_company', request, (error, results) => {
+    if (error) {
+      res.status(400).send(error);
+    } else {
+      res.status(200).send(results);
+    }
+  });
+});
+
 module.exports = router;
