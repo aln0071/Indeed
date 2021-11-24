@@ -1,6 +1,6 @@
 const Jobs = require('../../model/Job');
 const Company = require('../../model/Company');
-const Reviews = require('../../model/Reviews');
+const Reviews = require('../../model/Review');
 
 async function handleRequest(req, callback) {
   try {
