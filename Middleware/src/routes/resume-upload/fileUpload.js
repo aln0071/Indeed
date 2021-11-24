@@ -9,8 +9,6 @@ const region = 'us-east-2';
 const awsAccessKey = process.env.awsSecretKey;
 const { awsSecretKey } = process.env;
 
-console.log(awsSecretKey);
-
 const s3 = new aws.S3({
   region,
   awsAccessKey,
