@@ -10,9 +10,8 @@ const getAllJobs = require('./services/jobs/GetAllJobs');
 const getJob = require('./services/jobs/GetJob');
 const postCompany = require('./services/company/PostCompany');
 const getJobLocations = require('./services/jobs/GetJobLocations');
+const getJobSeekerProfile = require('./services/profile/GetJobSeekerProfile');
 
-const GetReviews = require('./services/reviews/GetReviews');
-const getJobSeekerProfile = require('./services/Profile/GetJobSeekerProfile');
 const { mongoDB } = require('../Config');
 
 const options = {
@@ -67,5 +66,5 @@ handleTopicRequest('indeed_get_job', getJob);
 handleTopicRequest('indeed_get_all_job_locations', getJobLocations);
 
 handleTopicRequest('indeed_post_company', postCompany);
-handleTopicRequest('indeed_get_reviews', GetReviews);
+
 handleTopicRequest('indeed_get_jobseeker_profile', getJobSeekerProfile);
