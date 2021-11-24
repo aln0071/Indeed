@@ -1,11 +1,11 @@
-const UserDetails = require('../../model/User');
+const Users = require('../../model/User');
 
 async function handleRequest(msg, callback) {
   console.log('msg type', msg);
   {
     const userId = msg.id;
     console.log('msg', userId);
-    const userDetails = await UserDetails.findOne(
+    const userDetails = await Users.findOne(
       { userId },
       {
         firstName: 1,

@@ -4,28 +4,35 @@ const { Schema } = mongoose;
 
 const userDetailsSchema = new Schema({
   userId: { type: String, required: true },
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
-  mobile: { type: String, required: true },
+  firstName: { type: String },
+  lastName: { type: String },
+  mobile: { type: String },
   profilePicId: { type: String },
   address: {
-    addressLine1: { type: String, required: true },
+    addressLine1: { type: String },
     addressLine2: { type: String },
-    city: { type: String, required: true },
-    state: { type: String, required: true },
-    zipCode: { type: String, required: true },
-    country: { type: String, required: true },
+    city: { type: String },
+    state: { type: String },
+    zipCode: { type: String },
+    country: { type: String },
   },
   roleInCompany: { type: String },
-  companyId: { type: String, required: true },
+  companyId: { type: String },
+  companyName: { type: String },
   jobPreference: {
     jobTitle: { type: String },
     jobType: { type: String },
     contract: { type: String },
     desiredPay: { type: String },
   },
+  jobLocation: {
+    city: { type: String },
+    state: { type: String },
+    country: { type: String },
+  },
   salary: { type: String },
-  currentExperience: { type: Number, required: true },
+  currentExperience: { type: Number },
+  currentlyWorking: { type: Boolean },
   resume: { type: String },
   endDate: { type: String },
   benefits: {
@@ -35,10 +42,10 @@ const userDetailsSchema = new Schema({
     dentalVisionInsurance: { type: Boolean },
     retirement: { type: Boolean },
     otherBenefits: { type: Boolean },
-    otherBenefitsDesc: { type: Boolean },
+    otherBenefitsDesc: { type: String },
   },
   readyToWork: { type: Boolean },
 });
 
-const User = mongoose.model('Users', userDetailsSchema);
-module.exports = User;
+const Users = mongoose.model('Users', userDetailsSchema);
+module.exports = Users;

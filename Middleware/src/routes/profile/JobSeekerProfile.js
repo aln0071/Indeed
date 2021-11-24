@@ -23,4 +23,23 @@ router.get('/jobseeker/profile/:id', async (req, res) => {
   );
 });
 
+router.post('/jobseeker/add/salary/:userId', async (req, res) => {
+  const request = {
+    params: req.params,
+    body: req.body,
+  };
+
+  kafka.make_request(
+    'indeed_add_jobseekerInfo_salary',
+    request,
+    (error, results) => {
+      if (error) {
+        res.status(400).send(error);
+      } else {
+        res.status(200).send(results);
+      }
+    },
+  );
+});
+
 module.exports = router;
