@@ -8,5 +8,5 @@ const inboxSchema = new Schema({
   jobSeekerName: { type: String },
 });
 
-const inbox = mongoose.model('useDetails', inboxSchema);
+const inbox = mongoose.model('Inbox', inboxSchema);
 module.exports = inbox;

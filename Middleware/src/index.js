@@ -11,12 +11,16 @@ const morgan = require('morgan');
 
 const busboy = require('connect-busboy');
 const busboyBodyParser = require('busboy-body-parser');
-const UserRegistration = require('./Registration/UserRegistration');
 
 const app = express();
 app.use(express.json());
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+const review = require('./routes/reviews/Reviews');
+const jobs = require('./routes/jobs/Jobs');
+const company = require('./routes/company/Company');
+const userRegistration = require('./routes/registration/UserRegistration');
 
 // add Helmet for extra security
 app.use(helmet());
@@ -27,9 +31,8 @@ app.use(fileUpload());
 app.use(morgan('combined'));
 app.use(bodyParser.urlencoded({ extended: false }));
 
-const review = require('./Reviews/Reviews');
-const jobSeekerProfile = require('./Profile/JobSeekerProfile');
-const fileStore = require('./ResumeUpload/fileStore');
+const jobSeekerProfile = require('./routes/profile/JobSeekerProfile');
+const fileStore = require('./routes/resume-upload/fileStore');
 
 app.use(busboy());
 app.use(busboyBodyParser());
@@ -46,7 +49,9 @@ app.use(cors());
 // })
 
 app.use('/indeed/api', review);
-app.use('/indeed/user', UserRegistration);
+app.use('/indeed/api', jobs);
+app.use('/indeed/api', company);
+app.use('/indeed/user', userRegistration);
 app.use('/indeed/api', jobSeekerProfile);
 app.use('/indeed/api', fileStore);
 

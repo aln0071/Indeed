@@ -1,4 +1,4 @@
-const UserDetails = require('../../model/UserDetails');
+const UserDetails = require('../../model/User');
 
 async function handleRequest(msg, callback) {
   console.log('msg type', msg);
