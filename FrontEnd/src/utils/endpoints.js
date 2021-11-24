@@ -17,4 +17,7 @@ const handleResponse = async (response) => {
 
 export const registerUser = (params) => post(`${baseUrl}${urls.register}`, params).then(handleResponse);
 
-export const loginUser = () => {};
+export const loginUser = (params) => {
+  const url = `${baseUrl}${urls.login}`;
+  return post(url, params).then(handleResponse);
+};
