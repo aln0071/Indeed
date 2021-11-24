@@ -183,7 +183,7 @@ export default function Login() {
               </Stack>
               <br />
               <div className={styles.loginCentered}>
-                <Link href="#" variant="body2">
+                <Link href="#/Register" variant="body2">
                   New to Indeed? Create an account
                 </Link>
               </div>

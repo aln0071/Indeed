@@ -37,6 +37,7 @@ const userDetailsSchema = new Schema({
     otherBenefits: { type: Boolean },
     otherBenefitsDesc: { type: Boolean },
   },
+  readyToWork: { type: Boolean },
 });
 
 const User = mongoose.model('Users', userDetailsSchema);

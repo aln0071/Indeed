@@ -6,9 +6,8 @@ const con = require('../../dbConn/DbConnection');
 const saltRounds = 10;
 
 router.post('/UserRegistration', async (req, res) => {
-  const email = req.body.useremail;
-  const password = req.body.userpassword;
-  const { userType } = req.body;
+  console.log(req.body);
+  const { email, password, userType } = req.body;
   const userId = uuid.v1();
 
   const query1 = 'INSERT INTO UserTable(userId, password, email,  userType) VALUES ( ?, ?, ?, ?)';
