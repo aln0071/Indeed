@@ -13,6 +13,7 @@ const postCompany = require('./services/company/PostCompany');
 const getJobLocations = require('./services/jobs/GetJobLocations');
 const getJobSeekerProfile = require('./services/Profile/GetJobSeekerProfile');
 const addJobSeekerInfosalary = require('./services/Profile/AddJobSeekerInfosalary');
+const applyJob = require('./services/jobs/ApplyJob');
 const { mongoDB } = require('../Config');
 
 const options = {
@@ -71,3 +72,5 @@ handleTopicRequest('indeed_post_company', postCompany);
 
 handleTopicRequest('indeed_get_jobseeker_profile', getJobSeekerProfile);
 handleTopicRequest('indeed_add_jobseekerInfo_salary', addJobSeekerInfosalary);
+
+handleTopicRequest('indeed_apply_job', applyJob);
