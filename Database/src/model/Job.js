@@ -29,6 +29,7 @@ const jobSchema = new Schema({
     currentlyWorking: { type: String },
     lastWorkingDate: { type: String },
     experience: { type: Number },
+    currentCompany: { type: String },
     currentJobTitle: { type: String },
     currentSalary: { type: Number },
   }],

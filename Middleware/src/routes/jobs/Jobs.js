@@ -62,13 +62,17 @@ router.get('/jobs/locations', async (req, res) => {
     body: req.body,
   };
 
-  kafka.make_request('indeed_get_all_job_locations', request, (error, results) => {
-    if (error) {
-      res.status(400).send(error);
-    } else {
-      res.status(200).send(results);
-    }
-  });
+  kafka.make_request(
+    'indeed_get_all_job_locations',
+    request,
+    (error, results) => {
+      if (error) {
+        res.status(400).send(error);
+      } else {
+        res.status(200).send(results);
+      }
+    },
+  );
 });
 
 router.get('/company/:companyId/jobs/:jobId', async (req, res) => {
@@ -90,5 +94,23 @@ router.get('/company/:companyId/jobs/:jobId', async (req, res) => {
     }
   });
 });
+
+router.post(
+  '/jobseeker/:jobseekerId/applyJob/:jobId/:companyId',
+  async (req, res) => {
+    const request = {
+      params: req.params,
+      body: req.body,
+    };
+    console.log(request);
+    kafka.make_request('indeed_apply_job', request, (error, results) => {
+      if (error) {
+        res.status(400).send(error);
+      } else {
+        res.status(200).send(results);
+      }
+    });
+  },
+);
 
 module.exports = router;
