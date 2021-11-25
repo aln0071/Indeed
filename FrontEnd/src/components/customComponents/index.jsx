@@ -1,5 +1,5 @@
-import Button from '@material-ui/core/Button';
-import { withStyles } from '@material-ui/core/styles';
+import Button from '@mui/material/Button';
+import { withStyles } from '@mui/styles';
 
 export const ColorButton = withStyles(() => ({
   root: {
@@ -14,10 +14,10 @@ export const ColorButton = withStyles(() => ({
 
 export const ColorButton2 = withStyles(() => ({
   root: {
-    color: '#222',
-    backgroundColor: '#C4AE78',
+    color: '#fff',
+    backgroundColor: '#2557a7 !important',
     '&:hover': {
-      backgroundColor: '#C4AE78',
+      backgroundColor: '#2557a7 !important',
       opacity: 0.9,
     },
   },

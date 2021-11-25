@@ -2,10 +2,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable import/no-unresolved */
 import React, { useState } from 'react';
-import MobileeRightMenuSlider from '@material-ui/core/Drawer';
-import DehazeIcon from '@material-ui/icons/Dehaze';
+import MobileeRightMenuSlider from '@mui/material/Drawer';
+import DehazeIcon from '@mui/icons-material/Dehaze';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 import {
   AppBar,
   Toolbar,
@@ -19,7 +19,7 @@ import {
   List,
   // Typography,
   Box,
-} from '@material-ui/core';
+} from '@mui/material';
 import HelpIcon from '@mui/icons-material/Help';
 import { Link } from 'react-router-dom';
 import { ColorButton } from '../customComponents';

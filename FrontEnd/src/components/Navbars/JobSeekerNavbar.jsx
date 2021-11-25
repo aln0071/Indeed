@@ -2,11 +2,11 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable import/no-unresolved */
 import React, { useState } from 'react';
-import MobileeRightMenuSlider from '@material-ui/core/Drawer';
-import DehazeIcon from '@material-ui/icons/Dehaze';
+import MobileeRightMenuSlider from '@mui/material/Drawer';
+import DehazeIcon from '@mui/icons-material/Dehaze';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import PersonIcon from '@mui/icons-material/Person';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 import {
   AppBar,
   Toolbar,
@@ -20,9 +20,9 @@ import {
   List,
   // Typography,
   Box,
-} from '@material-ui/core';
-import { Link } from 'react-router-dom';
-import { ColorButton } from '../customComponents';
+} from '@mui/material';
+import { Link, useHistory } from 'react-router-dom';
+import { ColorButton2 } from '../customComponents';
 import logo from '../../svg/jobSeekerLogo.svg';
 import './styles.css';
 
@@ -65,6 +65,7 @@ const menuItems = [
 
 const JobSeekerNavbar = () => {
   const classes = useStyles();
+  const history = useHistory();
 
   const [state, setState] = useState({
     right: false,
@@ -121,18 +122,28 @@ const JobSeekerNavbar = () => {
                 alt=""
               />
               <div>
-                <Link
+                {/* <Link
                   id="SignIn"
                   // className="nav"
                   style={{ color: '#2557a7', fontWeight: 'bold' }}
                   to="/"
                 >
-                  <ColorButton>
+                  <ColorButton2>
                     <PersonIcon style={{ margin: '0 5px 0 5px' }} />
                     {' '}
                     Sign In
-                  </ColorButton>
-                </Link>
+                  </ColorButton2>
+                </Link> */}
+                <ColorButton2
+                  variant="contained"
+                  onClick={() => {
+                    history.push('/');
+                  }}
+                >
+                  <PersonIcon style={{ margin: '0 5px 0 5px' }} />
+                  {' '}
+                  Sign In
+                </ColorButton2>
                 <IconButton onClick={toggleSlider('right', true)}>
                   <DehazeIcon style={{ color: '#222' }} />
                 </IconButton>
