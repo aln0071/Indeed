@@ -21,17 +21,19 @@ const jobSchema = new Schema({
     zipcode: { type: String },
     country: { type: String },
   },
-  applicantDetails: [{
-    jobSeekerId: { type: String, required: true },
-    status: { type: String },
-    resumeLink: { type: String },
-    appliedDate: { type: String },
-    currentlyWorking: { type: String },
-    lastWorkingDate: { type: String },
-    experience: { type: Number },
-    currentJobTitle: { type: String },
-    currentSalary: { type: Number },
-  }],
+  applicantDetails: [
+    {
+      jobSeekerId: { type: String, required: true },
+      status: { type: String },
+      resumeLink: { type: String },
+      appliedDate: { type: String },
+      currentlyWorking: { type: String },
+      lastWorkingDate: { type: String },
+      experience: { type: Number },
+      currentJobTitle: { type: String },
+      currentSalary: { type: Number },
+    },
+  ],
 });
 
 const Jobs = mongoose.model('Jobs', jobSchema);
