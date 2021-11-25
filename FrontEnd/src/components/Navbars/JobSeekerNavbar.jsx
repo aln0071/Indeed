@@ -43,7 +43,7 @@ const useStyles = makeStyles(() => ({
 const menuItems = [
   {
     listText: 'Find Jobs',
-    listPath: '/FindJobs',
+    listPath: '/',
   },
   {
     listText: 'Company Reviews',
@@ -59,7 +59,7 @@ const menuItems = [
   },
   {
     listText: 'Employers',
-    listPath: '/EmployeeLandingPage',
+    listPath: '/PostJob',
   },
 ];
 
@@ -165,7 +165,7 @@ const JobSeekerNavbar = () => {
                   height="80"
                   alt=""
                 />
-                <Link className="nav" id="FindJobs" to="/FindJobs">
+                <Link className="nav" id="FindJobs" to="/">
                   Find Jobs
                 </Link>
                 <Link id="CompanyReviews" className="nav" to="/CompanyReviews">
@@ -197,11 +197,7 @@ const JobSeekerNavbar = () => {
                     marginLeft: '24px',
                   }}
                 />
-                <Link
-                  id="EmployeeLandingPage"
-                  className="nav"
-                  to="/EmployeeLandingPage"
-                >
+                <Link id="EmployeeLandingPage" className="nav" to="/PostJob">
                   Employers / Post Job
                 </Link>
               </div>

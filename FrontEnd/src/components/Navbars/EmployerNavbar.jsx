@@ -125,7 +125,7 @@ const EmployerNavbar = () => {
                   id="SignIn"
                   // className="navEmployee"
                   style={{ color: '#2557a7', fontWeight: 'bold' }}
-                  to="/EmployeeLandingPage"
+                  to="/PostJob"
                 >
                   <ColorButton>Sign In</ColorButton>
                 </Link>
@@ -177,7 +177,7 @@ const EmployerNavbar = () => {
                 <Link
                   id="Resources"
                   className="navEmployee"
-                  to="/EmployeeLandingPage"
+                  to="/PostJob" // add later, given dummy value for now
                   style={{ color: '#fff' }}
                 >
                   Resources
@@ -187,7 +187,7 @@ const EmployerNavbar = () => {
                 <Link
                   id="HelpCenter"
                   className="navEmployee"
-                  to="/EmployeeLandingPage"
+                  to="/PostJob" // add later, given dummy value for now
                   style={{
                     color: '#fff',
                     display: 'flex',
@@ -211,7 +211,7 @@ const EmployerNavbar = () => {
                   id="SignIn"
                   className="navEmployee"
                   style={{ color: '#2557a7', fontWeight: 'bold' }}
-                  to="/EmployeeLandingPage"
+                  to="/PostJob"
                 >
                   <ColorButton>Sign In</ColorButton>
                 </Link>
