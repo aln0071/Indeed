@@ -17,18 +17,19 @@ async function handleRequest(req, callback) {
       }
       if (where) {
         condition.push({
-          $or: [{ 'address.city': { $regex: where, $options: 'i' } },
+          $or: [
+            { 'address.city': { $regex: where, $options: 'i' } },
             { 'address.state': { $regex: where, $options: 'i' } },
             { 'address.zipcode': { $regex: where, $options: 'i' } },
             { 'address.country': { $regex: where, $options: 'i' } },
           ],
         });
       }
-      jobs = await Jobs.find(
-        {
-          $and: condition,
-        },
-      ).limit(limit).skip(skipIndex);
+      jobs = await Jobs.find({
+        $and: condition,
+      })
+        .limit(limit)
+        .skip(skipIndex);
     } else if (req.query.page || req.query.limit) {
       error = { message: 'Pass both page and limit and not just one' };
       callback(error, null);

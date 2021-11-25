@@ -21,6 +21,7 @@ const jobSchema = new Schema({
     zipcode: { type: String },
     country: { type: String },
   },
+
   applicantDetails: [{
     jobSeekerId: { type: String, required: true },
     status: { type: String },
@@ -32,7 +33,8 @@ const jobSchema = new Schema({
     currentCompany: { type: String },
     currentJobTitle: { type: String },
     currentSalary: { type: Number },
-  }],
+  }]
+
 });
 
 const Jobs = mongoose.model('Jobs', jobSchema);
