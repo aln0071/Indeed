@@ -1,18 +1,20 @@
-// mysql = require('mysql');
-// var db;
+const mysql = require("mysql");
 
-// function dbConnectionProvider() {
-//     if (!db) {
-//         db = mysql.createPool({
-//             connectionLimit: 10,
-//             host: "indeed.crmxoy9swngf.us-east-2.rds.amazonaws.com",
-//             port: 3306,
-//             user: "admin",
-//             password: "Indeed273",
-//             database: "indeed"
-//         });
-//     }
-//     return db;
+let db;
 
-// }
-// module.exports = dbConnectionProvider();
+require("dotenv").config();
+
+function dbConnectionProvider() {
+  if (!db) {
+    db = mysql.createPool({
+      connectionLimit: 10,
+      host: process.env.SQL_HOST,
+      port: process.env.SQL_PORT,
+      user: process.env.SQL_USERNAME,
+      password: process.env.SQL_PASSWORD,
+      database: process.env.SQL_DATABASE,
+    });
+  }
+  return db;
+}
+module.exports = dbConnectionProvider();

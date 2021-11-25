@@ -126,7 +126,7 @@ const JobSeekerNavbar = () => {
                   id="SignIn"
                   // className="nav"
                   style={{ color: '#2557a7', fontWeight: 'bold' }}
-                  to="/"
+                  to="/Login"
                 >
                   <ColorButton2>
                     <PersonIcon style={{ margin: '0 5px 0 5px' }} />
@@ -183,7 +183,7 @@ const JobSeekerNavbar = () => {
                   id="SignIn"
                   className="nav"
                   style={{ color: '#2557a7', fontWeight: 'bold' }}
-                  to="/"
+                  to="/Login"
                 >
                   Sign In
                 </Link>

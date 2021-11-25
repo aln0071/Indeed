@@ -10,5 +10,5 @@ const picturesSchema = new Schema({
   context: { type: String },
 });
 
-const Pictures = mongoose.model('useDetails', picturesSchema);
+const Pictures = mongoose.model('Pictures', picturesSchema);
 module.exports = Pictures;
