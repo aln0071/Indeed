@@ -8,6 +8,8 @@ const jobSchema = new Schema({
   jobTitle: { type: String },
   jobSalary: { type: Number },
   jobDescription: { type: String },
+  jobFullDescription: { type: String },
+  qualification: { type: String },
   jobType: { type: String },
   workType: { type: String },
   industry: { type: String },
