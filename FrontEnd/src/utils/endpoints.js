@@ -21,3 +21,8 @@ export const loginUser = (params) => {
   const url = `${baseUrl}${urls.login}`;
   return post(url, params).then(handleResponse);
 };
+
+export const updateCompanyProfile = (params) => {
+  const url = `${baseUrl}${urls.updateCompanyProfile}`;
+  return post(url, params).then(handleResponse);
+};
