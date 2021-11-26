@@ -1,16 +1,16 @@
-const router = require("express").Router();
-const kafka = require("../kafka/Client");
-const redisCli = require("../redis/Connection");
-const { checkRedis } = require("../redis/Middleware");
+const router = require('express').Router();
+const kafka = require('../../kafka/Client');
+const redisCli = require('../../redis/Connection');
+const { checkRedis } = require('../../redis/Middleware');
 
-router.post("/jobseeker/:companyId/reviews", async (req, res) => {
+router.post('/jobseeker/:companyId/reviews', async (req, res) => {
   const request = {
     query: req.query,
     params: req.params,
     body: req.body,
   };
 
-  kafka.make_request("indeed_post_reviews", request, (error, results) => {
+  kafka.make_request('indeed_post_reviews', request, (error, results) => {
     if (error) {
       res.status(400).send(error);
     } else {
@@ -19,14 +19,14 @@ router.post("/jobseeker/:companyId/reviews", async (req, res) => {
   });
 });
 
-router.get("/jobseeker/:companyId/reviews", checkRedis, async (req, res) => {
+router.get('/jobseeker/:companyId/reviews', checkRedis, async (req, res) => {
   const request = {
     query: req.query,
     params: req.params,
     body: req.body,
   };
 
-  kafka.make_request("indeed_get_reviews", request, (error, results) => {
+  kafka.make_request('indeed_get_reviews', request, (error, results) => {
     if (error) {
       res.status(400).send(error);
     } else {

@@ -17,11 +17,14 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Helmet } from 'react-helmet';
 import Stack from '@mui/material/Stack';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router';
 import styles from '../styles.scss';
 import IndeedLogo from '../svg/indeed.svg';
 import GoogleLogo from '../svg/google.svg';
 import AppleLogo from '../svg/apple.svg';
 import FacebookLogo from '../svg/facebook.svg';
+import { loginUserAction } from '../store/actions/user';
 
 function Copyright(props) {
   return (
@@ -45,14 +48,13 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function Login() {
+  const dispatch = useDispatch();
+  const history = useHistory();
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    dispatch(loginUserAction(data.get('email'), data.get('password'), history));
   };
 
   return (
@@ -183,7 +185,7 @@ export default function Login() {
               </Stack>
               <br />
               <div className={styles.loginCentered}>
-                <Link href="#" variant="body2">
+                <Link href="#/Register" variant="body2">
                   New to Indeed? Create an account
                 </Link>
               </div>

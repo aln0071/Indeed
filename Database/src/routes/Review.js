@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const Reviews = require('../model/Reviews');
+const Reviews = require('../model/Review');
 
 router.post('/jobseeker/:companyId/reviews', async (req, res) => {
   const payload = req.body;

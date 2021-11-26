@@ -10,5 +10,5 @@ const messageSchema = new Schema({
   time: { type: String },
 });
 
-const Message = mongoose.model('useDetails', messageSchema);
+const Message = mongoose.model('Messages', messageSchema);
 module.exports = Message;
