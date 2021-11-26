@@ -9,6 +9,8 @@ const jobSchema = new Schema({
   jobSalary: { type: Number },
   jobSalaryUnit: { type: String },
   jobDescription: { type: String },
+  jobFullDescription: { type: String },
+  qualification: { type: String },
   jobType: { type: String },
   workType: { type: String },
   industry: { type: String },
@@ -33,8 +35,7 @@ const jobSchema = new Schema({
     currentCompany: { type: String },
     currentJobTitle: { type: String },
     currentSalary: { type: Number },
-  }]
-
+  }],
 });
 
 const Jobs = mongoose.model('Jobs', jobSchema);
