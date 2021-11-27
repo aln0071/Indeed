@@ -6,8 +6,10 @@ require('dotenv').config();
 const bucketName = 'userprofileresume';
 const region = 'us-east-2';
 
-const awsAccessKey = process.env.awsSecretKey;
+const { awsAccessKey } = process.env;
 const { awsSecretKey } = process.env;
+
+console.log(process.env.awsAccessKey);
 
 const s3 = new aws.S3({
   region,
@@ -31,4 +33,4 @@ const upload = multer({
   }),
 });
 
-module.exports = upload;
+exports.upload = upload;

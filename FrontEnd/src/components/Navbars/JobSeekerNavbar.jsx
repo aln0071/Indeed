@@ -111,7 +111,7 @@ const JobSeekerNavbar = () => {
   return (
     <div>
       <Box component="nav">
-        <AppBar position="fixed" className="jobSeekerAppbar">
+        <AppBar position="sticky" className="jobSeekerAppbar">
           <Toolbar className="toolbar">
             <Hidden mdUp>
               <img
