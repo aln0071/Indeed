@@ -14,3 +14,49 @@
   justify-content: center;
   height: 100vh;
 }
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.subChild1 {
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border: 1px solid black; */
+}
+
+.subChild2 {
+  height: 50vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  /* border: 1px solid black; */
+  background: #faf9f8;
+}
+
+.left {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  height: 100%;
+  /* justify-content: flex-end; */
+  /* border: 1px solid black; */
+}
+
+.right {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  /* border: 1px solid black; */
+}
+
+.cardWrapper {
+  margin: 20px;
+}
