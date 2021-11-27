@@ -6,6 +6,7 @@ import JobSeekerNavbar from '../components/Navbars/JobSeekerNavbar';
 import styles from '../styles.scss';
 import banner from '../images/banner.jpeg';
 import logo from '../images/cmplogo.jpeg';
+import CompanyTabs from '../components/JobSeeker/Company/CompanyTabs';
 
 const StyledRating = styled(Rating)({
   '& .MuiRating-iconFilled': {
@@ -68,6 +69,7 @@ export default function CompanyProfileJobSeeker() {
           </div>
         </div>
       </div>
+      <CompanyTabs />
     </>
   );
 }
