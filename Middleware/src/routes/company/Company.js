@@ -19,7 +19,7 @@ router.post('/company', async (req, res) => {
   });
 });
 
-router.get('/admin/companies', async (req, res) => {
+router.get('/companies', async (req, res) => {
   const request = {
     query: req.query,
     params: req.params,
@@ -27,6 +27,22 @@ router.get('/admin/companies', async (req, res) => {
   };
 
   kafka.make_request('indeed_get_all_company', request, (error, results) => {
+    if (error) {
+      res.status(400).send(error);
+    } else {
+      res.status(200).send(results);
+    }
+  });
+});
+// indeed_get_company
+router.get('/companiesList', async (req, res) => {
+  const request = {
+    query: req.query,
+    params: req.params,
+    body: req.body,
+  };
+
+  kafka.make_request('indeed_get_company', request, (error, results) => {
     if (error) {
       res.status(400).send(error);
     } else {
