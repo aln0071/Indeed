@@ -11,6 +11,7 @@ const getJob = require('./services/jobs/GetJob');
 const getAllCompany = require('./services/company/GetAllCompany');
 const getCompany = require('./services/company/GetCompany');
 const postCompany = require('./services/company/PostCompany');
+const updateCompany = require('./services/company/UpdateCompany');
 const getJobLocations = require('./services/jobs/GetJobLocations');
 const getJobSeekerProfile = require('./services/profile/GetJobSeekerProfile');
 const addJobSeekerInfosalary = require('./services/profile/AddJobSeekerInfosalary');
@@ -71,6 +72,7 @@ handleTopicRequest('indeed_get_job', getJob);
 handleTopicRequest('indeed_get_all_job_locations', getJobLocations);
 
 handleTopicRequest('indeed_post_company', postCompany);
+handleTopicRequest('indeed_put_company', updateCompany);
 
 handleTopicRequest('indeed_get_jobseeker_profile', getJobSeekerProfile);
 handleTopicRequest('indeed_add_jobseekerInfo_salary', addJobSeekerInfosalary);
