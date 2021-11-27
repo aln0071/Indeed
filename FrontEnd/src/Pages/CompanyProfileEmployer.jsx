@@ -11,7 +11,7 @@ import {
   updateCompanyProfileAction,
 } from '../store/actions/companyProfile';
 
-export default function SpacingGrid() {
+export default function CompanyProfileEmployer() {
   const companyProfile = useSelector((state) => state.companyProfile);
   const dispatch = useDispatch();
 
