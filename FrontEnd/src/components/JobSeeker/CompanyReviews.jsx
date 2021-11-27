@@ -14,6 +14,7 @@ import '../styles.css';
 // import { useHistory } from 'react-router-dom';
 // import { searchCompany, getCompanyReviews } from '../../Redux/CompanyReviews/action';
 import SearchIcon from '@material-ui/icons/Search';
+import axios from 'axios';
 // import Rating from '@material-ui/lab/Rating';
 import {
   Container,
@@ -28,6 +29,8 @@ import {
   ListItem,
   Card,
 } from '@material-ui/core';
+import { baseUrl, urls } from '../../utils/constants';
+import { StylesContext } from '@mui/styles';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -77,6 +80,13 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'white',
     display: 'flex',
   },
+  reviewBtnText: {
+    color: '#085ff7',
+    textDecoration: 'underline',
+  },
+  companyBtnText: {
+    color: '#085ff7',
+  },
 }));
 
 const companiesList = [
@@ -99,8 +109,8 @@ const companiesList = [
 
 function CompanyReviews() {
   const classes = useStyles();
-  const [companies, setCompanies] = useState(companiesList);
-  const [query, setQuery] = useState('');
+  const [companies, setCompanies] = useState([]);
+  const [companyName, setCompanyName] = useState('');
   const [location, setLocation] = useState('');
   // const isSearching = useSelector(state => state.companies.isSearching);
   // const dispatch = useDispatch();
@@ -108,12 +118,29 @@ function CompanyReviews() {
 
   // const {isAuth} = useSelector(state=>state.login)
 
+  const getCompaniesWithSearch = async () => {
+    // const url = `/customers/${customerProfile?._id}/profile`;
+    const url = `${baseUrl}${urls.getCompaniesWithNameOrLocation}?companyName=${companyName}&location=${location}`;
+    const headers = {
+      // Authorization: token,
+    };
+    try {
+      const res = await axios.get(url, { headers });
+      console.log('response', res.data);
+      setCompanies(res.data);
+      // await dispatch(updateCustomerProfile(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const onTextChange = (e) => {
-    setQuery(e.target.value);
+    setCompanyName(e.target.value);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    getCompaniesWithSearch();
     // dispatch(searchCompany(query))
   };
 
@@ -121,14 +148,6 @@ function CompanyReviews() {
   //   dispatch(getCompanyReviews(id));
   //   history.push(`/reviews?id=${id}`)
   // }
-
-  // useEffect(() => {
-  //   axios.get("https://indeed-mock-server.herokuapp.com/companies")
-  //     .then((res) => {
-  //       setCompanies(res.data)
-  //     })
-  //     .catch((err) => console.log(err))
-  // },[]);
 
   const SearchButton = withStyles((theme) => ({
     root: {
@@ -172,12 +191,12 @@ function CompanyReviews() {
               <Grid item>
                 <TextField
                   className={classes.outlinedInput}
-                  required
+                  // required
                   type="text"
                   variant="outlined"
                   placeholder="Enter a company name"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
+                  value={companyName}
+                  onChange={(e) => setCompanyName(e.target.value)}
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
@@ -193,7 +212,7 @@ function CompanyReviews() {
               <Grid item>
                 <TextField
                   className={classes.outlinedInput}
-                  required
+                  // required
                   type="text"
                   variant="outlined"
                   placeholder="Enter city"
@@ -236,14 +255,6 @@ function CompanyReviews() {
           </Grid>
           <Grid container style={{ maxWidth: '1000px' }}>
             {companies.map((company, index) => (
-              // <CompanyBox
-              //   key={item.id}
-              //   logo={item.logo}
-              //   name={item.company}
-              //   rating={item.ratings}
-              //   id={item.id}
-              //   handleClick={handleCompanyClick}
-              // />
               <ListItem key={index}>
                 <div
                   style={{
@@ -254,8 +265,14 @@ function CompanyReviews() {
                 >
                   <div style={{ display: 'flex' }}>
                     <div style={{ width: '20%' }}>
-                      <Typography>{company.companyName || 'ABC'}</Typography>
-                      <Typography>{company.avgRating || 3.5}</Typography>
+                      <Button className={classes.companyBtnText}>
+                        {company.companyName || 'ABC'}
+                      </Button>
+                      <Typography
+                        style={{ paddingLeft: 10, fontWeight: 'bold' }}
+                      >
+                        {company.avgRating || 3.5}
+                      </Typography>
                     </div>
                     <div style={{ width: '50%' }}>
                       <Typography>
@@ -267,17 +284,23 @@ function CompanyReviews() {
                     >
                       <div>
                         <Button>
-                          <Typography>Reviews</Typography>
+                          <Typography className={classes.reviewBtnText}>
+                            Reviews
+                          </Typography>
                         </Button>
                       </div>
                       <div>
                         <Button>
-                          <Typography>Salaries</Typography>
+                          <Typography className={classes.reviewBtnText}>
+                            Salaries
+                          </Typography>
                         </Button>
                       </div>
                       <div>
                         <Button>
-                          <Typography>Jobs</Typography>
+                          <Typography className={classes.reviewBtnText}>
+                            Jobs
+                          </Typography>
                         </Button>
                       </div>
                     </div>

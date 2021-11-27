@@ -54,6 +54,7 @@
     "@mui/material": "^5.0.6",
     "@mui/styled-engine-sc": "^5.0.4",
     "@mui/styles": "^5.0.2",
+    "axios": "^0.24.0",
     "fetch-intercept": "^2.4.0",
     "hcaptcha": "^0.1.0",
     "node-polyfill-webpack-plugin": "^1.1.4",

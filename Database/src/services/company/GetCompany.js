@@ -2,7 +2,6 @@
 // Get company with name and location
 const Company = require('../../model/Company');
 
-// To get ALl companies for Admin
 async function handleRequest(req, callback) {
   try {
     const payload = req.query;
