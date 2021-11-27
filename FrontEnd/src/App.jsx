@@ -14,7 +14,8 @@ import FindCandidates from './components/Employee/FindCandidates';
 import Products from './components/Employee/Products';
 import Resources from './components/Employee/Resources';
 import 'react-toastify/dist/ReactToastify.css';
-import CompanyProfile from './Pages/CompanyProfile';
+import CompanyProfileEmployer from './Pages/CompanyProfileEmployer';
+import CompanyProfileJobSeeker from './Pages/CompanyProfileJobSeeker';
 
 function App() {
   return (
@@ -37,7 +38,8 @@ function App() {
       {/* <Route exact path="/FindJobs" component={FindJobs} /> */}
       <Route exact path="/CompanyReviews" component={CompanyReviews} />
       <Route exact path="/FindSalaries" component={FindSalaries} />
-      <Route exact path="/company-profile" component={CompanyProfile} />
+      <Route exact path="/company-profile" component={CompanyProfileEmployer} />
+      <Route exact path="/cmp/companyid" component={CompanyProfileJobSeeker} />
       {/* <Route
         exact
         path="/EmployeeLandingPage"
