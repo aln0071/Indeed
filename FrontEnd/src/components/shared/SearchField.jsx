@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 /* eslint-disable import/no-cycle */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -19,8 +20,8 @@ function SearchField({
   plceholder,
   endIcon,
   startIcon,
-  endPosition = 'right',
-  startPosition = 'left',
+  endPosition = 'end',
+  startPosition = 'start',
 }) {
   const classes = useStyles();
   return (
@@ -33,7 +34,6 @@ function SearchField({
         placeholder={plceholder}
         value={value}
         onChange={onChange}
-        startAdornment={<InputAdornment position="start">$</InputAdornment>}
         InputProps={{
           endAdornment: (
             <InputAdornment position={endPosition}>{endIcon}</InputAdornment>
@@ -56,8 +56,8 @@ SearchField.propTypes = {
   plceholder: PropTypes.string.isRequired,
   endIcon: PropTypes.node.isRequired,
   startIcon: PropTypes.node.isRequired,
-  endPosition: PropTypes.string.isRequired,
-  startPosition: PropTypes.string.isRequired,
+  endPosition: PropTypes.string,
+  startPosition: PropTypes.string,
 };
 
 export default SearchField;
