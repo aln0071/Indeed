@@ -35,16 +35,10 @@ function App() {
       <Route exact path="/" component={FindJobs} />
       <Route exact path="/Login" component={Login} />
       <Route exact path="/Register" component={Register} />
-      {/* <Route exact path="/FindJobs" component={FindJobs} /> */}
       <Route exact path="/CompanyReviews" component={CompanyReviews} />
       <Route exact path="/FindSalaries" component={FindSalaries} />
       <Route exact path="/company-profile" component={CompanyProfileEmployer} />
       <Route exact path="/cmp/companyid" component={CompanyProfileJobSeeker} />
-      {/* <Route
-        exact
-        path="/EmployeeLandingPage"
-        component={EmployeeLandingPage}
-      /> */}
       <Route exact path="/PostJob" component={PostJob} />
       <Route exact path="/FindCandidates" component={FindCandidates} />
       <Route exact path="/Products" component={Products} />

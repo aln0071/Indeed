@@ -1,7 +1,8 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable import/no-unresolved */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import MobileeRightMenuSlider from '@mui/material/Drawer';
 import DehazeIcon from '@mui/icons-material/Dehaze';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
@@ -22,6 +23,7 @@ import {
   Box,
 } from '@mui/material';
 import { Link, useHistory } from 'react-router-dom';
+import { getAllJobsAction } from '../../store/actions/jobs';
 import { ColorButton2 } from '../customComponents';
 import logo from '../../svg/jobSeekerLogo.svg';
 import './styles.css';
@@ -66,6 +68,11 @@ const menuItems = [
 const JobSeekerNavbar = () => {
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllJobsAction(1, 10));
+  }, []);
 
   const [state, setState] = useState({
     right: false,
@@ -88,6 +95,11 @@ const JobSeekerNavbar = () => {
             key={`link-${key}`}
             component={Link}
             to={listItem.listPath}
+            onClick={() => {
+              if (listItem.listText === 'Find Jobs') {
+                dispatch(getAllJobsAction(1, 10));
+              }
+            }}
             style={{
               borderBottom: '1px solid lightgrey',
               display: 'flex',
@@ -122,18 +134,6 @@ const JobSeekerNavbar = () => {
                 alt=""
               />
               <div>
-                {/* <Link
-                  id="SignIn"
-                  // className="nav"
-                  style={{ color: '#2557a7', fontWeight: 'bold' }}
-                  to="/Login"
-                >
-                  <ColorButton2>
-                    <PersonIcon style={{ margin: '0 5px 0 5px' }} />
-                    {' '}
-                    Sign In
-                  </ColorButton2>
-                </Link> */}
                 <ColorButton2
                   variant="contained"
                   onClick={() => {
