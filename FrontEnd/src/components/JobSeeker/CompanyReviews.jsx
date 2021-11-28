@@ -11,7 +11,7 @@ import '../styles.css';
 // import axios from 'axios';
 // import { Redirect } from 'react-router-dom';
 // import { CompanyBox } from "../Layout/Companies/CompanyBox";
-// import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 // import { searchCompany, getCompanyReviews } from '../../Redux/CompanyReviews/action';
 import SearchIcon from '@material-ui/icons/Search';
 import axios from 'axios';
@@ -114,7 +114,7 @@ function CompanyReviews() {
   const [location, setLocation] = useState('');
   // const isSearching = useSelector(state => state.companies.isSearching);
   // const dispatch = useDispatch();
-  // const history = useHistory();
+  const history = useHistory();
 
   // const {isAuth} = useSelector(state=>state.login)
 
@@ -144,10 +144,20 @@ function CompanyReviews() {
     // dispatch(searchCompany(query))
   };
 
-  // const handleCompanyClick = (id) => {
-  //   dispatch(getCompanyReviews(id));
-  //   history.push(`/reviews?id=${id}`)
-  // }
+  const handleCompanyClick = (company) => {
+    history.push('/cmp/companyId');
+  };
+
+  const handleReviewsClick = (company) => {
+    history.push(`/cmp/companyId/?tab=${'reviews'}`);
+  };
+
+  const handleSalariesClick = (company) => {
+    history.push(`/cmp/companyId/?tab=${'salaries'}`);
+  };
+  const handleJobsClick = (company) => {
+    history.push(`/cmp/companyId/?tab=${'jobs'}`);
+  };
 
   const SearchButton = withStyles((theme) => ({
     root: {
@@ -265,7 +275,10 @@ function CompanyReviews() {
                 >
                   <div style={{ display: 'flex' }}>
                     <div style={{ width: '20%' }}>
-                      <Button className={classes.companyBtnText}>
+                      <Button
+                        className={classes.companyBtnText}
+                        onClick={() => handleCompanyClick(company)}
+                      >
                         {company.companyName || 'ABC'}
                       </Button>
                       <Typography
@@ -283,21 +296,21 @@ function CompanyReviews() {
                       style={{ display: 'flex', justifyContent: 'flex-end' }}
                     >
                       <div>
-                        <Button>
+                        <Button onClick={() => handleReviewsClick(company)}>
                           <Typography className={classes.reviewBtnText}>
                             Reviews
                           </Typography>
                         </Button>
                       </div>
                       <div>
-                        <Button>
+                        <Button onClick={() => handleSalariesClick(company)}>
                           <Typography className={classes.reviewBtnText}>
                             Salaries
                           </Typography>
                         </Button>
                       </div>
                       <div>
-                        <Button>
+                        <Button onClick={() => handleJobsClick(company)}>
                           <Typography className={classes.reviewBtnText}>
                             Jobs
                           </Typography>
