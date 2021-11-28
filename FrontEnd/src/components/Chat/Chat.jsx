@@ -12,7 +12,6 @@ const useStyles = makeStyles(({ palette, spacing }) => {
   const radius = spacing(2.5);
   const size = 30;
   const rightBgColor = palette.primary.main;
-  // if you want the same as facebook messenger, use this color '#09f'
   return {
     avatar: {
       width: size,
