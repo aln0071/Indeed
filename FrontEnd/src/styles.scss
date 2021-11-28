@@ -177,3 +177,48 @@
     }
   }
 }
+
+.nav {
+  &__icon {
+    margin-right: 15px;
+    margin-top: 3px;
+    &__last {
+      margin-right: 0px;
+    }
+  }
+  &__notch {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: orange;
+    right: 20px;
+    margin-top: -10px;
+  }
+  &__menu {
+    &__username {
+      font-weight: 900;
+      padding-left: 24px;
+      min-width: 370px;
+      margin-top: 9px;
+      margin-bottom: 9px;
+    }
+    &__icon {
+      margin-top: 9px;
+      margin-bottom: 9px;
+      margin-left: 8px;
+      margin-right: 12px;
+    }
+    &__divider {
+      border: 1px solid gainsboro;
+      margin: 0px;
+    }
+    &__signout {
+      padding-top: 9px;
+      padding-bottom: 9px;
+      text-align: center;
+      width: 100%;
+      font-weight: 900;
+      color: rgb(37, 87, 167);
+    }
+  }
+}

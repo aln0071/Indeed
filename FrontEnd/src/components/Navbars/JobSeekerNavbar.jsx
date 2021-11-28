@@ -2,11 +2,20 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable import/no-unresolved */
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import MobileeRightMenuSlider from '@mui/material/Drawer';
 import DehazeIcon from '@mui/icons-material/Dehaze';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import PersonIcon from '@mui/icons-material/Person';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+// import AssistantIcon from '@mui/icons-material/Assistant';
+import ReviewsIcon from '@mui/icons-material/Reviews';
+import SearchIcon from '@mui/icons-material/Search';
+import EmailIcon from '@mui/icons-material/Email';
+import SettingsIcon from '@mui/icons-material/Settings';
+import HelpIcon from '@mui/icons-material/Help';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import ChatIcon from '@mui/icons-material/Chat';
 import { makeStyles } from '@mui/styles';
 import {
   AppBar,
@@ -22,11 +31,15 @@ import {
   // Typography,
   Box,
 } from '@mui/material';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
 import { Link, useHistory } from 'react-router-dom';
 import { getSearchedJobsAction } from '../../store/actions/jobs';
 import { ColorButton2 } from '../customComponents';
 import logo from '../../svg/jobSeekerLogo.svg';
 import './styles.css';
+import styles from '../../styles.scss';
+import { clearUserDetailsAction } from '../../store/actions/user';
 
 const useStyles = makeStyles(() => ({
   menuSliderContainer: {
@@ -69,6 +82,24 @@ const JobSeekerNavbar = () => {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
+
+  const user = useSelector((state) => state.user);
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const operations = {
+    logout: () => {
+      dispatch(clearUserDetailsAction());
+    },
+  };
+
+  const handleMenuClose = (operation = () => {}) => {
+    setAnchorEl(null);
+    operation();
+  };
 
   useEffect(() => {
     dispatch(getSearchedJobsAction('', '', 1, 5));
@@ -176,17 +207,42 @@ const JobSeekerNavbar = () => {
                 </Link>
               </div>
               <div style={{ display: 'flex', height: '80px' }}>
-                <Link id="UploadResume" className="nav" to="/">
-                  Upload Your Resume
-                </Link>
-                <Link
-                  id="SignIn"
-                  className="nav"
-                  style={{ color: '#2557a7', fontWeight: 'bold' }}
-                  to="/Login"
-                >
-                  Sign In
-                </Link>
+                {JSON.stringify(user) === '{}' ? (
+                  <>
+                    <Link id="UploadResume" className="nav" to="/">
+                      Upload Your Resume
+                    </Link>
+                    <Link
+                      id="SignIn"
+                      className="nav"
+                      style={{ color: '#2557a7', fontWeight: 'bold' }}
+                      to="/Login"
+                    >
+                      Sign In
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <Link id="Chats" className={`nav ${styles.navIcon}`} to="/">
+                      <ChatIcon />
+                    </Link>
+                    <Link
+                      id="Notifications"
+                      className={`nav ${styles.navIcon}`}
+                      to="/"
+                    >
+                      <NotificationsIcon />
+                    </Link>
+                    <Link
+                      id="Profile"
+                      onClick={handleMenu}
+                      className={`nav ${styles.navIcon} ${styles.navIconLast}`}
+                      to="/"
+                    >
+                      <PersonIcon />
+                    </Link>
+                  </>
+                )}
                 <hr
                   width="1"
                   size="1000%"
@@ -202,6 +258,66 @@ const JobSeekerNavbar = () => {
                 </Link>
               </div>
             </Hidden>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorEl)}
+              // open={true}
+              onClose={handleMenuClose}
+              // className={styles.navMenu}
+              style={{ transform: 'translate(10px, 50px)' }}
+            >
+              {/* <div className={styles.navNotch} ></div> */}
+              <div className={styles.navMenuUsername}>user@gmail.com</div>
+              <MenuItem onClick={handleMenuClose}>
+                <PersonIcon className={styles.navMenuIcon} />
+                {' '}
+                Profile
+              </MenuItem>
+              <MenuItem onClick={handleMenuClose}>
+                <FavoriteIcon className={styles.navMenuIcon} />
+                {' '}
+                My jobs
+              </MenuItem>
+              <MenuItem onClick={handleMenuClose}>
+                <ReviewsIcon className={styles.navMenuIcon} />
+                {' '}
+                My reviews
+              </MenuItem>
+              <MenuItem onClick={handleMenuClose}>
+                <EmailIcon className={styles.navMenuIcon} />
+                {' '}
+                Email preferences
+              </MenuItem>
+              <MenuItem onClick={handleMenuClose}>
+                <SearchIcon className={styles.navMenuIcon} />
+                {' '}
+                Search preferences
+              </MenuItem>
+              <MenuItem onClick={handleMenuClose}>
+                <SettingsIcon className={styles.navMenuIcon} />
+                {' '}
+                Settings
+              </MenuItem>
+              <MenuItem onClick={handleMenuClose}>
+                <HelpIcon className={styles.navMenuIcon} />
+                {' '}
+                Help Center
+              </MenuItem>
+              <hr className={styles.navMenuDivider} />
+              <MenuItem onClick={() => handleMenuClose(operations.logout)}>
+                <div className={styles.navMenuSignout}>Sign out</div>
+              </MenuItem>
+            </Menu>
           </Toolbar>
         </AppBar>
       </Box>
