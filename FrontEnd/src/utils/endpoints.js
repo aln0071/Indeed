@@ -1,5 +1,5 @@
 import { baseUrl, urls } from './constants';
-import { post } from './request';
+import { post, get } from './request';
 
 const handleResponse = async (response) => {
   let data = null;
@@ -26,3 +26,33 @@ export const updateCompanyProfile = (params) => {
   const url = `${baseUrl}${urls.updateCompanyProfile}`;
   return post(url, params).then(handleResponse);
 };
+
+export const getAllJobs = (params) => {
+  const url = `${baseUrl}${urls.getAllJobs}?page=${params.page}&limit=${params.limit}`;
+  return get(url, params).then(handleResponse);
+};
+
+export const getSpecificJob = (params) => {
+  const url = `${baseUrl}${urls.getSpecificJob}/${params.companyId}/jobs/${params.jobId}`;
+  return get(url, params).then(handleResponse);
+};
+
+export const getSearchedJobs = (params) => {
+  const url = `${baseUrl}${urls.getSearchedJobs}what=${params.what}&where=${params.where}&page=${params.page}&limit=${params.limit}`;
+  return get(url, params).then(handleResponse);
+};
+
+// export const saveJob = (params) => {
+//   const url = `${baseUrl}${urls.login}`;
+//   return post(url, params).then(handleResponse);
+// };
+
+// export const unsaveJob = (params) => {
+//   const url = `${baseUrl}${urls.login}`;
+//   return post(url, params).then(handleResponse);
+// };
+
+// export const storeSearched = (params) => {
+//   const url = `${baseUrl}${urls.login}`;
+//   return post(url, params).then(handleResponse);
+// };

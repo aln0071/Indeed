@@ -4,24 +4,55 @@
 /* eslint-disable react/require-default-props */
 import React from 'react';
 import { PropTypes } from 'prop-types';
+import { useDispatch } from 'react-redux';
 import Card from '@mui/material/Card';
+import StarRateIcon from '@mui/icons-material/StarRate';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+import { getSpecificJobAction } from '../store/actions/jobs';
 import salarySvg from '../svg/salary.svg';
 
-function JobCard() {
-  // const { job } = props;
+function JobCard(props) {
+  const dispatch = useDispatch();
+  const handleSelectJob = () => {
+    dispatch(getSpecificJobAction('619d1f2d333e9575297d0b73', props.job.jobId));
+  };
+
   return (
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
         <Typography sx={{ fontSize: 12 }} color="#9c2f5f" gutterBottom>
           new
         </Typography>
-        <Typography variant="h5" component="div" sx={{ fontWeight: 'bold' }}>
-          Senior Salesforce Administrator
+        <Typography
+          variant="h5"
+          onClick={() => {
+            handleSelectJob();
+          }}
+          component="div"
+          sx={{ fontWeight: 'bold' }}
+          style={{ cursor: 'pointer' }}
+        >
+          {props.job.jobTitle}
         </Typography>
-        <Typography color="text.secondary">SplashTop Inc. 4.5</Typography>
-        <Typography color="text.secondary">Cupertino, CA 95014</Typography>
+        <Typography color="text.secondary">
+          SplashTop Inc. 4.5
+          <StarRateIcon
+            style={{
+              position: 'relative',
+              top: '3px',
+              left: '3px',
+              height: '20px',
+            }}
+          />
+        </Typography>
+        <Typography color="text.secondary">
+          {props.job.address.city ? props.job.address.city : ''}
+          {' '}
+          {props.job.address.state ? props.job.address.state : ''}
+          {' '}
+          {props.job.address.zipcode ? props.job.address.zipcode : ''}
+        </Typography>
         <Typography
           sx={{ mt: 2 }}
           color="#595959"
@@ -38,7 +69,11 @@ function JobCard() {
               width: 'fit-content',
             }}
           />
-          $115,000 - $128,000 a Year
+          {' '}
+          $
+          {props.job.jobSalary}
+          {' '}
+          a Year
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
           <ul>
@@ -50,14 +85,11 @@ function JobCard() {
           </ul>
         </Typography>
       </CardContent>
-      {/* <CardActions>
-        <Button size="small">Learn More</Button>
-      </CardActions> */}
     </Card>
   );
 }
 JobCard.propTypes = {
   // ...prop type definitions here
-  job: PropTypes.array,
+  job: PropTypes.object,
 };
 export default JobCard;

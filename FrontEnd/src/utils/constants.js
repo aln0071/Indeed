@@ -4,4 +4,9 @@ export const urls = {
   login: 'indeed/user/UserLogin',
   updateCompanyProfile: 'indeed/api/company',
   getCompaniesWithNameOrLocation: 'indeed/api/companiesList',
+  getAllJobs: 'indeed/api/jobs',
+  getSpecificJob: 'indeed/api/company',
+  getSearchedJobs: 'indeed/api/jobs',
+  saveJob: '',
+  unsaveJob: '',
 };
