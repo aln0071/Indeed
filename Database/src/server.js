@@ -16,6 +16,10 @@ const getJobLocations = require('./services/jobs/GetJobLocations');
 const getJobSeekerProfile = require('./services/profile/GetJobSeekerProfile');
 const addJobSeekerInfosalary = require('./services/profile/AddJobSeekerInfosalary');
 const applyJob = require('./services/jobs/ApplyJob');
+const createMessage = require('./services/messaging/CreateMessage');
+const createRoom = require('./services/messaging/CreateRoom');
+const getMessages = require('./services/messaging/GetMessages');
+const getRooms = require('./services/messaging/GetRooms');
 const { mongoDB } = require('../Config');
 
 const options = {
@@ -78,3 +82,8 @@ handleTopicRequest('indeed_get_jobseeker_profile', getJobSeekerProfile);
 handleTopicRequest('indeed_add_jobseekerInfo_salary', addJobSeekerInfosalary);
 
 handleTopicRequest('indeed_apply_job', applyJob);
+
+handleTopicRequest('indeed_create_message', createMessage);
+handleTopicRequest('indeed_get_messages', getMessages);
+handleTopicRequest('indeed_create_room', createRoom);
+handleTopicRequest('indeed_get_rooms', getRooms);

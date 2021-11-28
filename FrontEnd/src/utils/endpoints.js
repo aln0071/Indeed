@@ -27,6 +27,20 @@ export const updateCompanyProfile = (params) => {
   return post(url, params).then(handleResponse);
 };
 
+export const getChatRooms = (userId, type) => {
+  const url = `${baseUrl}indeed/api/chatRooms/user/${userId}?type=${type}`;
+  return get(url).then(handleResponse);
+};
+
+export const getConversations = (chatRoomId) => {
+  const url = `${baseUrl}indeed/api/chatRoom/${chatRoomId}/messages`;
+  return get(url).then(handleResponse);
+};
+
+export const postConversation = (payload) => {
+  const url = `${baseUrl}indeed/api/messages`;
+  return post(url, payload).then(handleResponse);
+};
 export const getAllJobs = (params) => {
   const url = `${baseUrl}${urls.getAllJobs}?page=${params.page}&limit=${params.limit}`;
   return get(url, params).then(handleResponse);

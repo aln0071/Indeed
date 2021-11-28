@@ -223,7 +223,11 @@ const JobSeekerNavbar = () => {
                   </>
                 ) : (
                   <>
-                    <Link id="Chats" className={`nav ${styles.navIcon}`} to="/">
+                    <Link
+                      id="Chats"
+                      className={`nav ${styles.navIcon}`}
+                      to="/jobSeeker/Chat"
+                    >
                       <ChatIcon />
                     </Link>
                     <Link
