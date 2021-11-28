@@ -1,8 +1,11 @@
+/* eslint-disable no-extra-boolean-cast */
+/* eslint-disable react/button-has-type */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable import/no-cycle */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { Hidden } from '@mui/material';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
@@ -39,8 +42,10 @@ const StartLabel = ({ label }) => (
 function FindJobs() {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const allJobs = useSelector((state) => state.jobs.allJobs);
+  const user = useSelector((state) => state.user);
   const specificJob = useSelector((state) => state.jobs.selectedJob);
   const searchedJobs = useSelector((state) => state.jobs.searchedJobs);
   const searchValues = useSelector((state) => state.jobs.searchedValues);
@@ -153,10 +158,22 @@ function FindJobs() {
           </ColorButton2>
         </Grid>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <span style={{ fontWeight: 'bold', color: '#2557a7' }}>
+          <button
+            style={{
+              all: 'unset',
+              fontWeight: 'bold',
+              color: '#2557a7',
+              cursor: 'pointer',
+            }}
+            onClick={() => {
+              if (Object.keys(user).length === 0) {
+                history.push('/Login');
+              }
+            }}
+          >
             Post Your Resume -
             {' '}
-          </span>
+          </button>
           It only takes a few seconds
         </div>
         <br />
@@ -239,17 +256,17 @@ function FindJobs() {
             </Hidden>
           </TabPanel>
           <TabPanel value="2">
-            <Hidden mdDown>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  flexDirection: 'column',
-                  background: '#faf9f8',
-                  alignItems: 'center',
-                }}
-              >
-                {lastSearched.map((item, index) => (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                flexDirection: 'column',
+                background: '#faf9f8',
+                alignItems: 'center',
+              }}
+            >
+              {lastSearched.length > 0 ? (
+                lastSearched.map((item, index) => (
                   <div
                     key={`search-${index}`}
                     style={{
@@ -264,37 +281,23 @@ function FindJobs() {
                   >
                     {item}
                   </div>
-                ))}
-              </div>
-            </Hidden>
-            <Hidden mdUp>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  flexDirection: 'column',
-                  background: '#faf9f8',
-                  alignItems: 'center',
-                }}
-              >
-                {lastSearched.map((item, index) => (
-                  <div
-                    key={`search-${index}`}
-                    style={{
-                      background: '#fff',
-                      width: '50%',
-                      height: '80px',
-                      display: 'flex',
-                      justifyContent: 'center',
-                      margin: '10px',
-                      alignItems: 'center',
-                    }}
-                  >
-                    {item}
-                  </div>
-                ))}
-              </div>
-            </Hidden>
+                ))
+              ) : (
+                <div
+                  style={{
+                    background: '#fff',
+                    width: '50%',
+                    height: '80px',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    margin: '10px',
+                    alignItems: 'center',
+                  }}
+                >
+                  No Recent Results
+                </div>
+              )}
+            </div>
           </TabPanel>
         </TabContext>
       </div>

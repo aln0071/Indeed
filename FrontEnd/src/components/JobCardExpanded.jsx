@@ -1,3 +1,4 @@
+/* eslint-disable no-extra-boolean-cast */
 /* eslint-disable max-len */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/forbid-prop-types */
@@ -5,6 +6,8 @@
 /* eslint-disable react/require-default-props */
 import React from 'react';
 import { PropTypes } from 'prop-types';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
 import CardContent from '@mui/material/CardContent';
@@ -16,8 +19,8 @@ import { ColorButton2 } from './customComponents/index';
 import salarySvg from '../svg/salary.svg';
 
 function JobCardExpanded(props) {
-  console.log(props.selectedJob);
-
+  const history = useHistory();
+  const user = useSelector((state) => state.user);
   return (
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
@@ -76,7 +79,9 @@ function JobCardExpanded(props) {
             variant="contained"
             style={{ margin: '20px 0 20px 0' }}
             onClick={() => {
-              console.log(0);
+              if (Object.keys(user).length === 0) {
+                history.push('/Login');
+              }
             }}
           >
             {' '}
