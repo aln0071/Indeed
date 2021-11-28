@@ -1,6 +1,5 @@
 #!/bin/bash
-KAFKA_HOME='/Users/ayushgupta/Documents/Workspace/273shim/ClassProject-Indeed/kafka_2.12-3.0.0'
-KAFKA_HOME='~/'
+KAFKA_HOME='~/';
 if [[ $KAFKA_HOME != *"kafka_2.13-3.0.0" ]]; then
   echo "Please set correct kafka home path inside this script on line 2"
 else
