@@ -7,8 +7,6 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Hidden } from '@mui/material';
-import Pagination from '@mui/material/Pagination';
-import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import SearchIcon from '@material-ui/icons/Search';
@@ -16,6 +14,7 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import { Grid, makeStyles } from '@material-ui/core';
+import CustomPagination from '../customComponents/Pagination';
 import JobSeekerNavbar from '../Navbars/JobSeekerNavbar';
 import JobCard from '../JobCard';
 import SearchField from '../shared/SearchField';
@@ -25,7 +24,6 @@ import {
   getSpecificJobAction,
   getSearchedJobsAction,
   storeSearchedAction,
-  getAllJobsAction,
 } from '../../store/actions/jobs';
 import '../styles.css';
 
@@ -43,8 +41,6 @@ function FindJobs() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
-
-  const allJobs = useSelector((state) => state.jobs.allJobs);
   const user = useSelector((state) => state.user);
   const specificJob = useSelector((state) => state.jobs.selectedJob);
   const searchedJobs = useSelector((state) => state.jobs.searchedJobs);
@@ -54,7 +50,6 @@ function FindJobs() {
   const [where, setWhere] = useState('');
   const [value, setValue] = useState('1');
   const [page, setPage] = useState(1);
-  const [allJobValues, setAllJobValues] = useState(allJobs);
   const [selectedJobs, setSelectedJobs] = useState(specificJob);
   const [searchResults, setSearchResults] = useState(searchedJobs);
   const [lastSearched, setLastSearched] = useState(searchValues);
@@ -73,7 +68,7 @@ function FindJobs() {
 
   const handleChangePage = (event, val) => {
     setPage(val);
-    dispatch(getAllJobsAction(val, 5));
+    dispatch(getSearchedJobsAction(what, where, val, 5));
   };
 
   // const clearSearch = () => {
@@ -84,21 +79,17 @@ function FindJobs() {
   // };
 
   useEffect(() => {
-    setAllJobValues(allJobs);
-    if (allJobs[0]) {
+    setSearchResults(searchedJobs);
+    if (searchedJobs[0]) {
       dispatch(
-        getSpecificJobAction('619d1f2d333e9575297d0b73', allJobs[0].jobId),
+        getSpecificJobAction('619d1f2d333e9575297d0b73', searchedJobs[0].jobId),
       );
     }
-  }, [allJobs]);
+  }, [searchedJobs]);
 
   useEffect(() => {
     setSelectedJobs(specificJob);
   }, [specificJob]);
-
-  useEffect(() => {
-    setSearchResults(searchedJobs);
-  }, [searchedJobs]);
 
   useEffect(() => {
     setLastSearched(searchValues);
@@ -110,8 +101,6 @@ function FindJobs() {
       <div className="wrapper">
         <Grid
           container
-          // spacing={{ xs: 2, sm: 2, md: 2 }}
-          // columns={{ xs: 3, sm: 1, md: 3 }}
           direction="row"
           justifyContent="center"
           alignItems="center"
@@ -197,26 +186,16 @@ function FindJobs() {
               <div className="subChild2">
                 <div className="left">
                   <div className="cardWrapper">
-                    {what || where
-                      ? searchResults.map((item, index) => (
-                        <p key={`job-${index}`}>
-                          <JobCard job={item} />
-                        </p>
-                      ))
-                      : allJobValues.map((item, index) => (
-                        <p key={`job-${index}`}>
-                          <JobCard job={item} />
-                        </p>
-                      ))}
-                    <Stack spacing={2}>
-                      <Pagination
-                        count={20}
-                        page={page}
-                        onChange={handleChangePage}
-                        variant="outlined"
-                        shape="rounded"
-                      />
-                    </Stack>
+                    {searchResults.map((item, index) => (
+                      <p key={`job-${index}`}>
+                        <JobCard job={item} />
+                      </p>
+                    ))}
+                    <CustomPagination
+                      count={10}
+                      page={page}
+                      handleChangePage={handleChangePage}
+                    />
                   </div>
                 </div>
                 <div className="right">
@@ -231,26 +210,16 @@ function FindJobs() {
             <Hidden mdUp>
               <div>
                 <div className="cardWrapper">
-                  {what || where
-                    ? searchResults.map((item, index) => (
-                      <p key={`job-${index}`}>
-                        <JobCard job={item} />
-                      </p>
-                    ))
-                    : allJobValues.map((item, index) => (
-                      <p key={`job-${index}`}>
-                        <JobCard job={item} />
-                      </p>
-                    ))}
-                  <Stack spacing={2}>
-                    <Pagination
-                      count={20}
-                      page={page}
-                      onChange={handleChangePage}
-                      variant="outlined"
-                      shape="rounded"
-                    />
-                  </Stack>
+                  {searchResults.map((item, index) => (
+                    <p key={`job-${index}`}>
+                      <JobCard job={item} />
+                    </p>
+                  ))}
+                  <CustomPagination
+                    count={10}
+                    page={page}
+                    handleChangePage={handleChangePage}
+                  />
                 </div>
               </div>
             </Hidden>
