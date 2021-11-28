@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux';
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
+    borderRadius: 40,
   },
   avatar: {
     marginRight: theme.spacing(2),
@@ -22,12 +23,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'none',
     [theme.breakpoints.up('sm')]: {
       display: 'block',
-    },
-  },
-  sectionDesktop: {
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'flex',
     },
   },
 }));
@@ -49,11 +44,9 @@ export default function PrimarySearchAppBar() {
             {' '}
             {user && user.lastName}
           </Typography>
-          <div className={classes.sectionDesktop}>
-            <IconButton edge="end" color="inherit">
-              <InfoIcon />
-            </IconButton>
-          </div>
+          <IconButton edge="end" color="inherit">
+            <InfoIcon />
+          </IconButton>
         </Toolbar>
       </AppBar>
     </div>
