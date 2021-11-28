@@ -25,8 +25,9 @@ export const ColorButton2 = withStyles(() => ({
 
 export const ColorButton3 = withStyles(() => ({
   root: {
+    textAlign: 'center',
     color: 'white',
-    backgroundColor: '#222',
+    backgroundColor: '#085ff7',
     textTransform: 'none',
     '&:hover': {
       opacity: 0.6,
