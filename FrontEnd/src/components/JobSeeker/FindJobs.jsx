@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { Hidden } from '@mui/material';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import SearchIcon from '@material-ui/icons/Search';
@@ -16,7 +18,12 @@ import JobCard from '../JobCard';
 import SearchField from '../shared/SearchField';
 import { ColorButton2 } from '../customComponents/index';
 import JobCardExpanded from '../JobCardExpanded';
-import { getSpecificJobAction } from '../../store/actions/jobs';
+import {
+  getSpecificJobAction,
+  getSearchedJobsAction,
+  storeSearchedAction,
+  getAllJobsAction,
+} from '../../store/actions/jobs';
 import '../styles.css';
 
 const useStyles = makeStyles(() => ({
@@ -31,21 +38,46 @@ const StartLabel = ({ label }) => (
 
 function FindJobs() {
   const classes = useStyles();
-  const [value, setValue] = useState('1');
   const dispatch = useDispatch();
 
   const allJobs = useSelector((state) => state.jobs.allJobs);
   const specificJob = useSelector((state) => state.jobs.selectedJob);
+  const searchedJobs = useSelector((state) => state.jobs.searchedJobs);
+  const searchValues = useSelector((state) => state.jobs.searchedValues);
+
+  const [what, setWhat] = useState('');
+  const [where, setWhere] = useState('');
+  const [value, setValue] = useState('1');
+  const [page, setPage] = useState(1);
   const [allJobValues, setAllJobValues] = useState(allJobs);
   const [selectedJobs, setSelectedJobs] = useState(specificJob);
+  const [searchResults, setSearchResults] = useState(searchedJobs);
+  const [lastSearched, setLastSearched] = useState(searchValues);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  const handleChangeWhat = () => {};
+  const handleChangeWhat = (e) => {
+    setWhat(e.target.value);
+  };
 
-  const handleChangeWhere = () => {};
+  const handleChangeWhere = (e) => {
+    setWhere(e.target.value);
+  };
+
+  const handleChangePage = (event, val) => {
+    setPage(val);
+    dispatch(getAllJobsAction(val, 5));
+  };
+
+  // const clearSearch = () => {
+  //   setWhat('');
+  //   setWhere('');
+  //   setSearchResults([]);
+  //   dispatch(getSearchedJobsAction('', '', 1, 10));
+  // };
+
   useEffect(() => {
     setAllJobValues(allJobs);
     if (allJobs[0]) {
@@ -58,6 +90,14 @@ function FindJobs() {
   useEffect(() => {
     setSelectedJobs(specificJob);
   }, [specificJob]);
+
+  useEffect(() => {
+    setSearchResults(searchedJobs);
+  }, [searchedJobs]);
+
+  useEffect(() => {
+    setLastSearched(searchValues);
+  }, [searchValues]);
 
   return (
     <Box sx={{ width: '100%', typography: 'body1' }}>
@@ -74,7 +114,7 @@ function FindJobs() {
         >
           <SearchField
             required={false}
-            value=""
+            value={what}
             plceholder="Job title, keywords, or company"
             onChange={handleChangeWhat}
             endormentPosition="start"
@@ -83,7 +123,7 @@ function FindJobs() {
           />
           <SearchField
             required={false}
-            value=""
+            value={where}
             plceholder="City, state, or pin code"
             onChange={handleChangeWhere}
             endormentPosition="start"
@@ -94,7 +134,18 @@ function FindJobs() {
             variant="contained"
             style={{ padding: '14px', borderRadius: '8px' }}
             onClick={() => {
-              console.log(0);
+              const search = searchValues;
+              if (what) {
+                search.unshift(what);
+              }
+              if (where) {
+                search.unshift(where);
+              }
+              while (search.length > 5) {
+                search.pop();
+              }
+              dispatch(storeSearchedAction(search));
+              dispatch(getSearchedJobsAction(what, where, 1, 10));
             }}
           >
             {' '}
@@ -120,11 +171,26 @@ function FindJobs() {
               <div className="subChild2">
                 <div className="left">
                   <div className="cardWrapper">
-                    {allJobValues.map((item, index) => (
-                      <p key={`job-${index}`}>
-                        <JobCard job={item} />
-                      </p>
-                    ))}
+                    {what || where
+                      ? searchResults.map((item, index) => (
+                        <p key={`job-${index}`}>
+                          <JobCard job={item} />
+                        </p>
+                      ))
+                      : allJobValues.map((item, index) => (
+                        <p key={`job-${index}`}>
+                          <JobCard job={item} />
+                        </p>
+                      ))}
+                    <Stack spacing={2}>
+                      <Pagination
+                        count={20}
+                        page={page}
+                        onChange={handleChangePage}
+                        variant="outlined"
+                        shape="rounded"
+                      />
+                    </Stack>
                   </div>
                 </div>
                 <div className="right">
@@ -139,11 +205,26 @@ function FindJobs() {
             <Hidden mdUp>
               <div>
                 <div className="cardWrapper">
-                  {allJobValues.map((item, index) => (
-                    <p key={`job-${index}`}>
-                      <JobCard job={item} />
-                    </p>
-                  ))}
+                  {what || where
+                    ? searchResults.map((item, index) => (
+                      <p key={`job-${index}`}>
+                        <JobCard job={item} />
+                      </p>
+                    ))
+                    : allJobValues.map((item, index) => (
+                      <p key={`job-${index}`}>
+                        <JobCard job={item} />
+                      </p>
+                    ))}
+                  <Stack spacing={2}>
+                    <Pagination
+                      count={20}
+                      page={page}
+                      onChange={handleChangePage}
+                      variant="outlined"
+                      shape="rounded"
+                    />
+                  </Stack>
                 </div>
               </div>
             </Hidden>
@@ -159,58 +240,22 @@ function FindJobs() {
                   alignItems: 'center',
                 }}
               >
-                <div
-                  style={{
-                    background: '#fff',
-                    width: '50%',
-                    height: '80px',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    margin: '10px',
-                    alignItems: 'center',
-                  }}
-                >
-                  Search Results
-                </div>
-                <div
-                  style={{
-                    background: '#fff',
-                    width: '50%',
-                    height: '80px',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    margin: '10px',
-                    alignItems: 'center',
-                  }}
-                >
-                  Search Results
-                </div>
-                <div
-                  style={{
-                    background: '#fff',
-                    width: '50%',
-                    height: '80px',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    margin: '10px',
-                    alignItems: 'center',
-                  }}
-                >
-                  Search Results
-                </div>
-                <div
-                  style={{
-                    background: '#fff',
-                    width: '50%',
-                    height: '80px',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    margin: '10px',
-                    alignItems: 'center',
-                  }}
-                >
-                  Search Results
-                </div>
+                {lastSearched.map((item, index) => (
+                  <div
+                    key={`search-${index}`}
+                    style={{
+                      background: '#fff',
+                      width: '50%',
+                      height: '80px',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      margin: '10px',
+                      alignItems: 'center',
+                    }}
+                  >
+                    {item}
+                  </div>
+                ))}
               </div>
             </Hidden>
             <Hidden mdUp>
@@ -223,58 +268,22 @@ function FindJobs() {
                   alignItems: 'center',
                 }}
               >
-                <div
-                  style={{
-                    background: '#fff',
-                    width: '80%',
-                    height: '80px',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    margin: '10px',
-                    alignItems: 'center',
-                  }}
-                >
-                  Search Results
-                </div>
-                <div
-                  style={{
-                    background: '#fff',
-                    width: '80%',
-                    height: '80px',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    margin: '10px',
-                    alignItems: 'center',
-                  }}
-                >
-                  Search Results
-                </div>
-                <div
-                  style={{
-                    background: '#fff',
-                    width: '80%',
-                    height: '80px',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    margin: '10px',
-                    alignItems: 'center',
-                  }}
-                >
-                  Search Results
-                </div>
-                <div
-                  style={{
-                    background: '#fff',
-                    width: '80%',
-                    height: '80px',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    margin: '10px',
-                    alignItems: 'center',
-                  }}
-                >
-                  Search Results
-                </div>
+                {lastSearched.map((item, index) => (
+                  <div
+                    key={`search-${index}`}
+                    style={{
+                      background: '#fff',
+                      width: '50%',
+                      height: '80px',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      margin: '10px',
+                      alignItems: 'center',
+                    }}
+                  >
+                    {item}
+                  </div>
+                ))}
               </div>
             </Hidden>
           </TabPanel>

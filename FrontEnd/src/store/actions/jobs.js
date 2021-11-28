@@ -10,7 +10,7 @@ import {
   GET_SEARCHED_JOB,
   // SAVE_JOB,
   // UNSAVE_JOB,
-  // STORE_SEARCHED_RESULTS,
+  STORE_SEARCHED_RESULTS,
 } from './types';
 import { createToastBody, toastOptions } from '../../utils';
 
@@ -63,6 +63,9 @@ export const getSearchedJobsAction = (what, where, page, limit) => async (dispat
 
 // };
 
-// export const storeSearchedAction = () => async (dispatch) => {
-
-// };
+export const storeSearchedAction = (searchResults) => async (dispatch) => {
+  dispatch({
+    type: STORE_SEARCHED_RESULTS,
+    payload: searchResults,
+  });
+};
