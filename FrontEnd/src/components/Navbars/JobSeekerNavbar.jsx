@@ -71,7 +71,7 @@ const JobSeekerNavbar = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllJobsAction(1, 10));
+    dispatch(getAllJobsAction(1, 5));
   }, []);
 
   const [state, setState] = useState({

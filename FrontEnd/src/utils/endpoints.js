@@ -38,7 +38,9 @@ export const getSpecificJob = (params) => {
 };
 
 export const getSearchedJobs = (params) => {
-  const url = `${baseUrl}${urls.getSearchedJobs}what=${params.what}&where=${params.where}&page=${params.page}&limit=${params.limit}`;
+  const url = `${baseUrl}${urls.getSearchedJobs}?what=${
+    params.what || ''
+  }&where=${params.where || ''}&page=${params.page}&limit=${params.limit}`;
   return get(url, params).then(handleResponse);
 };
 
