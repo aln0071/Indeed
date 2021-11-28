@@ -6,6 +6,7 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
+import Jobs from './Jobs';
 
 function TabPanel(props) {
   const {
@@ -105,7 +106,7 @@ export default function BasicTabs() {
         Photos
       </TabPanel>
       <TabPanel value={value} index={5}>
-        Jobs
+        <Jobs />
       </TabPanel>
     </Box>
   );
