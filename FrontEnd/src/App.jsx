@@ -13,9 +13,11 @@ import PostJob from './components/Employee/PostJob';
 import FindCandidates from './components/Employee/FindCandidates';
 import Products from './components/Employee/Products';
 import Resources from './components/Employee/Resources';
+import EmployerChat from './components/Chat/EmployerChat';
 import 'react-toastify/dist/ReactToastify.css';
 import CompanyProfileEmployer from './Pages/CompanyProfileEmployer';
 import CompanyProfileJobSeeker from './Pages/CompanyProfileJobSeeker';
+import JobSeekerChat from './components/Chat/JobSeekerChat';
 
 function App() {
   return (
@@ -49,6 +51,8 @@ function App() {
       <Route exact path="/FindCandidates" component={FindCandidates} />
       <Route exact path="/Products" component={Products} />
       <Route exact path="/Resources" component={Resources} />
+      <Route exact path="/jobSeeker/Chat" component={JobSeekerChat} />
+      <Route exact path="/employer/Chat" component={EmployerChat} />
     </>
   );
 }

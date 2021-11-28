@@ -36,7 +36,8 @@ const userLogin = require('./routes/user/UserLogin');
 const jobSeekerProfile = require('./routes/profile/JobSeekerProfile');
 const fileUpload = require('./routes/file-upload/FileUpload');
 const fileDownload = require('./routes/file-download/FileDownload');
-// const fileStore = require('./routes/resume-upload/fileStore');
+const fileStore = require('./routes/resume-upload/fileStore');
+const messages = require('./routes/messaging/Messages');
 
 app.use('/indeed/api', review);
 app.use('/indeed/api', jobs);
@@ -47,6 +48,8 @@ app.use('/indeed/api', jobSeekerProfile);
 app.use('/indeed/files', fileUpload);
 app.use('/indeed/files', fileDownload);
 // app.use('/indeed/api', fileStore);
+app.use('/indeed/api', fileStore);
+app.use('/indeed/api', messages);
 
 app.get('/', (req, res) => {
   res.send('hello');
