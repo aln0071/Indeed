@@ -152,6 +152,15 @@ function FindJobs() {
             Find Jobs
           </ColorButton2>
         </Grid>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <span style={{ fontWeight: 'bold', color: '#2557a7' }}>
+            Post Your Resume -
+            {' '}
+          </span>
+          It only takes a few seconds
+        </div>
+        <br />
+        <hr />
         <TabContext value={value}>
           <Box
             sx={{ borderBottom: 1, borderColor: 'divider' }}
