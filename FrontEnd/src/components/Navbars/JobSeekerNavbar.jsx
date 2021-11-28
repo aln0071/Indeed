@@ -23,7 +23,7 @@ import {
   Box,
 } from '@mui/material';
 import { Link, useHistory } from 'react-router-dom';
-import { getAllJobsAction } from '../../store/actions/jobs';
+import { getSearchedJobsAction } from '../../store/actions/jobs';
 import { ColorButton2 } from '../customComponents';
 import logo from '../../svg/jobSeekerLogo.svg';
 import './styles.css';
@@ -71,7 +71,7 @@ const JobSeekerNavbar = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllJobsAction(1, 5));
+    dispatch(getSearchedJobsAction('', '', 1, 5));
   }, []);
 
   const [state, setState] = useState({
@@ -97,7 +97,7 @@ const JobSeekerNavbar = () => {
             to={listItem.listPath}
             onClick={() => {
               if (listItem.listText === 'Find Jobs') {
-                dispatch(getAllJobsAction(1, 10));
+                dispatch(getSearchedJobsAction('', '', 1, 5));
               }
             }}
             style={{
