@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 const mongoose = require('mongoose');
 const Jobs = require('../../model/Job');
 const Users = require('../../model/User');
@@ -27,12 +28,19 @@ async function handleRequest(req, callback) {
   const JobDetails = await Jobs.findOne({ jobId });
 
   const checkIfApplied = await Jobs.findOne({
-    'applicantDetails.jobSeekerId': userId,
+    $and: [
+      {
+        'applicantDetails.jobSeekerId': { $eq: userId },
+        jobId: { $eq: jobId },
+      },
+    ],
   });
+  //     {'applicantDetails.jobSeekerId': userId
+  //   })]
 
   console.log('checking', checkIfApplied);
   if (checkIfApplied) {
-    callback(null, { Msg: 'You have already applied to this Job' });
+    callback(null, { Msg: 'You have already applied to this Job' }); // { Msg: 'You have already applied to this Job' }
   } else if (JobDetails) {
     Users.findOneAndUpdate(
       { userId: req.params.jobseekerId },

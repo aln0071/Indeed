@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 /* eslint-disable no-shadow */
 const mongoose = require('mongoose');
 const connection = require('./kafka/Connection');
@@ -20,6 +21,10 @@ const createMessage = require('./services/messaging/CreateMessage');
 const createRoom = require('./services/messaging/CreateRoom');
 const getMessages = require('./services/messaging/GetMessages');
 const getRooms = require('./services/messaging/GetRooms');
+const postReviews = require('./services/reviews/PostReview');
+const postHelpfulReviews = require('./services/reviews/PostReviewHelpfulness');
+const getAppliedJob = require('./services/jobs/GetAppliedJob');
+const getCompanyDetails = require('./services/company/GetCompanyDetails');
 const { mongoDB } = require('../Config');
 
 const options = {
@@ -87,3 +92,9 @@ handleTopicRequest('indeed_create_message', createMessage);
 handleTopicRequest('indeed_get_messages', getMessages);
 handleTopicRequest('indeed_create_room', createRoom);
 handleTopicRequest('indeed_get_rooms', getRooms);
+
+handleTopicRequest('indeed_post_reviews', postReviews);
+handleTopicRequest('indeed_post_helpful_reviews', postHelpfulReviews);
+handleTopicRequest('indeed_getapplied_job', getAppliedJob);
+
+handleTopicRequest('indeed_get_companyDetails', getCompanyDetails);

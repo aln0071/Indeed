@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 /*
 eslint
 react/jsx-props-no-spreading: 0,

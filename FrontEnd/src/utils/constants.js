@@ -7,6 +7,10 @@ export const urls = {
   getAllJobs: 'indeed/api/jobs',
   getSpecificJob: 'indeed/api/company',
   getSearchedJobs: 'indeed/api/jobs',
+  postReview: 'indeed/api/jobseeker',
+  getReviews: 'indeed/api/jobseeker',
   saveJob: '',
   unsaveJob: '',
+  reviewHelpful: 'indeed/api/reviews',
+  reviewUnhelpful: 'indeed/api/reviews',
 };

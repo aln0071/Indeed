@@ -18,3 +18,4 @@ export const STORE_SEARCHED_RESULTS = 'STORE_SEARCHED_RESULTS';
 
 export const POST_REVIEW = 'POST_REVIEW';
 export const POST_JOB = 'POST_JOB';
+export const GET_REVIEW = 'GET_REVIEW';

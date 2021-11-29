@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 const User = require('../../model/User');
 
 async function handleRequest(req, callback) {
