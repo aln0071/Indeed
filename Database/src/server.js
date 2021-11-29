@@ -20,6 +20,8 @@ const createMessage = require('./services/messaging/CreateMessage');
 const createRoom = require('./services/messaging/CreateRoom');
 const getMessages = require('./services/messaging/GetMessages');
 const getRooms = require('./services/messaging/GetRooms');
+const postReviews = require('./services/reviews/PostReview');
+const postHelpfulReviews = require('./services/reviews/PostReviewHelpfulness');
 const { mongoDB } = require('../Config');
 
 const options = {
@@ -87,3 +89,6 @@ handleTopicRequest('indeed_create_message', createMessage);
 handleTopicRequest('indeed_get_messages', getMessages);
 handleTopicRequest('indeed_create_room', createRoom);
 handleTopicRequest('indeed_get_rooms', getRooms);
+
+handleTopicRequest('indeed_post_reviews', postReviews);
+handleTopicRequest('indeed_post_helpful_reviews', postHelpfulReviews);
