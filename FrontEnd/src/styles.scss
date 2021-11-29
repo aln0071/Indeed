@@ -176,6 +176,30 @@
       padding-left: 10px;
     }
   }
+  &__tabBody {
+    &__container {
+      max-width: 1044px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+  }
+  &__photoUpload {
+    &__choose {
+      margin-top: 30px;
+    }
+    &__preview {
+      &__container {
+        display: flex;
+        margin-top: 15px;
+      }
+      &__photo {
+        margin-right: 15px;
+        text-align: center;
+      }
+    }
+  }
 }
 
 .nav {
