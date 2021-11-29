@@ -15,3 +15,6 @@ export const GET_SEARCHED_JOB = 'GET_SEARCHED_JOB';
 export const SAVE_JOB = 'SAVE_JOB';
 export const UNSAVE_JOB = 'UNSAVE_JOB';
 export const STORE_SEARCHED_RESULTS = 'STORE_SEARCHED_RESULTS';
+
+export const POST_REVIEW = 'POST_REVIEW';
+export const POST_JOB = 'POST_JOB';

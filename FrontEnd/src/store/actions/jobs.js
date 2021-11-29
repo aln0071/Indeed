@@ -3,6 +3,7 @@ import {
   getAllJobs,
   getSpecificJob,
   getSearchedJobs,
+  postJob,
 } from '../../utils/endpoints';
 import {
   GET_ALL_JOBS,
@@ -11,6 +12,7 @@ import {
   // SAVE_JOB,
   // UNSAVE_JOB,
   STORE_SEARCHED_RESULTS,
+  POST_JOB,
 } from './types';
 import { createToastBody, toastOptions } from '../../utils';
 
@@ -67,5 +69,13 @@ export const storeSearchedAction = (searchResults) => async (dispatch) => {
   dispatch({
     type: STORE_SEARCHED_RESULTS,
     payload: searchResults,
+  });
+};
+
+export const postEmployerJob = (job) => async (dispatch) => {
+  const response = await postJob(job);
+  dispatch({
+    type: POST_JOB,
+    payload: response,
   });
 };

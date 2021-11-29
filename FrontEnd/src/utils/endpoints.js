@@ -72,3 +72,13 @@ export const getSearchedJobs = (params) => {
 //   const url = `${baseUrl}${urls.login}`;
 //   return post(url, params).then(handleResponse);
 // };
+
+export const postReviews = (params) => {
+  const url = `${baseUrl}${urls.postReview}/${params.companyId}/reviews`;
+  return post(url, params).then(handleResponse);
+};
+
+export const postJob = (params) => {
+  const url = `${baseUrl}indeed/api/company/${params.companyId}/jobs`;
+  return post(url, params).then(handleResponse);
+};
