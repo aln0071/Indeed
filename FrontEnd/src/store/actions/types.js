@@ -17,3 +17,4 @@ export const UNSAVE_JOB = 'UNSAVE_JOB';
 export const STORE_SEARCHED_RESULTS = 'STORE_SEARCHED_RESULTS';
 
 export const POST_REVIEW = 'POST_REVIEW';
+export const GET_REVIEW = 'GET_REVIEW';

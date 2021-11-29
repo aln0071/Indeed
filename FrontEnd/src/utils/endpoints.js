@@ -77,3 +77,8 @@ export const postReviews = (params) => {
   const url = `${baseUrl}${urls.postReview}/${params.companyId}/reviews`;
   return post(url, params).then(handleResponse);
 };
+
+export const getReviews = (params) => {
+  const url = `${baseUrl}${urls.getReviews}/${params.companyId}/reviews?sort=${params.sort}&order=${params.order}&page=${params.page}&limit=${params.limit}&user=${params.userId}`;
+  return get(url, params).then(handleResponse);
+};

@@ -1,16 +1,18 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/named */
 /* eslint-disable no-nested-ternary */
+/* eslint-disable implicit-arrow-linebreak */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import { getReviewAction } from '../../../store/actions/review';
 import { ColorButton2 } from '../../customComponents/index';
 import ReviewCard from './ReviewCard';
 import ReviewModal from './ReviewModal';
@@ -38,7 +40,9 @@ const useStyles = makeStyles(() => ({
 
 function Reviews() {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+  const allReviews = useSelector((state) => state.review.allReviews);
   const history = useHistory();
   const [helpful, setHelpful] = useState(false);
   const [rating, setRating] = useState(false);
@@ -46,9 +50,40 @@ function Reviews() {
   const [all, setAll] = useState(true);
   const [asc, setAsc] = useState(true);
   const [open, setOpen] = useState(false);
+  const [page, setPage] = useState(1);
+  const [allCompanyReviews, setAllCompanyReviews] = useState(allReviews);
+
+  useEffect(() => {
+    const params = {
+      companyId: '61a32673a0660ee943876fc0',
+      userId: user.userId,
+      sort: all ? '' : helpful ? 'helpful' : date ? 'date' : 'rating',
+      order: asc ? 'asc' : 'desc',
+      page: page || 1,
+      limit: 5,
+    };
+    dispatch(getReviewAction(params));
+  }, [asc]);
+
+  useEffect(() => {
+    setAllCompanyReviews(allReviews);
+  }, [allReviews]);
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleChangePage = (event, val) => {
+    setPage(val);
+    const params = {
+      companyId: '61a32673a0660ee943876fc0',
+      userId: user.userId,
+      sort: all ? '' : helpful ? 'helpful' : date ? 'date' : 'rating',
+      order: asc ? 'asc' : 'desc',
+      page: val || 1,
+      limit: 5,
+    };
+    dispatch(getReviewAction(params));
   };
 
   const handleHelpful = () => {
@@ -56,24 +91,60 @@ function Reviews() {
     setRating(false);
     setDate(false);
     setAll(false);
+    const params = {
+      companyId: '61a32673a0660ee943876fc0',
+      userId: user.userId,
+      sort: 'helpful',
+      order: asc ? 'asc' : 'desc',
+      page: page || 1,
+      limit: 5,
+    };
+    dispatch(getReviewAction(params));
   };
   const handleRating = () => {
     setHelpful(false);
     setRating(true);
     setDate(false);
     setAll(false);
+    const params = {
+      companyId: '61a32673a0660ee943876fc0',
+      userId: user.userId,
+      sort: 'rating',
+      order: asc ? 'asc' : 'desc',
+      page: page || 1,
+      limit: 5,
+    };
+    dispatch(getReviewAction(params));
   };
   const handleDate = () => {
     setHelpful(false);
     setRating(false);
     setDate(true);
     setAll(false);
+    const params = {
+      companyId: '61a32673a0660ee943876fc0',
+      userId: user.userId,
+      sort: 'date',
+      order: asc ? 'asc' : 'desc',
+      page: page || 1,
+      limit: 5,
+    };
+    dispatch(getReviewAction(params));
   };
   const handleAll = () => {
     setHelpful(false);
     setRating(false);
     setDate(false);
     setAll(true);
+    const params = {
+      companyId: '61a32673a0660ee943876fc0',
+      userId: user.userId,
+      sort: '',
+      order: asc ? 'asc' : 'desc',
+      page: page || 1,
+      limit: 5,
+    };
+    dispatch(getReviewAction(params));
   };
   const handleAsc = () => {
     setAsc(!asc);
@@ -149,14 +220,14 @@ function Reviews() {
           Write Review
         </ColorButton2>
       </div>
-      <ReviewCard />
-      <ReviewCard />
-      <ReviewCard />
+      {allCompanyReviews.map((item, index) =>
+      // eslint-disable-next-line react/no-array-index-key
+        <ReviewCard review={item} key={`review-${index}`} />)}
       <ReviewModal open={open} handleClose={handleClose} />
       <CustomPagination
         count={10}
-        page={1}
-        // handleChangePage={handleChangePage}
+        page={page}
+        handleChangePage={handleChangePage}
       />
     </Box>
   );
