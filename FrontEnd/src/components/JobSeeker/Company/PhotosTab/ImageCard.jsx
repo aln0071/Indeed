@@ -53,7 +53,6 @@ export default function ImageCard({ file, onRemove, onChange }) {
           </div>
         </div>
       </div>
-      <hr />
     </>
   );
 }
