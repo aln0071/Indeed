@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 import Jobs from './Jobs';
+import { Snapshot } from './SnapshotTab';
 
 function TabPanel(props) {
   const {
@@ -91,7 +92,7 @@ export default function BasicTabs() {
         </StyledTabs>
       </Box>
       <TabPanel value={value} index={0}>
-        Snapshot
+        <Snapshot />
       </TabPanel>
       <TabPanel value={value} index={1}>
         Why Join Us
