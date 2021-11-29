@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');
+/* eslint-disable linebreak-style */
+const mongoose = require("mongoose");
 
 const { Schema } = mongoose;
 
@@ -36,5 +37,5 @@ const companyInfoSchema = new Schema({
   },
 });
 
-const companyInfo = mongoose.model('company', companyInfoSchema);
+const companyInfo = mongoose.model("company", companyInfoSchema);
 module.exports = companyInfo;

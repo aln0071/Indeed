@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 const router = require('express').Router();
 const kafka = require('../../kafka/Client');
 const redisCli = require('../../redis/Connection');
@@ -112,5 +113,20 @@ router.post(
     });
   },
 );
+
+router.get('/jobseeker/getAppliedJob/:jobseekerId', async (req, res) => {
+  const request = {
+    params: req.params,
+    body: req.body,
+  };
+  console.log(request);
+  kafka.make_request('indeed_getapplied_job', request, (error, results) => {
+    if (error) {
+      res.status(400).send(error);
+    } else {
+      res.status(200).send(results);
+    }
+  });
+});
 
 module.exports = router;

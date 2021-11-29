@@ -228,3 +228,11 @@
     height: calc(100vh - 80px);
   }
 }
+.salary {
+  &__body {
+    background: white;
+    padding: 24px;
+    margin-bottom: 10px;
+    max-width: 1200px;
+  }
+}

@@ -1,3 +1,5 @@
+/* eslint-disable linebreak-style */
+/* eslint-disable import/no-cycle */
 /* eslint react/jsx-props-no-spreading: 0 */
 import * as React from 'react';
 import PropTypes from 'prop-types';
@@ -9,6 +11,9 @@ import { styled } from '@mui/material/styles';
 import Jobs from './Jobs';
 import { Snapshot } from './SnapshotTab';
 import Review from './Reviews';
+
+import WhyJoinUs from '../WhyJoinUs';
+import CompanySalaryTab from '../CompanySalaryTab';
 
 function TabPanel(props) {
   const {
@@ -96,13 +101,13 @@ export default function BasicTabs() {
         <Snapshot />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Why Join Us
+        <WhyJoinUs />
       </TabPanel>
       <TabPanel value={value} index={2}>
         <Review />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        Salaries
+        <CompanySalaryTab />
       </TabPanel>
       <TabPanel value={value} index={4}>
         Photos
