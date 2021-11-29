@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
@@ -24,18 +25,20 @@ const jobSchema = new Schema({
     country: { type: String },
   },
 
-  applicantDetails: [{
-    jobSeekerId: { type: String, required: true },
-    status: { type: String },
-    resumeLink: { type: String },
-    appliedDate: { type: String },
-    currentlyWorking: { type: String },
-    lastWorkingDate: { type: String },
-    experience: { type: Number },
-    currentCompany: { type: String },
-    currentJobTitle: { type: String },
-    currentSalary: { type: Number },
-  }],
+  applicantDetails: [
+    {
+      jobSeekerId: { type: String, required: true },
+      status: { type: String },
+      resumeLink: { type: String },
+      appliedDate: { type: String },
+      currentlyWorking: { type: String },
+      lastWorkingDate: { type: String },
+      experience: { type: Number },
+      currentCompany: { type: String },
+      currentJobTitle: { type: String },
+      currentSalary: { type: Number },
+    },
+  ],
 });
 
 const Jobs = mongoose.model('Jobs', jobSchema);

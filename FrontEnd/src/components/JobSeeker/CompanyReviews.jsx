@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable no-unused-vars */
 /* eslint-disable max-len */
@@ -16,6 +17,7 @@ import { useHistory } from 'react-router-dom';
 import SearchIcon from '@material-ui/icons/Search';
 import axios from 'axios';
 // import Rating from '@material-ui/lab/Rating';
+import CompanyTabs from './Company/CompanyTabs';
 import {
   Container,
   makeStyles,
@@ -177,6 +179,7 @@ function CompanyReviews() {
   return (
     <>
       <JobSeekerNavbar />
+
       <Container className={classes.container} maxWidth="xl">
         <Grid container className={classes.boxSearch}>
           <Grid

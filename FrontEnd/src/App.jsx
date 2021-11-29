@@ -1,3 +1,6 @@
+/* eslint-disable linebreak-style */
+/* eslint-disable import/no-duplicates */
+/* eslint-disable linebreak-style */
 import React from 'react';
 import { Route } from 'react-router-dom';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -16,8 +19,16 @@ import Resources from './components/Employee/Resources';
 import EmployerChat from './components/Chat/EmployerChat';
 import 'react-toastify/dist/ReactToastify.css';
 import CompanyProfileEmployer from './Pages/CompanyProfileEmployer';
-import CompanyProfileJobSeeker from './Pages/CompanyProfileJobSeeker';
+
 import JobSeekerChat from './components/Chat/JobSeekerChat';
+import CompanySalaryTab from './components/JobSeeker/CompanySalaryTab';
+import WhyJoinUs from './components/JobSeeker/WhyJoinUs';
+import 'react-toastify/dist/ReactToastify.css';
+
+import CompanyProfileJobSeeker from './Pages/CompanyProfileJobSeeker';
+import AddSalary from './components/JobSeeker/AddSalary/AddSalary';
+import AddSalary1 from './components/JobSeeker/AddSalary/AddSalary1';
+import AddSalaryParent from './components/JobSeeker/AddSalary/AddSalaryParent';
 
 function App() {
   return (
@@ -47,6 +58,11 @@ function App() {
       <Route exact path="/Resources" component={Resources} />
       <Route exact path="/jobSeeker/Chat" component={JobSeekerChat} />
       <Route exact path="/employer/Chat" component={EmployerChat} />
+      <Route exact path="/CompanySalaryTab" component={CompanySalaryTab} />
+      <Route exact path="/WhyJoinUs" component={WhyJoinUs} />
+      <Route exact path="/AddSalary" component={AddSalary} />
+      <Route exact path="/AddSalary1" component={AddSalary1} />
+      <Route exact path="/AddSalaryParent" component={AddSalaryParent} />
     </>
   );
 }
