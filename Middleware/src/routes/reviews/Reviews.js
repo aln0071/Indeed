@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const kafka = require('../../kafka/Client');
 const redisCli = require('../../redis/Connection');
-const { checkRedis } = require('../../redis/Middleware');
+// const { checkRedis } = require('../../redis/Middleware');
 
 router.post('/jobseeker/:companyId/reviews', async (req, res) => {
   const request = {
@@ -19,7 +19,7 @@ router.post('/jobseeker/:companyId/reviews', async (req, res) => {
   });
 });
 
-router.get('/jobseeker/:companyId/reviews', checkRedis, async (req, res) => {
+router.get('/jobseeker/:companyId/reviews', async (req, res) => {
   const request = {
     query: req.query,
     params: req.params,
@@ -37,6 +37,26 @@ router.get('/jobseeker/:companyId/reviews', checkRedis, async (req, res) => {
       res.status(200).send(results);
     }
   });
+});
+
+router.post('/reviews/:reviewId/helpfullness', async (req, res) => {
+  const request = {
+    query: req.query,
+    params: req.params,
+    body: req.body,
+  };
+
+  kafka.make_request(
+    'indeed_post_helpful_reviews',
+    request,
+    (error, results) => {
+      if (error) {
+        res.status(400).send(error);
+      } else {
+        res.status(200).send(results);
+      }
+    },
+  );
 });
 
 module.exports = router;
