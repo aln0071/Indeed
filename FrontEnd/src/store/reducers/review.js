@@ -1,4 +1,4 @@
-import { POST_REVIEW } from '../actions/types';
+import { POST_REVIEW, GET_REVIEW } from '../actions/types';
 
 const initialState = {
   postedReview: {},
@@ -11,6 +11,11 @@ const jobs = (state = { ...initialState }, action) => {
       return {
         ...state,
         postedReview: action.payload,
+      };
+    case GET_REVIEW:
+      return {
+        ...state,
+        allReviews: action.payload,
       };
     default:
       return state;
