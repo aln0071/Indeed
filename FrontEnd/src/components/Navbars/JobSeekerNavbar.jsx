@@ -98,7 +98,11 @@ const JobSeekerNavbar = () => {
 
   const handleMenuClose = (operation = () => {}) => {
     setAnchorEl(null);
-    operation();
+    try {
+      operation();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -257,7 +261,11 @@ const JobSeekerNavbar = () => {
                     marginLeft: '24px',
                   }}
                 />
-                <Link id="EmployeeLandingPage" className="nav" to="/PostJob">
+                <Link
+                  id="EmployeeLandingPage"
+                  className="nav"
+                  to="/employer/PostJob"
+                >
                   Employers / Post Job
                 </Link>
               </div>
