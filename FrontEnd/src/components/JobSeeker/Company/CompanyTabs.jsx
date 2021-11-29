@@ -11,6 +11,7 @@ import { styled } from '@mui/material/styles';
 import Jobs from './Jobs';
 import { Snapshot } from './SnapshotTab';
 import Review from './Reviews';
+import PhotosTab from './PhotosTab/PhotosTab';
 
 import WhyJoinUs from '../WhyJoinUs';
 import CompanySalaryTab from '../CompanySalaryTab';
@@ -74,7 +75,7 @@ const StyledTab = styled(Tab)({
 });
 
 export default function BasicTabs() {
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(4);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -110,7 +111,7 @@ export default function BasicTabs() {
         <CompanySalaryTab />
       </TabPanel>
       <TabPanel value={value} index={4}>
-        Photos
+        <PhotosTab />
       </TabPanel>
       <TabPanel value={value} index={5}>
         <Jobs />
