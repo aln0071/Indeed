@@ -13,4 +13,5 @@ export const urls = {
   unsaveJob: '',
   reviewHelpful: 'indeed/api/reviews',
   reviewUnhelpful: 'indeed/api/reviews',
+  getMyJobs: 'indeed/api/jobseeker/getAppliedJob',
 };
