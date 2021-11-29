@@ -241,7 +241,7 @@ const JobSeekerNavbar = () => {
                       id="Profile"
                       onClick={handleMenu}
                       className={`nav ${styles.navIcon} ${styles.navIconLast}`}
-                      to="/"
+                      // to="/"
                     >
                       <PersonIcon />
                     </Link>
