@@ -5,8 +5,11 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { PropTypes } from 'prop-types';
-import { TextField } from '@mui/material';
+import { toast } from 'react-toastify';
 import styles from '../../../../styles.scss';
+import ImageCard from './ImageCard';
+import { imageUpload, uploadCompanyPhotos } from '../../../../utils/endpoints';
+import { createToastBody, toastOptions } from '../../../../utils';
 
 const style = {
   position: 'absolute',
@@ -26,6 +29,31 @@ export default function UploadPhotosModal({ open, setOpen }) {
   const handleClose = () => setOpen(false);
   const fileUpload = React.useRef(null);
   const [files, setFiles] = React.useState([]);
+
+  const handleSubmit = async () => {
+    try {
+      files.forEach((file) => {
+        if (!file.caption) {
+          throw new Error('Captions required');
+        }
+      });
+      const response = await imageUpload(files.map((file) => file.file));
+      // need to add company id in this request
+      await uploadCompanyPhotos(
+        response.map((key, index) => ({
+          key,
+          caption: files[index].caption,
+          location: files[index].location,
+        })),
+      );
+      toast.success('Success! Images uploaded', toastOptions);
+      setOpen(false);
+      setFiles([]);
+    } catch (error) {
+      toast.error(createToastBody(error), toastOptions);
+    }
+  };
+
   return (
     <div>
       <Modal
@@ -42,60 +70,22 @@ export default function UploadPhotosModal({ open, setOpen }) {
             Select 5 or less photos of your workplace or company events.
             {files.length !== 0 && (
               <div>
-                {files.map((src, index) => (
-                  <>
-                    <div
-                      className={
-                        styles.companyProfilePhotoUploadPreviewContainer
-                      }
-                    >
-                      <div
-                        className={styles.companyProfilePhotoUploadPreviewPhoto}
-                      >
-                        <img
-                          alt="preview"
-                          height="100"
-                          max-width="200px"
-                          src={src}
-                        />
-                        <a
-                          href="#"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            const temp = [...files];
-                            temp.splice(index, 1);
-                            setFiles(temp);
-                          }}
-                        >
-                          Remove
-                        </a>
-                      </div>
-                      <div>
-                        <div className={styles.loginInput}>
-                          <label>Photo Location (optional)</label>
-                          <TextField
-                            margin="normal"
-                            fullWidth
-                            id="location"
-                            name="location"
-                            autoFocus
-                          />
-                        </div>
-                        <div className={styles.loginInput}>
-                          <label>Caption (required)</label>
-                          <TextField
-                            margin="normal"
-                            fullWidth
-                            id="caption"
-                            name="caption"
-                            autoFocus
-                            required
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <hr />
-                  </>
+                {files.map((file, index) => (
+                  <ImageCard
+                    file={file}
+                    onRemove={() => {
+                      const temp = [...files];
+                      temp.splice(index, 1);
+                      setFiles(temp);
+                    }}
+                    onChange={(e) => {
+                      const temp = [...files];
+                      const selectedFile = temp[index];
+                      selectedFile[e.target.id] = e.target.value;
+                      temp.splice(index, 1, selectedFile);
+                      setFiles(temp);
+                    }}
+                  />
                 ))}
               </div>
             )}
@@ -108,7 +98,11 @@ export default function UploadPhotosModal({ open, setOpen }) {
                   const reader = new FileReader();
                   reader.onload = () => {
                     const dataUrl = reader.result;
-                    setFiles([...files, dataUrl]);
+                    const data = {
+                      file: e.target.files[0],
+                      preview: dataUrl,
+                    };
+                    setFiles([...files, data]);
                     fileUpload.current.value = '';
                   };
                   reader.readAsDataURL(e.target.files[0]);
@@ -138,6 +132,23 @@ export default function UploadPhotosModal({ open, setOpen }) {
                 Cancel
               </a>
             </div>
+            <hr />
+            {files.length !== 0 && (
+              <Button
+                variant="contained"
+                style={{
+                  width: '200px',
+                  textTransform: 'none',
+                  borderRadius: '20px',
+                  fontWeight: '900',
+                  background: '#085ff7',
+                  marginRight: '30px',
+                }}
+                onClick={() => handleSubmit()}
+              >
+                Upload
+              </Button>
+            )}
           </Typography>
         </Box>
       </Modal>

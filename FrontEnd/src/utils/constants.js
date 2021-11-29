@@ -13,4 +13,7 @@ export const urls = {
   unsaveJob: '',
   reviewHelpful: 'indeed/api/reviews',
   reviewUnhelpful: 'indeed/api/reviews',
+  postReview: 'indeed/api/jobseeker',
+  uploadCompanyPhotos: 'indeed/api/uploadCompanyPhotos',
+  imageUpload: 'indeed/files/upload/images',
 };

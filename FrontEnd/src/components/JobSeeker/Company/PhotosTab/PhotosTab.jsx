@@ -4,7 +4,7 @@ import styles from '../../../../styles.scss';
 import UploadPhotosModal from './UploadPhotosModal';
 
 export default function PhotosTab() {
-  const [isModalOpen, setOpen] = useState(true);
+  const [isModalOpen, setOpen] = useState(false);
   return (
     <div className={styles.companyProfileTabBodyContainer}>
       <h2>Amazon Photos</h2>

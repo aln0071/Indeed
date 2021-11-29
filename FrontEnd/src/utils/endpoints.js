@@ -87,3 +87,20 @@ export const getReviews = (params) => {
   const url = `${baseUrl}${urls.getReviews}/${params.companyId}/reviews?sort=${params.sort}&order=${params.order}&page=${params.page}&limit=${params.limit}&user=${params.userId}`;
   return get(url, params).then(handleResponse);
 };
+
+export const imageUpload = (images) => {
+  const url = `${baseUrl}${urls.imageUpload}`;
+  const formData = new FormData();
+  images.forEach((image) => {
+    formData.append('image', image);
+  });
+  return fetch(url, {
+    method: 'POST',
+    body: formData,
+  }).then(handleResponse);
+};
+
+export const uploadCompanyPhotos = (params) => {
+  const url = `${baseUrl}${urls.uploadCompanyPhotos}`;
+  return post(url, params).then(handleResponse);
+};
