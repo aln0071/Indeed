@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 const router = require('express').Router();
 const kafka = require('../../kafka/Client');
 const redisCli = require('../../redis/Connection');
@@ -39,24 +40,7 @@ router.get('/jobseeker/:companyId/reviews', async (req, res) => {
   });
 });
 
-router.post('/reviews/:reviewId/helpfullness', async (req, res) => {
-  const request = {
-    query: req.query,
-    params: req.params,
-    body: req.body,
-  };
+// router.get('/admin/get_all_reviews/', async (req, res) => {
 
-  kafka.make_request(
-    'indeed_post_helpful_reviews',
-    request,
-    (error, results) => {
-      if (error) {
-        res.status(400).send(error);
-      } else {
-        res.status(200).send(results);
-      }
-    },
-  );
-});
-
+// });
 module.exports = router;
