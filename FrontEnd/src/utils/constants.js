@@ -9,4 +9,5 @@ export const urls = {
   getSearchedJobs: 'indeed/api/jobs',
   saveJob: '',
   unsaveJob: '',
+  postReview: 'indeed/api/jobseeker',
 };
