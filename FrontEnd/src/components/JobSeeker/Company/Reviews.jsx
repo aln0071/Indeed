@@ -220,9 +220,10 @@ function Reviews() {
           Write Review
         </ColorButton2>
       </div>
-      {allCompanyReviews.map((item, index) =>
-      // eslint-disable-next-line react/no-array-index-key
-        <ReviewCard review={item} key={`review-${index}`} />)}
+      {allCompanyReviews.map((item, index) => (
+        // eslint-disable-next-line react/no-array-index-key
+        <ReviewCard review={item} key={`review-${index}`} />
+      ))}
       <ReviewModal open={open} handleClose={handleClose} />
       <CustomPagination
         count={10}

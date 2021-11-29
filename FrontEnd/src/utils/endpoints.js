@@ -78,6 +78,11 @@ export const postReviews = (params) => {
   return post(url, params).then(handleResponse);
 };
 
+export const postJob = (params) => {
+  const url = `${baseUrl}indeed/api/company/${params.companyId}/jobs`;
+  return post(url, params).then(handleResponse);
+};
+
 export const getReviews = (params) => {
   const url = `${baseUrl}${urls.getReviews}/${params.companyId}/reviews?sort=${params.sort}&order=${params.order}&page=${params.page}&limit=${params.limit}&user=${params.userId}`;
   return get(url, params).then(handleResponse);
