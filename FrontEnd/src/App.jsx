@@ -20,6 +20,7 @@ import EmployerChat from './components/Chat/EmployerChat';
 import 'react-toastify/dist/ReactToastify.css';
 import CompanyProfileEmployer from './Pages/CompanyProfileEmployer';
 
+import JobseekerMyJobs from './Pages/JobseekerMyJobs';
 import JobSeekerChat from './components/Chat/JobSeekerChat';
 import CompanySalaryTab from './components/JobSeeker/CompanySalaryTab';
 import WhyJoinUs from './components/JobSeeker/WhyJoinUs';
@@ -53,6 +54,7 @@ function App() {
       <Route exact path="/company-profile" component={CompanyProfileEmployer} />
       <Route exact path="/cmp/companyid" component={CompanyProfileJobSeeker} />
       {/* <Route exact path="/PostJob" component={PostJob} /> */}
+      <Route exact path="/myjobs" component={JobseekerMyJobs} />
       <Route exact path="/FindCandidates" component={FindCandidates} />
       <Route exact path="/Products" component={Products} />
       <Route exact path="/Resources" component={Resources} />
