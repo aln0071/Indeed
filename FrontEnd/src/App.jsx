@@ -41,12 +41,13 @@ function App() {
       <Route exact path="/FindSalaries" component={FindSalaries} />
       <Route exact path="/company-profile" component={CompanyProfileEmployer} />
       <Route exact path="/cmp/companyid" component={CompanyProfileJobSeeker} />
-      <Route exact path="/PostJob" component={PostJob} />
+      {/* <Route exact path="/PostJob" component={PostJob} /> */}
       <Route exact path="/FindCandidates" component={FindCandidates} />
       <Route exact path="/Products" component={Products} />
       <Route exact path="/Resources" component={Resources} />
       <Route exact path="/jobSeeker/Chat" component={JobSeekerChat} />
       <Route exact path="/employer/Chat" component={EmployerChat} />
+      <Route exact path="/employer/PostJob" component={PostJob} />
     </>
   );
 }
