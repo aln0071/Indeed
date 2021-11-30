@@ -14,6 +14,7 @@ export const urls = {
   reviewHelpful: 'indeed/api/reviews',
   reviewUnhelpful: 'indeed/api/reviews',
   getMyJobs: 'indeed/api/jobseeker/getAppliedJob',
+  getMyReviews: 'indeed/api/jobseeker/reviews',
   postReview: 'indeed/api/jobseeker',
   uploadCompanyPhotos: 'indeed/api/uploadCompanyPhotos',
   imageUpload: 'indeed/files/upload/images',

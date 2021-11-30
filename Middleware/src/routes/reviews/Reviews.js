@@ -39,6 +39,26 @@ router.get('/jobseeker/:companyId/reviews', async (req, res) => {
   });
 });
 
+router.get('/jobseeker/reviews/:userId', async (req, res) => {
+  const request = {
+    query: req.query,
+    params: req.params,
+    body: req.body,
+  };
+
+  kafka.make_request('indeed_get_user_reviews', request, (error, results) => {
+    if (error) {
+      res.status(400).send(error);
+    } else {
+      if (results) {
+        const { url } = req;
+        redisCli.setex(url, 3600, JSON.stringify(results));
+      }
+      res.status(200).send(results);
+    }
+  });
+});
+
 router.post('/reviews/:reviewId/helpfullness', async (req, res) => {
   const request = {
     query: req.query,

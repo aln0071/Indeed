@@ -5,6 +5,7 @@ const connection = require('./kafka/Connection');
 
 require('dotenv').config();
 const getReviews = require('./services/reviews/GetReviews');
+const getUserReviews = require('./services/reviews/GetUserReviews');
 const postJob = require('./services/jobs/PostJob');
 const getJobsForCompany = require('./services/jobs/GetJobsForCompany');
 const getAllJobs = require('./services/jobs/GetAllJobs');
@@ -71,6 +72,7 @@ function handleTopicRequest(topicName, fname) {
 }
 
 handleTopicRequest('indeed_get_reviews', getReviews);
+handleTopicRequest('indeed_get_user_reviews', getUserReviews);
 handleTopicRequest('indeed_get_all_company', getAllCompany);
 handleTopicRequest('indeed_get_company', getCompany);
 
