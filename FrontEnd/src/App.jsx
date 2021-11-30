@@ -25,6 +25,7 @@ import JobseekerMyJobs from './Pages/JobseekerMyJobs';
 import JobSeekerChat from './components/Chat/JobSeekerChat';
 import CompanySalaryTab from './components/JobSeeker/CompanySalaryTab';
 import WhyJoinUs from './components/JobSeeker/WhyJoinUs';
+import ProfileDetails from './components/JobSeeker/Profile/ProfileDetails';
 import 'react-toastify/dist/ReactToastify.css';
 
 import CompanyProfileJobSeeker from './Pages/CompanyProfileJobSeeker';
@@ -73,6 +74,11 @@ function App() {
           exact
           path="/jobSeeker/Chat"
           component={JobSeekerChat}
+        />
+        <ProtectedRoute
+          exact
+          path="/jobSeeker/Profile"
+          component={ProfileDetails}
         />
         <ProtectedRoute exact path="/employer/Chat" component={EmployerChat} />
         <ProtectedRoute exact path="/employer/PostJob" component={PostJob} />
