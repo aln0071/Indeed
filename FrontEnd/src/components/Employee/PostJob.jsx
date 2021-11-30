@@ -138,7 +138,6 @@ function PostJob() {
                     name="jobtitle"
                     value={jobTitle}
                     autoComplete="jobtitle"
-                    autoFocus
                     onChange={(e) => {
                       setJobTitle(e.target.value);
                     }}
@@ -159,7 +158,6 @@ function PostJob() {
                     name="jobDesc"
                     value={jobDesc}
                     autoComplete="jobDesc"
-                    autoFocus
                     onChange={(e) => {
                       setJobDesc(e.target.value);
                     }}
@@ -180,7 +178,6 @@ function PostJob() {
                     id="desc"
                     name="jobDesc"
                     autoComplete="jobDesc"
-                    autoFocus
                     onChange={(e) => {
                       setQualification(e.target.value);
                     }}
@@ -201,7 +198,6 @@ function PostJob() {
                     id="desc"
                     name="jobFullDesc"
                     autoComplete="jobFullDesc"
-                    autoFocus
                     onChange={(e) => {
                       setJobFullDesc(e.target.value);
                     }}
@@ -229,7 +225,6 @@ function PostJob() {
                       value={addressLine1}
                       name="addressLine1"
                       autoComplete="addressLine1"
-                      autoFocus
                       onChange={(e) => {
                         setAddressLine1(e.target.value);
                       }}
@@ -249,7 +244,6 @@ function PostJob() {
                       id="city"
                       name="city"
                       autoComplete="city"
-                      autoFocus
                       onChange={(e) => {
                         setCity(e.target.value);
                       }}
@@ -269,7 +263,6 @@ function PostJob() {
                       value={state}
                       name="state"
                       autoComplete="state"
-                      autoFocus
                       onChange={(e) => {
                         setState(e.target.value);
                       }}
@@ -289,7 +282,6 @@ function PostJob() {
                       id="zipcode"
                       name="zipcode"
                       autoComplete="zipcode"
-                      autoFocus
                       onChange={(e) => {
                         setZipcode(e.target.value);
                       }}
@@ -309,7 +301,6 @@ function PostJob() {
                       id="country"
                       name="country"
                       autoComplete="country"
-                      autoFocus
                       onChange={(e) => {
                         setCountry(e.target.value);
                       }}
@@ -363,7 +354,6 @@ function PostJob() {
                   value={industry}
                   name="industry"
                   autoComplete="industry"
-                  autoFocus
                   onChange={(e) => {
                     setIndustry(e.target.value);
                   }}
@@ -525,7 +515,6 @@ function PostJob() {
                   id="salary"
                   name="salary"
                   autoComplete="salary"
-                  autoFocus
                   onChange={(e) => {
                     setJobSalary(e.target.value);
                   }}

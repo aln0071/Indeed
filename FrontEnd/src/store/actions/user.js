@@ -16,7 +16,11 @@ export const loginUserAction = (email, password, history) => async (dispatch) =>
   try {
     const response = await loginUser({ email, password });
     dispatch(setUserDetailsAction(response));
-    history.push('/');
+    if (response.userType === 'jobseeker') {
+      history.push('/');
+    } else {
+      history.push('/company-profile');
+    }
   } catch (error) {
     toast.error(createToastBody(error), toastOptions);
   }

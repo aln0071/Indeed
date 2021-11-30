@@ -21,10 +21,12 @@ import {
   Box,
 } from '@mui/material';
 import HelpIcon from '@mui/icons-material/Help';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import { ColorButton } from '../customComponents';
 import logo from '../../svg/employeeLogo.svg';
 import './styles.css';
+import { clearUserDetailsAction } from '../../store/actions/user';
 
 const useStyles = makeStyles(() => ({
   menuSliderContainer: {
@@ -73,6 +75,9 @@ const EmployerNavbar = () => {
   const toggleSlider = (slider, open) => () => {
     setState({ ...state, [slider]: open });
   };
+  const history = useHistory();
+  const user = useSelector((s) => s.user);
+  const dispatch = useDispatch();
 
   const sideList = (slider) => (
     <Box
@@ -123,11 +128,11 @@ const EmployerNavbar = () => {
               <div>
                 <Link
                   id="SignIn"
-                  // className="navEmployee"
+                  className="navEmployee"
                   style={{ color: '#2557a7', fontWeight: 'bold' }}
                   to="/PostJob"
                 >
-                  <ColorButton>Sign In</ColorButton>
+                  <ColorButton variant="contained">Sign In</ColorButton>
                 </Link>
                 <IconButton onClick={toggleSlider('right', true)}>
                   <DehazeIcon style={{ color: '#fff' }} />
@@ -152,8 +157,16 @@ const EmployerNavbar = () => {
                 />
                 <Link
                   className="navEmployee"
+                  id="CompanyProfile"
+                  to="/company-profile"
+                  style={{ color: '#fff' }}
+                >
+                  Company Profile
+                </Link>
+                <Link
+                  className="navEmployee"
                   id="PostJob"
-                  to="/PostJob"
+                  to="/employer/PostJob"
                   style={{ color: '#fff' }}
                 >
                   Post a Job
@@ -177,7 +190,7 @@ const EmployerNavbar = () => {
                 <Link
                   id="Resources"
                   className="navEmployee"
-                  to="/PostJob" // add later, given dummy value for now
+                  to="/employer/PostJob" // add later, given dummy value for now
                   style={{ color: '#fff' }}
                 >
                   Resources
@@ -197,42 +210,71 @@ const EmployerNavbar = () => {
                   <span style={{ marginRight: '5px' }}>Help Center</span>
                   <HelpIcon />
                 </Link>
-                <hr
-                  width="1"
-                  size="1000%"
-                  style={{
-                    height: '35px',
-                    alignSelf: 'center',
-                    marginRight: '24px',
-                    marginLeft: '24px',
-                  }}
-                />
-                <Link
-                  id="SignIn"
-                  className="navEmployee"
-                  style={{ color: '#2557a7', fontWeight: 'bold' }}
-                  to="/PostJob"
-                >
-                  <ColorButton>Sign In</ColorButton>
-                </Link>
-                <hr
-                  width="1"
-                  size="1000%"
-                  style={{
-                    height: '35px',
-                    alignSelf: 'center',
-                    marginRight: '24px',
-                    marginLeft: '24px',
-                  }}
-                />
-                <Link
-                  id="FindJobs"
-                  className="navEmployee"
-                  to="/"
-                  style={{ color: '#fff' }}
-                >
-                  Find Jobs
-                </Link>
+                {!user.userId ? (
+                  <>
+                    <hr
+                      width="1"
+                      size="1000%"
+                      style={{
+                        height: '35px',
+                        alignSelf: 'center',
+                        marginRight: '24px',
+                        marginLeft: '24px',
+                      }}
+                    />
+                    <ColorButton
+                      variant="contained"
+                      style={{ height: '30px', marginTop: '25px' }}
+                      onClick={() => {
+                        history.push('/login');
+                      }}
+                    >
+                      Sign In
+                    </ColorButton>
+                    <hr
+                      width="1"
+                      size="1000%"
+                      style={{
+                        height: '35px',
+                        alignSelf: 'center',
+                        marginRight: '24px',
+                        marginLeft: '24px',
+                      }}
+                    />
+                    <Link
+                      id="FindJobs"
+                      className="navEmployee"
+                      to="/"
+                      style={{ color: '#fff' }}
+                    >
+                      Find Jobs
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <hr
+                      width="1"
+                      size="1000%"
+                      style={{
+                        height: '35px',
+                        alignSelf: 'center',
+                        marginRight: '24px',
+                        marginLeft: '24px',
+                      }}
+                    />
+                    <Link
+                      id="FindJobs"
+                      className="navEmployee"
+                      to="#"
+                      onClick={() => {
+                        dispatch(clearUserDetailsAction());
+                      }}
+                      style={{ color: '#fff' }}
+                    >
+                      Logout
+                    </Link>
+                  </>
+                )}
               </div>
             </Hidden>
           </Toolbar>

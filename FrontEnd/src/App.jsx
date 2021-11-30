@@ -32,6 +32,7 @@ import AddSalary from './components/JobSeeker/AddSalary/AddSalary';
 import AddSalary1 from './components/JobSeeker/AddSalary/AddSalary1';
 import AddSalaryParent from './components/JobSeeker/AddSalary/AddSalaryParent';
 import ProtectedRoute from './components/ProtectedRoutes';
+import ConfirmEmployerLogin from './Pages/ConfirmEmployerLogin';
 
 function App() {
   return (
@@ -54,8 +55,7 @@ function App() {
         <Route exact path="/Register" component={Register} />
         <Route exact path="/CompanyReviews" component={CompanyReviews} />
         <Route exact path="/FindSalaries" component={FindSalaries} />
-        <Route
-          exact
+        <ProtectedRoute
           path="/company-profile"
           component={CompanyProfileEmployer}
         />
@@ -69,13 +69,13 @@ function App() {
         <Route exact path="/myjobs" component={JobseekerMyJobs} />
         <Route exact path="/Products" component={Products} />
         <Route exact path="/Resources" component={Resources} />
+        <ProtectedRoute path="/jobSeeker/Chat" component={JobSeekerChat} />
         <ProtectedRoute
-          exact
-          path="/jobSeeker/Chat"
-          component={JobSeekerChat}
+          path="/employer/ConfirmLogin"
+          component={ConfirmEmployerLogin}
         />
-        <ProtectedRoute exact path="/employer/Chat" component={EmployerChat} />
-        <ProtectedRoute exact path="/employer/PostJob" component={PostJob} />
+        <ProtectedRoute path="/employer/Chat" component={EmployerChat} />
+        <ProtectedRoute path="/employer/PostJob" component={PostJob} />
         <Route exact path="/CompanySalaryTab" component={CompanySalaryTab} />
         <Route exact path="/WhyJoinUs" component={WhyJoinUs} />
         <Route exact path="/AddSalary" component={AddSalary} />

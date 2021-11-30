@@ -39,7 +39,6 @@ export default function CompanyProfileEmployer() {
                 fullWidth
                 id="companyName"
                 name="companyName"
-                autoFocus
               />
             </div>
           </Grid>
@@ -54,7 +53,6 @@ export default function CompanyProfileEmployer() {
                 fullWidth
                 id="aboutUs"
                 name="aboutUs"
-                autoFocus
               />
             </div>
           </Grid>
@@ -69,7 +67,6 @@ export default function CompanyProfileEmployer() {
                 fullWidth
                 id="workCulture"
                 name="workCulture"
-                autoFocus
               />
             </div>
           </Grid>
@@ -84,7 +81,6 @@ export default function CompanyProfileEmployer() {
                 fullWidth
                 id="companyValues"
                 name="companyValues"
-                autoFocus
               />
             </div>
           </Grid>
@@ -99,7 +95,6 @@ export default function CompanyProfileEmployer() {
                 fullWidth
                 id="companyMission"
                 name="companyMission"
-                autoFocus
               />
             </div>
           </Grid>
@@ -114,7 +109,6 @@ export default function CompanyProfileEmployer() {
                 fullWidth
                 id="companyVision"
                 name="companyVision"
-                autoFocus
               />
             </div>
           </Grid>
@@ -129,7 +123,6 @@ export default function CompanyProfileEmployer() {
                 fullWidth
                 id="website"
                 name="website"
-                autoFocus
               />
             </div>
           </Grid>

@@ -237,7 +237,7 @@ const JobSeekerNavbar = () => {
                     <Link
                       id="Notifications"
                       className={`nav ${styles.navIcon}`}
-                      to="/"
+                      to="#"
                     >
                       <NotificationsIcon />
                     </Link>
@@ -245,7 +245,7 @@ const JobSeekerNavbar = () => {
                       id="Profile"
                       onClick={handleMenu}
                       className={`nav ${styles.navIcon} ${styles.navIconLast}`}
-                      // to="/"
+                      to="#"
                     >
                       <PersonIcon />
                     </Link>
@@ -264,7 +264,7 @@ const JobSeekerNavbar = () => {
                 <Link
                   id="EmployeeLandingPage"
                   className="nav"
-                  to="/employer/PostJob"
+                  to="/employer/ConfirmLogin"
                 >
                   Employers / Post Job
                 </Link>
@@ -289,7 +289,7 @@ const JobSeekerNavbar = () => {
               style={{ transform: 'translate(10px, 50px)' }}
             >
               {/* <div className={styles.navNotch} ></div> */}
-              <div className={styles.navMenuUsername}>user@gmail.com</div>
+              <div className={styles.navMenuUsername}>{user.email}</div>
               <MenuItem onClick={handleMenuClose}>
                 <PersonIcon className={styles.navMenuIcon} />
                 {' '}
