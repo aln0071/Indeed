@@ -112,3 +112,11 @@ export const getCompanyDetailsByEmployerId = (employerId) => {
   )}`;
   return get(url).then(handleResponse);
 };
+
+export const getUserDetailsWithId = (userId) => {
+  const url = `${baseUrl}${urls.getUserDetailsWithId.replace(
+    '{userId}',
+    userId,
+  )}`;
+  return get(url).then(handleResponse);
+};
