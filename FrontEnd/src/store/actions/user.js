@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import { loginUser } from '../../utils/endpoints';
+import { getUserDetailsWithId, loginUser } from '../../utils/endpoints';
 import { CLEAR_USER_DETAILS, SET_USER_DETAILS } from './types';
 import { createToastBody, toastOptions } from '../../utils';
 
@@ -21,6 +21,16 @@ export const loginUserAction = (email, password, history) => async (dispatch) =>
     } else {
       history.push('/CompanyProfileEmployerLandingPage');
     }
+  } catch (error) {
+    toast.error(createToastBody(error), toastOptions);
+  }
+};
+
+export const getUserDetailsWithIdAction = () => async (dispatch, getState) => {
+  try {
+    const { userId } = getState().state.user;
+    const response = await getUserDetailsWithId(userId);
+    dispatch(setUserDetailsAction(response));
   } catch (error) {
     toast.error(createToastBody(error), toastOptions);
   }
