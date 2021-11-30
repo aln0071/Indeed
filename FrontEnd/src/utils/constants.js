@@ -17,4 +17,6 @@ export const urls = {
   postReview: 'indeed/api/jobseeker',
   uploadCompanyPhotos: 'indeed/api/uploadCompanyPhotos',
   imageUpload: 'indeed/files/upload/images',
+  getCompanyDetailsByEmployerId:
+    'indeed/api/companyDetails/forEmployer/{employerid}',
 };

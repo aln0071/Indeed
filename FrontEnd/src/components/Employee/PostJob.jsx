@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable import/no-cycle */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
@@ -15,15 +15,32 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { Button } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
+import { toast } from 'react-toastify';
 import styles from '../../styles.scss';
 import EmployerNavbar from '../Navbars/EmployerNavbar';
 import { postEmployerJob } from '../../store/actions/jobs';
+import { getCompanyDetailsByEmployerId } from '../../utils/endpoints';
+import { createToastBody, toastOptions } from '../../utils';
 
 const theme = createTheme();
 
 function PostJob() {
+  const history = useHistory();
+  const user = useSelector((state) => state.user);
+  useEffect(async () => {
+    try {
+      const companyDetails = await getCompanyDetailsByEmployerId(user.userId);
+      if (JSON.stringify(companyDetails) === '{}') {
+        history.push('/company-profile');
+        toast.info('Create a company profile first', toastOptions);
+      }
+    } catch (error) {
+      toast.error(createToastBody(error), toastOptions);
+    }
+  }, []);
+
   const [jobTitle, setJobTitle] = useState('');
   const [jobSalary, setJobSalary] = useState();
   const [jobDesc, setJobDesc] = useState('');
@@ -47,7 +64,6 @@ function PostJob() {
   const [lic, setLic] = useState(false);
   const companyId = '61a3227aa0660ee943876fa1';
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const handleSubmit = () => {
     const benefits = [];

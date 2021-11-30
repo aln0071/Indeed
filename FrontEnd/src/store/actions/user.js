@@ -19,7 +19,7 @@ export const loginUserAction = (email, password, history) => async (dispatch) =>
     if (response.userType === 'jobseeker') {
       history.push('/');
     } else {
-      history.push('/company-profile');
+      history.push('/CompanyProfileEmployerLandingPage');
     }
   } catch (error) {
     toast.error(createToastBody(error), toastOptions);

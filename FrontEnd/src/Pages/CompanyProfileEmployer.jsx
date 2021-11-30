@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import styles from '../styles.scss';
 import EmployerNavbar from '../components/Navbars/EmployerNavbar';
 import {
+  getCompanyProfileForEmployerAction,
   setCompanyProfileAction,
   updateCompanyProfileAction,
 } from '../store/actions/companyProfile';
@@ -14,6 +15,9 @@ import {
 export default function CompanyProfileEmployer() {
   const companyProfile = useSelector((state) => state.companyProfile);
   const dispatch = useDispatch();
+  React.useEffect(() => {
+    dispatch(getCompanyProfileForEmployerAction());
+  }, []);
 
   const handleChange = (e) => {
     dispatch(

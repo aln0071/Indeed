@@ -264,7 +264,7 @@ const JobSeekerNavbar = () => {
                 <Link
                   id="EmployeeLandingPage"
                   className="nav"
-                  to="/employer/ConfirmLogin"
+                  to="/CompanyProfileEmployerLandingPage"
                 >
                   Employers / Post Job
                 </Link>

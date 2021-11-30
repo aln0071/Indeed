@@ -104,3 +104,11 @@ export const uploadCompanyPhotos = (params) => {
   const url = `${baseUrl}${urls.uploadCompanyPhotos}`;
   return post(url, params).then(handleResponse);
 };
+
+export const getCompanyDetailsByEmployerId = (employerId) => {
+  const url = `${baseUrl}${urls.getCompanyDetailsByEmployerId.replace(
+    '{employerid}',
+    employerId,
+  )}`;
+  return get(url).then(handleResponse);
+};
