@@ -295,12 +295,16 @@ const JobSeekerNavbar = () => {
                 {' '}
                 Profile
               </MenuItem>
-              <MenuItem onClick={handleMenuClose}>
+              <MenuItem
+                onClick={() => handleMenuClose(() => history.push('/myjobs'))}
+              >
                 <FavoriteIcon className={styles.navMenuIcon} />
                 {' '}
                 My jobs
               </MenuItem>
-              <MenuItem onClick={handleMenuClose}>
+              <MenuItem
+                onClick={() => handleMenuClose(() => history.push('/myreviews'))}
+              >
                 <ReviewsIcon className={styles.navMenuIcon} />
                 {' '}
                 My reviews
