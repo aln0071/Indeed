@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable import/no-cycle */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
@@ -15,15 +15,32 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { Button } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
+import { toast } from 'react-toastify';
 import styles from '../../styles.scss';
 import EmployerNavbar from '../Navbars/EmployerNavbar';
 import { postEmployerJob } from '../../store/actions/jobs';
+import { getCompanyDetailsByEmployerId } from '../../utils/endpoints';
+import { createToastBody, toastOptions } from '../../utils';
 
 const theme = createTheme();
 
 function PostJob() {
+  const history = useHistory();
+  const user = useSelector((state) => state.user);
+  useEffect(async () => {
+    try {
+      const companyDetails = await getCompanyDetailsByEmployerId(user.userId);
+      if (JSON.stringify(companyDetails) === '{}') {
+        history.push('/company-profile');
+        toast.info('Create a company profile first', toastOptions);
+      }
+    } catch (error) {
+      toast.error(createToastBody(error), toastOptions);
+    }
+  }, []);
+
   const [jobTitle, setJobTitle] = useState('');
   const [jobSalary, setJobSalary] = useState();
   const [jobDesc, setJobDesc] = useState('');
@@ -47,7 +64,6 @@ function PostJob() {
   const [lic, setLic] = useState(false);
   const companyId = '61a3227aa0660ee943876fa1';
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const handleSubmit = () => {
     const benefits = [];
@@ -138,7 +154,6 @@ function PostJob() {
                     name="jobtitle"
                     value={jobTitle}
                     autoComplete="jobtitle"
-                    autoFocus
                     onChange={(e) => {
                       setJobTitle(e.target.value);
                     }}
@@ -159,7 +174,6 @@ function PostJob() {
                     name="jobDesc"
                     value={jobDesc}
                     autoComplete="jobDesc"
-                    autoFocus
                     onChange={(e) => {
                       setJobDesc(e.target.value);
                     }}
@@ -180,7 +194,6 @@ function PostJob() {
                     id="desc"
                     name="jobDesc"
                     autoComplete="jobDesc"
-                    autoFocus
                     onChange={(e) => {
                       setQualification(e.target.value);
                     }}
@@ -201,7 +214,6 @@ function PostJob() {
                     id="desc"
                     name="jobFullDesc"
                     autoComplete="jobFullDesc"
-                    autoFocus
                     onChange={(e) => {
                       setJobFullDesc(e.target.value);
                     }}
@@ -229,7 +241,6 @@ function PostJob() {
                       value={addressLine1}
                       name="addressLine1"
                       autoComplete="addressLine1"
-                      autoFocus
                       onChange={(e) => {
                         setAddressLine1(e.target.value);
                       }}
@@ -249,7 +260,6 @@ function PostJob() {
                       id="city"
                       name="city"
                       autoComplete="city"
-                      autoFocus
                       onChange={(e) => {
                         setCity(e.target.value);
                       }}
@@ -269,7 +279,6 @@ function PostJob() {
                       value={state}
                       name="state"
                       autoComplete="state"
-                      autoFocus
                       onChange={(e) => {
                         setState(e.target.value);
                       }}
@@ -289,7 +298,6 @@ function PostJob() {
                       id="zipcode"
                       name="zipcode"
                       autoComplete="zipcode"
-                      autoFocus
                       onChange={(e) => {
                         setZipcode(e.target.value);
                       }}
@@ -309,7 +317,6 @@ function PostJob() {
                       id="country"
                       name="country"
                       autoComplete="country"
-                      autoFocus
                       onChange={(e) => {
                         setCountry(e.target.value);
                       }}
@@ -363,7 +370,6 @@ function PostJob() {
                   value={industry}
                   name="industry"
                   autoComplete="industry"
-                  autoFocus
                   onChange={(e) => {
                     setIndustry(e.target.value);
                   }}
@@ -525,7 +531,6 @@ function PostJob() {
                   id="salary"
                   name="salary"
                   autoComplete="salary"
-                  autoFocus
                   onChange={(e) => {
                     setJobSalary(e.target.value);
                   }}
