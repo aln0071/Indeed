@@ -20,6 +20,7 @@ import Resources from './components/Employee/Resources';
 import 'react-toastify/dist/ReactToastify.css';
 import CompanyProfileEmployer from './Pages/CompanyProfileEmployer';
 import CompanyProfileJobSeeker from './Pages/CompanyProfileJobSeeker';
+import AdminHome from './components/AdminPages/AdminPage';
 
 function App() {
   return (

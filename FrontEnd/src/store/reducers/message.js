@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 import {
   SET_CHAT_ROOMS,
   SET_CURRENT_CONVERSATION,

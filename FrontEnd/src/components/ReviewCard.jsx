@@ -1,4 +1,10 @@
 /* eslint-disable linebreak-style */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable radix */
+/* eslint-disable no-plusplus */
+/* eslint-disable eqeqeq */
+/* eslint-disable linebreak-style */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
 /* eslint-disable linebreak-style */
@@ -12,51 +18,68 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import Button from '@mui/material/Button';
+import axios from 'axios';
 
 export default function ReviewCard(props) {
+  function handlAction(action) {
+    axios
+      .get(
+        `http://localhost:3003/indeed/api/admin/review/action?approved=${action}&id=${props.data._id}`,
+      )
+      .then((result) => {
+        props.showConfirmationModel(
+          action == true
+            ? 'Review has been approved'
+            : 'Review has been declined',
+        );
+      });
+  }
+
+  function renderRating() {
+    const stars = [];
+    for (let i = 0; i < Math.round(props.data.rating); i++) {
+      stars.push(
+        <StarRateIcon
+          style={{
+            fontSize: '0.5rem',
+            height: '10px',
+          }}
+        />,
+      );
+    }
+
+    for (let i = 0; i < 5 - Math.round(props.data.rating); i++) {
+      stars.push(
+        <StarRateIcon
+          style={{
+            fontSize: '0.5rem',
+            height: '10px',
+            color: 'gray',
+          }}
+        />,
+      );
+    }
+
+    return stars;
+  }
   return (
-    <Card sx={{ minWidth: 275 }}>
+    <Card sx={{ minWidth: 275 }} className="my-2">
       <CardContent>
         <div className="d-md-flex">
           <div style={{ width: '50px' }}>
-            <Typography sx={{ fontSize: 24 }}>{props.data.rating}</Typography>
-            <StarRateIcon
-              style={{
-                fontSize: '0.5rem',
-                height: '10px',
-              }}
-            />
-            <StarRateIcon
-              style={{
-                fontSize: '0.5rem',
-                height: '10px',
-              }}
-            />
-            <StarRateIcon
-              style={{
-                fontSize: '0.5rem',
-                height: '10px',
-              }}
-            />
-            <StarRateIcon
-              style={{
-                fontSize: '0.5rem',
-                height: '10px',
-              }}
-            />
-            <StarRateIcon
-              style={{
-                fontSize: '0.5rem',
-                height: '10px',
-              }}
-            />
+            <Typography sx={{ fontSize: 24 }}>
+              {Math.round(props.data.rating)}
+            </Typography>
+            {renderRating()}
           </div>
           <div style={{ width: 'calc(100%-100px)' }}>
             <Typography sx={{ fontSize: 18, color: 'black' }}>
-              {props.data.title}
+              {props.data.reviewTitle}
             </Typography>
             <Typography sx={{ fontSize: 12 }}>
-              {`${props.data.writtenBy} ${props.data.country} ${props.data.date}`}
+              {`${props.data.userId} ${props.data.country} ${new Date(
+                parseInt(props.data.reviewDate),
+              )}`}
             </Typography>
           </div>
         </div>
@@ -65,7 +88,7 @@ export default function ReviewCard(props) {
           <div style={{ width: '50px' }} />
           <div style={{ padding: '0 20px' }}>
             <Typography sx={{ fontSize: 14, marginTop: 5 }}>
-              {props.data.description}
+              {props.data.reviewDescription}
             </Typography>
 
             <Typography sx={{ fontSize: 14, marginTop: 5, color: 'black' }}>
@@ -74,7 +97,11 @@ export default function ReviewCard(props) {
               Pros
             </Typography>
             <Typography sx={{ fontSize: 12, padding: 1 }}>
-              People are nice
+              {props.data.whatPeopleLiked}
+            </Typography>
+
+            <Typography sx={{ fontSize: 12, padding: 1 }}>
+              {props.data.learning}
             </Typography>
 
             <Typography sx={{ fontSize: 14, marginTop: 1, color: 'black' }}>
@@ -83,7 +110,7 @@ export default function ReviewCard(props) {
               Cons
             </Typography>
             <Typography sx={{ fontSize: 12, padding: 1 }}>
-              No work life balance. Stressful.
+              {props.data.areasOfImprovement}
             </Typography>
           </div>
         </div>
@@ -93,12 +120,17 @@ export default function ReviewCard(props) {
             variant="contained"
             color="success"
             style={{ margin: '0 10px' }}
+            onClick={() => handlAction(true)}
           >
             Approve
             {' '}
             <CheckCircleIcon style={{ height: '14px' }} />
           </Button>
-          <Button variant="contained" color="error">
+          <Button
+            variant="contained"
+            color="error"
+            onClick={() => handlAction(false)}
+          >
             Decline
             {' '}
             <CancelIcon style={{ height: '14px' }} />

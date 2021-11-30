@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 /* eslint-disable no-shadow */
 const mongoose = require('mongoose');
 const connection = require('./kafka/Connection');
@@ -23,6 +24,9 @@ const getRooms = require('./services/messaging/GetRooms');
 const postReviews = require('./services/reviews/PostReview');
 const postHelpfulReviews = require('./services/reviews/PostReviewHelpfulness');
 const { mongoDB } = require('../Config');
+const getAllReviews = require('./services/reviews/GetAllReviews');
+const AdminReviewAction = require('./services/reviews/AdminReviewAction');
+const IndeedAnalytics = require('./services/reviews/IndeedAnalytics');
 
 const options = {
   useNewUrlParser: true,
@@ -92,3 +96,6 @@ handleTopicRequest('indeed_get_rooms', getRooms);
 
 handleTopicRequest('indeed_post_reviews', postReviews);
 handleTopicRequest('indeed_post_helpful_reviews', postHelpfulReviews);
+handleTopicRequest('indeed_get_all_reviews', getAllReviews);
+handleTopicRequest('indeed_admin_review_action', AdminReviewAction);
+handleTopicRequest('indeed_analytics', IndeedAnalytics);
