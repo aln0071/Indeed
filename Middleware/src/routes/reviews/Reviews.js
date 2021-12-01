@@ -79,4 +79,47 @@ router.post('/reviews/:reviewId/helpfullness', async (req, res) => {
   );
 });
 
+router.get('/jobseeker/:companyId/users/:userId/reviews', async (req, res) => {
+  const request = {
+    query: req.query,
+    params: req.params,
+    body: req.body,
+  };
+
+  kafka.make_request(
+    'indeed_get_featured_user_reviews',
+    request,
+    (error, results) => {
+      if (error) {
+        res.status(400).send(error);
+      } else {
+        res.status(200).send(results);
+      }
+    },
+  );
+});
+
+router.post(
+  '/reviews/:reviewId/company/:companyId/feature',
+  async (req, res) => {
+    const request = {
+      query: req.query,
+      params: req.params,
+      body: req.body,
+    };
+
+    kafka.make_request(
+      'indeed_post_featured_reviews',
+      request,
+      (error, results) => {
+        if (error) {
+          res.status(400).send(error);
+        } else {
+          res.status(200).send(results);
+        }
+      },
+    );
+  },
+);
+
 module.exports = router;

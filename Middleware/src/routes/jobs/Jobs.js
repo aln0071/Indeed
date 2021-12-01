@@ -129,4 +129,34 @@ router.get('/jobseeker/getAppliedJob/:jobseekerId', async (req, res) => {
   });
 });
 
+router.post('/jobseeker/:jobseekerId/saveJob', async (req, res) => {
+  const request = {
+    params: req.params,
+    body: req.body,
+  };
+  console.log(request);
+  kafka.make_request('indeed_post_save_job', request, (error, results) => {
+    if (error) {
+      res.status(400).send(error);
+    } else {
+      res.status(200).send(results);
+    }
+  });
+});
+
+router.post('/jobseeker/:jobseekerId/undoSaveJob', async (req, res) => {
+  const request = {
+    params: req.params,
+    body: req.body,
+  };
+  console.log(request);
+  kafka.make_request('indeed_post_undosave_job', request, (error, results) => {
+    if (error) {
+      res.status(400).send(error);
+    } else {
+      res.status(200).send(results);
+    }
+  });
+});
+
 module.exports = router;
