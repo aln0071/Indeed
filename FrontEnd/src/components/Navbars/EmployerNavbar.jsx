@@ -100,6 +100,9 @@ const EmployerNavbar = () => {
     profile: () => {
       history.push('/company-profile');
     },
+    gotoJobseekers: () => {
+      history.push('/');
+    },
   };
 
   const handleMenuClose = (operation = () => {}) => {
@@ -367,6 +370,12 @@ const EmployerNavbar = () => {
           <SettingsIcon className={styles.navMenuIcon} />
           {' '}
           My Settings
+        </MenuItem>
+        <hr className={styles.navMenuDivider} />
+        <MenuItem onClick={() => handleMenuClose(operations.gotoJobseekers)}>
+          <div className={styles.navMenuSignout}>
+            Visit Indeed for job seekers
+          </div>
         </MenuItem>
         <hr className={styles.navMenuDivider} />
         <MenuItem onClick={() => handleMenuClose(operations.logout)}>
