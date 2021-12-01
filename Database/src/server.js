@@ -27,6 +27,7 @@ const postHelpfulReviews = require('./services/reviews/PostReviewHelpfulness');
 const getAppliedJob = require('./services/jobs/GetAppliedJob');
 const getCompanyDetails = require('./services/company/GetCompanyDetails');
 const getCompanyByEmployer = require('./services/company/GetCompanyByEmployer');
+const getUserProfile = require('./services/profile/GetUserProfile');
 const { mongoDB } = require('../Config');
 
 const options = {
@@ -101,6 +102,7 @@ handleTopicRequest('indeed_post_helpful_reviews', postHelpfulReviews);
 handleTopicRequest('indeed_getapplied_job', getAppliedJob);
 
 handleTopicRequest('indeed_get_companyDetails', getCompanyDetails);
+handleTopicRequest('indeed_get_user_profile', getUserProfile);
 
 handleTopicRequest(
   'indeed_get_companyDetails_by_employerId',
