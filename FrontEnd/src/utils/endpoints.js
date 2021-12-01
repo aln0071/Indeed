@@ -88,21 +88,27 @@ export const getReviews = (params) => {
   return get(url, params).then(handleResponse);
 };
 
-export const imageUpload = (images) => {
+export const imageUpload = (files, userId) => {
   const url = `${baseUrl}${urls.imageUpload}`;
   const formData = new FormData();
-  images.forEach((image) => {
-    formData.append('image', image);
+  files.forEach((file) => {
+    formData.append('image', file.file);
+    formData.append('caption', file.caption || '');
+    formData.append('location', file.location || '');
   });
+  formData.append('userId', userId);
   return fetch(url, {
     method: 'POST',
     body: formData,
   }).then(handleResponse);
 };
 
-export const uploadCompanyPhotos = (params) => {
-  const url = `${baseUrl}${urls.uploadCompanyPhotos}`;
-  return post(url, params).then(handleResponse);
+export const uploadCompanyPhotos = ({ companyId, pictures }) => {
+  const url = `${baseUrl}${urls.uploadCompanyPhotos.replace(
+    '{companyId}',
+    companyId,
+  )}`;
+  return post(url, pictures).then(handleResponse);
 };
 
 export const getCompanyDetailsByEmployerId = (employerId) => {
@@ -117,6 +123,14 @@ export const getUserDetailsWithId = (userId) => {
   const url = `${baseUrl}${urls.getUserDetailsWithId.replace(
     '{userId}',
     userId,
+  )}`;
+  return get(url).then(handleResponse);
+};
+
+export const getCompanyProfileByCompanyId = (companyId) => {
+  const url = `${baseUrl}${urls.getCompanyDetailsByCompanyId.replace(
+    '{companyId}',
+    companyId,
   )}`;
   return get(url).then(handleResponse);
 };
