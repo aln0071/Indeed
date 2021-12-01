@@ -120,3 +120,11 @@ export const getUserDetailsWithId = (userId) => {
   )}`;
   return get(url).then(handleResponse);
 };
+
+export const getCompanyProfileByCompanyId = (companyId) => {
+  const url = `${baseUrl}${urls.getCompanyDetailsByCompanyId.replace(
+    '{companyId}',
+    companyId,
+  )}`;
+  return get(url).then(handleResponse);
+};
