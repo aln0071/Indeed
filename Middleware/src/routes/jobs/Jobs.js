@@ -1,8 +1,8 @@
+/* eslint-disable consistent-return */
 /* eslint-disable linebreak-style */
 const router = require('express').Router();
 const kafka = require('../../kafka/Client');
 const redisCli = require('../../redis/Connection');
-const { checkRedis } = require('../../redis/Middleware');
 
 router.post('/company/:companyId/jobs', async (req, res) => {
   const request = {
@@ -10,32 +10,58 @@ router.post('/company/:companyId/jobs', async (req, res) => {
     params: req.params,
     body: req.body,
   };
-
+  const companyJobsRedisUrl = `/company/${req.params.companyId}/jobs`;
   kafka.make_request('indeed_post_job', request, (error, results) => {
     if (error) {
       res.status(400).send(error);
     } else {
-      res.status(200).send(results);
+      if (results) {
+        redisCli.setex(
+          companyJobsRedisUrl,
+          3600,
+          JSON.stringify({ jobs: results.allCompanyJobs }),
+        );
+      }
+      res.status(200).send(results.data);
     }
   });
 });
 
-router.get('/company/:companyId/jobs', checkRedis, async (req, res) => {
+router.get('/company/:companyId/jobs', async (req, res) => {
   const request = {
     query: req.query,
     params: req.params,
     body: req.body,
   };
-
-  kafka.make_request('indeed_get_jobs', request, (error, results) => {
-    if (error) {
-      res.status(400).send(error);
-    } else {
-      if (results) {
-        const { url } = req;
-        redisCli.setex(url, 3600, JSON.stringify(results));
+  const redisUrl = `/company/${req.params.companyId}/jobs`;
+  redisCli.get(redisUrl, (err, data) => {
+    if (err) throw err;
+    if (data !== null) {
+      const allJobs = JSON.parse(data).jobs;
+      if (req.query.page && req.query.limit) {
+        const page = parseInt(req.query.page, 10) || 1;
+        const limit = parseInt(req.query.limit, 10) || 5;
+        const slicedData = allJobs.slice((page - 1) * limit, page * limit);
+        return res.status(200).send(slicedData);
       }
-      res.status(200).send(results);
+      if (req.query.page || req.query.limit) {
+        const error = { message: 'Pass both page and limit and not just one' };
+        return res.status(400).send(error);
+      }
+    } else {
+      kafka.make_request('indeed_get_jobs', request, (error, results) => {
+        if (error) {
+          return res.status(400).send(error);
+        }
+        if (results) {
+          redisCli.setex(
+            redisUrl,
+            3600,
+            JSON.stringify({ jobs: results.allJobs }),
+          );
+        }
+        return res.status(200).send(results.data);
+      });
     }
   });
 });
@@ -103,7 +129,6 @@ router.post(
       params: req.params,
       body: req.body,
     };
-    console.log(request);
     kafka.make_request('indeed_apply_job', request, (error, results) => {
       if (error) {
         res.status(400).send(error);
@@ -119,7 +144,6 @@ router.get('/jobseeker/getAppliedJob/:jobseekerId', async (req, res) => {
     params: req.params,
     body: req.body,
   };
-  console.log(request);
   kafka.make_request('indeed_getapplied_job', request, (error, results) => {
     if (error) {
       res.status(400).send(error);

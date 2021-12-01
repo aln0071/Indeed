@@ -9,7 +9,7 @@ import axios from 'axios';
 import Box from '@mui/material/Box';
 // import { styled } from '@mui/material/styles';
 
-// import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 // import axios from 'axios';
 // import StarIcon from '@material-ui/icons/Star';
 import {
@@ -66,6 +66,7 @@ export function SavedJobs() {
   //   const classes = useStyle();
   //   const companyDetails = useSelector((state) => state.companies.currentCompany);
   //   const [reviews, setReviews] = useState([]);
+  const userId = useSelector((state) => state.user.userId);
   const [myJobsResult, setMyJobsResult] = useState([]);
   //   const query = new URLSearchParams(props.location.search);
   //   const id = query.get('id');
@@ -74,7 +75,8 @@ export function SavedJobs() {
 
   const getMyJobs = async () => {
     // const url = `/customers/${customerProfile?._id}/profile`;
-    const url = `${baseUrl}${urls.getMyJobs}/1254`;
+    const url = `${baseUrl}${urls.getMyJobs}/${userId}`;
+    // const url = `${baseUrl}${urls.getMyJobs}/1254`;
     const headers = {
       // Authorization: token,
     };
