@@ -5,12 +5,22 @@ async function handleRequest(req, callback) {
   try {
     const payload = req.body;
     const { companyId } = payload;
-    const company = await Company.findOneAndUpdate({ companyId }, payload, {
-      new: true,
-      upsert: true,
-    });
+    const pictures = payload.pictures || [];
+    delete payload.pictures;
+    const company = await Company.findOneAndUpdate(
+      { companyId },
+      {
+        $set: { ...payload },
+        $push: { pictures },
+      },
+      {
+        new: true,
+        upsert: true,
+      },
+    ).populate('pictures');
     callback(null, company);
   } catch (error) {
+    console.log(error);
     callback(error, null);
   }
 }

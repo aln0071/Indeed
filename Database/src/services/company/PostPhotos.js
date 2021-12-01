@@ -1,16 +1,17 @@
-/* eslint-disable linebreak-style */
+/* eslint-disable new-cap */
 const Company = require('../../model/Company');
 
-// To get company details
 async function handleRequest(req, callback) {
   try {
-    const company = await Company.findOne({
-      companyId: req.params.companyId,
+    const payload = req.body;
+    const { companyId } = payload;
+    const company = await Company.findOneAndUpdate({ companyId }, payload, {
+      new: true,
+      upsert: true,
     }).populate('pictures');
-
-    // const savedCompany = await company.save();
     callback(null, company);
   } catch (error) {
+    console.log(error);
     callback(error, null);
   }
 }

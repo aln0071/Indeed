@@ -28,6 +28,7 @@ const getAppliedJob = require('./services/jobs/GetAppliedJob');
 const getCompanyDetails = require('./services/company/GetCompanyDetails');
 const getCompanyByEmployer = require('./services/company/GetCompanyByEmployer');
 const getUserProfile = require('./services/profile/GetUserProfile');
+const addPictures = require('./services/pictures/AddPictures');
 const { mongoDB } = require('../Config');
 
 const options = {
@@ -103,6 +104,7 @@ handleTopicRequest('indeed_getapplied_job', getAppliedJob);
 
 handleTopicRequest('indeed_get_companyDetails', getCompanyDetails);
 handleTopicRequest('indeed_get_user_profile', getUserProfile);
+handleTopicRequest('indeed_add_pictures', addPictures);
 
 handleTopicRequest(
   'indeed_get_companyDetails_by_employerId',
