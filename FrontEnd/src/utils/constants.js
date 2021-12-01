@@ -22,4 +22,5 @@ export const urls = {
     'indeed/api/companyDetails/forEmployer/{employerid}',
   getUserDetailsWithId: 'indeed/user/UserDetailsForId/{userId}',
   getCompanyDetailsByCompanyId: 'indeed/api/companyDetails/{companyId}',
+  getImageFromS3: 'indeed/files/images/{key}',
 };
