@@ -16,7 +16,7 @@ export const urls = {
   getMyJobs: 'indeed/api/jobseeker/getAppliedJob',
   getMyReviews: 'indeed/api/jobseeker/reviews',
   postReview: 'indeed/api/jobseeker',
-  uploadCompanyPhotos: 'indeed/api/uploadCompanyPhotos',
+  uploadCompanyPhotos: 'indeed/api/uploadCompanyPhotos/{companyId}',
   imageUpload: 'indeed/files/upload/images',
   getCompanyDetailsByEmployerId:
     'indeed/api/companyDetails/forEmployer/{employerid}',

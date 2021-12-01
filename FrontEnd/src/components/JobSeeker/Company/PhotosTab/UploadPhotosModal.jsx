@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { PropTypes } from 'prop-types';
 import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
 import styles from '../../../../styles.scss';
 import ImageCard from './ImageCard';
 import { imageUpload, uploadCompanyPhotos } from '../../../../utils/endpoints';
@@ -29,6 +30,10 @@ export default function UploadPhotosModal({ open, setOpen }) {
   const handleClose = () => setOpen(false);
   const fileUpload = React.useRef(null);
   const [files, setFiles] = React.useState([]);
+  const companyId = useSelector(
+    (state) => state.externalCompanyProfile.companyId,
+  );
+  const userId = useSelector((state) => state.user.userId);
 
   const handleSubmit = async () => {
     try {
@@ -37,15 +42,13 @@ export default function UploadPhotosModal({ open, setOpen }) {
           throw new Error('Captions required');
         }
       });
-      const response = await imageUpload(files.map((file) => file.file));
-      // need to add company id in this request
-      await uploadCompanyPhotos(
-        response.map((key, index) => ({
-          key,
-          caption: files[index].caption,
-          location: files[index].location,
-        })),
-      );
+      // upload photos to aws, save the photo data in mongo
+      const photos = await imageUpload(files, userId);
+      // save photo data to company schema
+      await uploadCompanyPhotos({
+        pictures: photos.map((photo) => photo._id),
+        companyId,
+      });
       toast.success('Success! Images uploaded', toastOptions);
       setOpen(false);
       setFiles([]);

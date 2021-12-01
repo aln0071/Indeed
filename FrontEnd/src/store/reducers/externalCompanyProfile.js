@@ -3,7 +3,10 @@ import {
   CLEAR_EXTERNAL_COMPANY_PROFILE,
 } from '../actions/types';
 
-const initialState = {};
+const initialState = {
+  companyId: '',
+  companyName: 'Amazon.com',
+};
 
 const externalCompanyProfile = (state = { ...initialState }, action) => {
   switch (action.type) {
@@ -13,7 +16,7 @@ const externalCompanyProfile = (state = { ...initialState }, action) => {
         ...action.payload,
       };
     case CLEAR_EXTERNAL_COMPANY_PROFILE:
-      return {};
+      return { ...initialState };
     default:
       return state;
   }
