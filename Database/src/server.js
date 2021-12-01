@@ -29,6 +29,7 @@ const getCompanyDetails = require('./services/company/GetCompanyDetails');
 const getCompanyByEmployer = require('./services/company/GetCompanyByEmployer');
 const getUserProfile = require('./services/profile/GetUserProfile');
 const addPictures = require('./services/pictures/AddPictures');
+const userProfileUpdate = require('./services/profile/UserProfileUpdate');
 const { mongoDB } = require('../Config');
 
 const options = {
@@ -110,3 +111,5 @@ handleTopicRequest(
   'indeed_get_companyDetails_by_employerId',
   getCompanyByEmployer,
 );
+
+handleTopicRequest('indeed_userprofile_update', userProfileUpdate);
