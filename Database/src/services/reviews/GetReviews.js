@@ -20,6 +20,7 @@ async function handleRequest(req, callback) {
   } else if (sort === 'helpful') {
     sortCriteria = { helpfulnessPositive: parseInt(sortOrder, 10) };
   }
+
   try {
     const allCompanyReviews = await Reviews.find({ companyId });
     if (

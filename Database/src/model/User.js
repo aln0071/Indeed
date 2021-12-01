@@ -44,6 +44,7 @@ const userDetailsSchema = new Schema({
     otherBenefits: { type: Boolean },
     otherBenefitsDesc: { type: String },
   },
+  savedJobs: [mongoose.Types.ObjectId],
   readyToWork: { type: Boolean },
 });
 

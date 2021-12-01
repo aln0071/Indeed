@@ -28,6 +28,10 @@ const getAppliedJob = require('./services/jobs/GetAppliedJob');
 const getCompanyDetails = require('./services/company/GetCompanyDetails');
 const getCompanyByEmployer = require('./services/company/GetCompanyByEmployer');
 const getUserProfile = require('./services/profile/GetUserProfile');
+const getFeaturedAndUserReviews = require('./services/reviews/GetFeaturedAndUserReviews');
+const postFeaturedReviews = require('./services/reviews/PostFeaturedReviews');
+const postSaveJob = require('./services/jobs/PostSaveJob');
+const postUndoSaveJob = require('./services/jobs/PostUndoSaveJob');
 const addPictures = require('./services/pictures/AddPictures');
 const userProfileUpdate = require('./services/profile/UserProfileUpdate');
 const { mongoDB } = require('../Config');
@@ -112,4 +116,11 @@ handleTopicRequest(
   getCompanyByEmployer,
 );
 
+handleTopicRequest(
+  'indeed_get_featured_user_reviews',
+  getFeaturedAndUserReviews,
+);
+handleTopicRequest('indeed_post_featured_reviews', postFeaturedReviews);
+handleTopicRequest('indeed_post_save_job', postSaveJob);
+handleTopicRequest('indeed_post_undosave_job', postUndoSaveJob);
 handleTopicRequest('indeed_userprofile_update', userProfileUpdate);
