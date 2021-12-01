@@ -30,8 +30,6 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import CompanyProfileJobSeeker from './Pages/CompanyProfileJobSeeker';
 import AddSalary from './components/JobSeeker/AddSalary/AddSalary';
-import AddSalary1 from './components/JobSeeker/AddSalary/AddSalary1';
-import AddSalaryParent from './components/JobSeeker/AddSalary/AddSalaryParent';
 import ProtectedRoute from './components/ProtectedRoutes';
 import ConfirmEmployerLogin from './Pages/ConfirmEmployerLogin';
 import CompanyProfileEmployerLandingPage from './Pages/CompanyProfileLandingPage';
@@ -82,8 +80,7 @@ function App() {
         <Route exact path="/CompanySalaryTab" component={CompanySalaryTab} />
         <Route exact path="/WhyJoinUs" component={WhyJoinUs} />
         <Route exact path="/AddSalary" component={AddSalary} />
-        <Route exact path="/AddSalary1" component={AddSalary1} />
-        <Route exact path="/AddSalaryParent" component={AddSalaryParent} />
+
         <Route
           exact
           path="/CompanyProfileEmployerLandingPage"

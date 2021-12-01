@@ -13,34 +13,110 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Helmet } from 'react-helmet';
-
+import FormControl from '@mui/material/FormControl';
 import Divider from '@mui/material/Divider';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import styles from '../../../styles.scss';
-
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import axios from 'axios';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import { useHistory } from 'react-router-dom';
+import DatePicker from '@mui/lab/DatePicker';
 import JobSeekerNavbar from '../../Navbars/JobSeekerNavbar';
+import { baseUrl } from '../../../utils/constants';
+import styles from '../../../styles.scss';
 
 const theme = createTheme();
 
 function AddSalary() {
-  const [CompanyName, setCompanyName] = useState('');
-  const [JobTitle, setJobTitle] = useState('');
-  const [JobLocation, setJobLocation] = useState('');
-  const [CurrentlyWorking, setCurrentlyWorking] = useState(false);
+  const history = useHistory();
 
-  const handleSubmit = () => {
+  const [companyName, setCompanyName] = useState('');
+  const [jobTitle, setJobTitle] = useState('');
+  const [jobLocation, setJobLocation] = useState('');
+  const [currentlyWorking, setCurrentlyWorking] = useState(false);
+  const [currentPay, setCurrentPay] = useState('');
+  const [relevantExp, setRelevantExp] = useState('');
+  const [otherBenefitsDesc, setOtherBenefitsDesc] = useState('');
+  const [endDate, setendDate] = React.useState(null);
+  const userId = '123';
+
+  console.log(endDate);
+
+  const handleSubmit = async () => {
     console.log('helo');
     const payload = {
-      //   userId,
-      CompanyName,
-      JobTitle,
-      JobLocation,
-      CurrentlyWorking,
+      userId,
+      companyName,
+      jobTitle,
+      jobLocation,
+      currentlyWorking,
+      endDate,
+      currentPay,
+      relevantExp,
+      paidTimeOff,
+      healthInsurance,
+      lifeInsurance,
+      dentalVisionInsurance,
+      retirement,
+      otherBenefits,
+      otherBenefitsDesc,
     };
-    console.log(payload);
+
+    axios
+      .post(`${baseUrl}indeed/api/jobseeker/add/salary/${userId}`, payload)
+      .then((response) => {
+        console.log(response);
+        // setFile("");
+        // //window.location.reload(false);
+        history.push('/cmp/companyid');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
-  console.log('BoolValue', CurrentlyWorking);
+  // console.log('BoolValue', currentlyWorking);
+
+  console.log('hello', companyName);
+
+  const [cancel, setCancel] = useState(false);
+
+  const [state, setState] = React.useState({
+    paidTimeOff: false,
+    healthInsurance: false,
+    lifeInsurance: false,
+    dentalVisionInsurance: false,
+    retirement: false,
+    otherBenefits: false,
+  });
+
+  const handleChange = (event) => {
+    console.log(state);
+
+    setState({
+      ...state,
+      [event.target.name]: event.target.checked,
+    });
+
+    console.log('.....', event.target.value);
+    if (event.target.name === 'otherBenefits') {
+      console.log(event.target.name);
+      setCancel(true);
+      console.log(cancel);
+    }
+  };
+
+  const {
+    paidTimeOff,
+    healthInsurance,
+    lifeInsurance,
+    dentalVisionInsurance,
+    retirement,
+    otherBenefits,
+  } = state;
 
   return (
     <>
@@ -125,6 +201,22 @@ function AddSalary() {
                   <br />
                 </div>
                 <br />
+                {currentlyWorking ? (
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DatePicker
+                      label="End Date"
+                      value={endDate}
+                      onChange={(newValue) => {
+                        setendDate(newValue);
+                      }}
+                      // eslint-disable-next-line react/jsx-props-no-spreading
+                      renderInput={(params) => <TextField {...params} />}
+                    />
+                  </LocalizationProvider>
+                ) : (
+                  <div />
+                )}
+
                 <div className={styles.loginHeader}>
                   <label>What’s your Job Title?</label>
                   <TextField
@@ -158,6 +250,159 @@ function AddSalary() {
                 <br />
                 <Divider />
                 <br />
+                <Typography
+                  component="h1"
+                  variant="h5"
+                  className={styles.loginHeader}
+                >
+                  Pay and benefits
+                </Typography>
+                <div className={styles.loginHeader}>
+                  <label>Your anonymous pay will help other job seekers.</label>
+                </div>
+
+                <div className={styles.loginHeader}>
+                  <label>What’s your pay at Your Current Company?</label>
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="number"
+                    name="number"
+                    autoComplete="number"
+                    autoFocus
+                    onChange={(event) => {
+                      setCurrentPay(event.target.value);
+                    }}
+                  />
+                </div>
+
+                <br />
+                <div className={styles.loginHeader}>
+                  <label>
+                    How many years of relevant experience do you have?
+                  </label>
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="number"
+                    name="number"
+                    autoComplete="email"
+                    autoFocus
+                    onChange={(event) => {
+                      setRelevantExp(event.target.value);
+                    }}
+                  />
+                </div>
+                <br />
+                <div className={styles.loginHeader}>
+                  <label>Which benefits did you receive at Your Company?</label>
+                  <Box sx={{ display: 'flex' }}>
+                    <FormControl
+                      sx={{ m: 3 }}
+                      component="fieldset"
+                      variant="standard"
+                    >
+                      <FormGroup>
+                        <FormControlLabel
+                          control={(
+                            <Checkbox
+                              checked={paidTimeOff}
+                              onChange={handleChange}
+                              name="paidTimeOff"
+                              defaultChecked
+                            />
+                          )}
+                          label="Paid Time Off"
+                        />
+                        <FormControlLabel
+                          control={(
+                            <Checkbox
+                              checked={healthInsurance}
+                              onChange={handleChange}
+                              name="healthInsurance"
+                              defaultChecked
+                            />
+                          )}
+                          label="Health Insurance"
+                        />
+                        <FormControlLabel
+                          control={(
+                            <Checkbox
+                              checked={lifeInsurance}
+                              onChange={handleChange}
+                              name="lifeInsurance"
+                              defaultChecked
+                            />
+                          )}
+                          label="Life Insurance"
+                        />
+                        <FormControlLabel
+                          control={(
+                            <Checkbox
+                              checked={dentalVisionInsurance}
+                              onChange={handleChange}
+                              name="dentalVisionInsurance"
+                              defaultChecked
+                            />
+                          )}
+                          label="Dental / Vision insurance"
+                        />
+                        <FormControlLabel
+                          control={(
+                            <Checkbox
+                              checked={retirement}
+                              onChange={handleChange}
+                              name="retirement"
+                              defaultChecked
+                            />
+                          )}
+                          label="Retirement / 401(k)"
+                        />
+                        <FormControlLabel
+                          control={(
+                            <Checkbox
+                              checked={otherBenefits}
+                              onChange={handleChange}
+                              name="otherBenefits"
+                            />
+                          )}
+                          label="Other Benefits"
+                        />
+                      </FormGroup>
+                      {cancel ? (
+                        <TextField
+                          margin="normal"
+                          required
+                          fullWidth
+                          id="number"
+                          name="number"
+                          autoComplete="email"
+                          autoFocus
+                          onChange={(event) => {
+                            setOtherBenefitsDesc(event.target.value);
+                          }}
+                        />
+                      ) : (
+                        <p />
+                      )}
+                    </FormControl>
+                  </Box>
+                </div>
+
+                <br />
+                <Divider />
+                <br />
+                <ButtonGroup
+                  variant="contained"
+                  aria-label="outlined primary button group"
+                  paddingTop="60px"
+                >
+                  <Button size="large" onClick={handleSubmit}>
+                    Submit
+                  </Button>
+                </ButtonGroup>
                 {/* <ButtonGroup
                   variant="contained"
                   aria-label="outlined primary button group"
