@@ -5,6 +5,7 @@ const connection = require('./kafka/Connection');
 
 require('dotenv').config();
 const getReviews = require('./services/reviews/GetReviews');
+const getUserReviews = require('./services/reviews/GetUserReviews');
 const postJob = require('./services/jobs/PostJob');
 const getJobsForCompany = require('./services/jobs/GetJobsForCompany');
 const getAllJobs = require('./services/jobs/GetAllJobs');
@@ -25,6 +26,8 @@ const postReviews = require('./services/reviews/PostReview');
 const postHelpfulReviews = require('./services/reviews/PostReviewHelpfulness');
 const getAppliedJob = require('./services/jobs/GetAppliedJob');
 const getCompanyDetails = require('./services/company/GetCompanyDetails');
+const getCompanyByEmployer = require('./services/company/GetCompanyByEmployer');
+const getUserProfile = require('./services/profile/GetUserProfile');
 const { mongoDB } = require('../Config');
 
 const options = {
@@ -71,6 +74,7 @@ function handleTopicRequest(topicName, fname) {
 }
 
 handleTopicRequest('indeed_get_reviews', getReviews);
+handleTopicRequest('indeed_get_user_reviews', getUserReviews);
 handleTopicRequest('indeed_get_all_company', getAllCompany);
 handleTopicRequest('indeed_get_company', getCompany);
 
@@ -98,3 +102,9 @@ handleTopicRequest('indeed_post_helpful_reviews', postHelpfulReviews);
 handleTopicRequest('indeed_getapplied_job', getAppliedJob);
 
 handleTopicRequest('indeed_get_companyDetails', getCompanyDetails);
+handleTopicRequest('indeed_get_user_profile', getUserProfile);
+
+handleTopicRequest(
+  'indeed_get_companyDetails_by_employerId',
+  getCompanyByEmployer,
+);

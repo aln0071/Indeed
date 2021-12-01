@@ -147,18 +147,24 @@ function CompanyReviews() {
   };
 
   const handleCompanyClick = (company) => {
-    history.push('/cmp/companyId');
+    history.push(`/cmp/companyId?companyId=${company.companyId}`);
   };
 
   const handleReviewsClick = (company) => {
-    history.push(`/cmp/companyId/?tab=${'reviews'}`);
+    history.push(
+      `/cmp/companyId/?companyId=${company.companyId}&tab=${'reviews'}`,
+    );
   };
 
   const handleSalariesClick = (company) => {
-    history.push(`/cmp/companyId/?tab=${'salaries'}`);
+    history.push(
+      `/cmp/companyId/?companyId=${company.companyId}&tab=${'salaries'}`,
+    );
   };
   const handleJobsClick = (company) => {
-    history.push(`/cmp/companyId/?tab=${'jobs'}`);
+    history.push(
+      `/cmp/companyId/?companyId=${company.companyId}&tab=${'jobs'}`,
+    );
   };
 
   const SearchButton = withStyles((theme) => ({

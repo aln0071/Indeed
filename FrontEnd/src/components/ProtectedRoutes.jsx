@@ -17,5 +17,5 @@ ProtectedRoute.defaultProps = {
 
 ProtectedRoute.propTypes = {
   path: PropTypes.string,
-  component: PropTypes.node,
+  component: PropTypes.func,
 };

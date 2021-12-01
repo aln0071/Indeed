@@ -222,7 +222,7 @@ function Reviews() {
       </div>
       {allCompanyReviews.map((item, index) => (
         // eslint-disable-next-line react/no-array-index-key
-        <ReviewCard review={item} key={`review-${index}`} />
+        <ReviewCard review={item} key={`review-${item.reviewId}`} />
       ))}
       <ReviewModal open={open} handleClose={handleClose} />
       <CustomPagination

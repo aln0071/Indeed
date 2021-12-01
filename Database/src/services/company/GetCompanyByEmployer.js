@@ -1,14 +1,13 @@
-/* eslint-disable new-cap */
+/* eslint-disable linebreak-style */
 const Company = require('../../model/Company');
 
+// To get ALl companies for Admin
 async function handleRequest(req, callback) {
   try {
-    const payload = req.body;
-    const { companyId } = payload;
-    const company = await Company.findOneAndUpdate({ companyId }, payload, {
-      new: true,
-      upsert: true,
-    });
+    const payload = req.params;
+    const company = await Company.findOne({ ...payload });
+
+    // const savedCompany = await company.save();
     callback(null, company);
   } catch (error) {
     callback(error, null);
