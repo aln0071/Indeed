@@ -1,4 +1,5 @@
 /* eslint-disable new-cap */
+const mongoose = require('mongoose');
 const Company = require('../../model/Company');
 
 async function handleRequest(req, callback) {
@@ -7,6 +8,9 @@ async function handleRequest(req, callback) {
     const { companyId } = payload;
     const pictures = payload.pictures || [];
     delete payload.pictures;
+    if (companyId === undefined) {
+      payload.companyId = new mongoose.mongo.ObjectId();
+    }
     const company = await Company.findOneAndUpdate(
       { companyId },
       {
@@ -17,7 +21,9 @@ async function handleRequest(req, callback) {
         new: true,
         upsert: true,
       },
-    ).populate('pictures');
+    )
+      .populate('pictures')
+      .populate('logo');
     callback(null, company);
   } catch (error) {
     console.log(error);
