@@ -28,6 +28,9 @@ async function handleRequest(req, callback) {
           count: response.length,
         };
       }
+      case 'top5CEOBasedOnRating': {
+        response = await top5CEOBasedOnRating();
+      }
       default:
         '';
     }
@@ -41,7 +44,7 @@ async function top5ComapniesBasedOnReview() {
   const finalObj = [];
   const data = await Reviews.aggregate([
     { $group: { _id: '$companyId', value: { $sum: 1 } } },
-    { $sort: { count: -1 } },
+    { $sort: { value: -1 } },
   ]).limit(5);
   const companyIds = data.map((review) => review._id);
   const companies = await Company.find({ companyId: { $in: companyIds } });
@@ -52,7 +55,7 @@ async function top5ComapniesBasedOnRating() {
   const finalObj = [];
   const data = await Reviews.aggregate([
     { $group: { _id: '$companyId', value: { $avg: '$rating' } } },
-    { $sort: { count: -1 } },
+    { $sort: { value: -1 } },
   ]).limit(5);
   const companyIds = data.map((review) => review._id);
   const companies = await Company.find({ companyId: { $in: companyIds } });
@@ -62,8 +65,8 @@ async function top5ComapniesBasedOnRating() {
 async function top5CEOBasedOnRating() {
   const finalObj = [];
   const data = await Reviews.aggregate([
-    { $group: { _id: '$companyId', value: { $avg: '$rating' } } },
-    { $sort: { count: -1 } },
+    { $group: { _id: '$companyId', value: { $avg: '$ceoApproval' } } },
+    { $sort: { value: -1 } },
   ]).limit(5);
   const companyIds = data.map((review) => review._id);
   const companies = await Company.find({ companyId: { $in: companyIds } });
@@ -78,7 +81,7 @@ function generateFinalObj(data, companies) {
         const obj = {
           companyId: companies[j].companyId,
           companyName: companies[j].companyName,
-          value: data[i].value,
+          value: Math.round(data[i].value),
         };
         finalObj.push(obj);
       }

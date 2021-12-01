@@ -77,9 +77,8 @@ export default function ReviewCard(props) {
               {props.data.reviewTitle}
             </Typography>
             <Typography sx={{ fontSize: 12 }}>
-              {`${props.data.userId} ${props.data.country} ${new Date(
-                parseInt(props.data.reviewDate),
-              )}`}
+              {/* ${props.data.userId} ${props.data.country} */}
+              {` ${new Date(parseInt(props.data.reviewDate))}`}
             </Typography>
           </div>
         </div>

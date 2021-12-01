@@ -1,25 +1,37 @@
 /* eslint-disable linebreak-style */
+// eslint-disable-next-line linebreak-style
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/prop-types */
+/* eslint-disable linebreak-style */
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable object-curly-spacing */
 /* eslint-disable react/jsx-indent */
 /* eslint-disable linebreak-style */
 import React from 'react';
 
-const data = [
-  { text: 'Man', value: 200 },
-  { text: 'Woman', value: 150 },
-  { text: 'Other', value: 100 },
-];
-
-export default function CustomBarChart() {
+const color = ['#FFAF00', '#1BAA2F', '#007ED6', '#26D7AE', '#9C46D0'];
+export default function CustomBarChart(props) {
   return (
-    <div className="m-3">
+    <div
+      className="m-3 border"
+      style={{
+        height: '350px',
+        width: '350px',
+        background: '#fff',
+        boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
+        padding: '50px',
+      }}
+    >
       <div className="d-flex justify-content-between align-items-baseline">
-        {data.map((d) => (
+        {props.data.map((d, index) => (
           <div>
             <div
-              style={{ height: d.value, width: '50px', background: 'green' }}
-              title={d.text}
+              style={{
+                height: d.value * 50,
+                width: '50px',
+                background: color[index],
+              }}
+              title={d.value}
               className="m-1"
             >
             </div>
@@ -30,7 +42,7 @@ export default function CustomBarChart() {
       <div>
         <hr />
       </div>
-      <span>Top 5 companies CEO</span>
+      <span>{props.title}</span>
     </div>
   );
 }

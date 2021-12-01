@@ -20,6 +20,7 @@ import PhotosCard from '../PhotoCard';
 import CustomPieChart from '../CustomPieChart';
 import CustomBarChart from '../CustomBarChart';
 import Popup from '../Popup/Popup';
+import { baseUrl } from '../../utils/constants';
 
 const useStyles = makeStyles((theme) => ({
   fields: {
@@ -38,11 +39,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 const color = ['#FFAF00', '#1BAA2F', '#007ED6', '#26D7AE', '#9C46D0'];
 const AdminHome = () => {
-  const [currentTab, setCurrentTab] = React.useState(loadReviewPage());
+  const [currentTab, setCurrentTab] = React.useState();
   const [reviews, setReviews] = React.useState([]);
   const [showModel, setShowModel] = React.useState(false);
   const [modelMessage, setModelMessage] = React.useState('');
   const [reviewPerDay, setreviewPerDay] = React.useState(0);
+  const [top5CompaniesCEO, setTop5CompaniesCEO] = React.useState([]);
 
   const [photos, setPhotos] = React.useState([]);
 
@@ -57,12 +59,11 @@ const AdminHome = () => {
   };
 
   const [top5ReviewedCompanies, setTop5ReviewedCompanies] = React.useState([]);
-
   const [top5CompaniesBasedOnAvgRating, setTop5CompaniesBasedOnAvgRating] = React.useState([]);
 
   function loadReviewPage() {
     return (
-      <div className="cardWrapper">
+      <div className="cardWrapper" style={{ minWidth: '80%' }}>
         {reviews?.map((review) => (
           <ReviewCard
             data={review}
@@ -79,8 +80,22 @@ const AdminHome = () => {
     loadTop5CompaniesBasedOnReview();
     loadTop5CompaniesBasedOnRatings();
     loadReviewPerDay();
+    loadTop5CompaniesCEO();
   }, []);
 
+  function loadTop5CompaniesCEO() {
+    axios
+      .get(
+        `${baseUrl}indeed/api/admin/review/analytics?analytics=top5CEOBasedOnRating`,
+      )
+      .then((res) => {
+        const response = res.data.map((d) => ({
+          text: d.companyName,
+          value: d.value,
+        }));
+        setTop5CompaniesCEO(response);
+      });
+  }
   function loadReviewPerDay() {
     axios
       .get(
@@ -151,15 +166,16 @@ const AdminHome = () => {
       <div className="cardWrapper">
         <div className="d-md-flex justify-content-between">
           <div
+            className="m-3 border"
             style={{
-              border: '5px solid #1BAA2F',
-              width: '200px',
-              height: '200px',
-              size: '32px',
-              margin: 'auto',
+              height: '350px',
+              width: '350px',
+              background: '#fff',
+              boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
+              padding: '80px',
             }}
           >
-            <p style={{ padding: '30px' }}>Reviews Per day</p>
+            <p style={{ padding: '30px' }}>Total Reviews Today</p>
             <h3
               style={{
                 fontSize: '32px',
@@ -175,15 +191,15 @@ const AdminHome = () => {
             data={top5ReviewedCompanies}
             label="Top 5 most reviewed companies"
           />
+        </div>
+        <div className="d-md-flex justify-content-between">
+          <CustomBarChart data={top5CompaniesCEO} title="Top 5 CEO" />
           <CustomPieChart
             data={top5CompaniesBasedOnAvgRating}
             label="Top 5 companies based on average rating"
           />
-        </div>
-        <div className="d-md-flex justify-content-between">
-          <CustomBarChart />
-          <CustomBarChart />
-          <CustomBarChart />
+          {/* <CustomBarChart />
+          <CustomBarChart /> */}
         </div>
       </div>
     );
