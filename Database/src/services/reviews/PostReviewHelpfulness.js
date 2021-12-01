@@ -12,8 +12,11 @@ async function handleRequest(req, callback) {
       review.helpfulnessNegative = parseInt(review.helpfulnessNegative, 10)
         || 0 + parseInt(helpfulnessNegative, 10);
     }
-    const savedReview = review.save();
-    callback(null, savedReview);
+    const savedReview = await review.save();
+    const allCompanyReviews = await Reviews.find({
+      companyId: savedReview.companyId,
+    });
+    callback(null, { data: savedReview, allCompanyReviews });
   } catch (err) {
     callback(err, null);
   }

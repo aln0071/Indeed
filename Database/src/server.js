@@ -32,6 +32,7 @@ const getFeaturedAndUserReviews = require('./services/reviews/GetFeaturedAndUser
 const postFeaturedReviews = require('./services/reviews/PostFeaturedReviews');
 const postSaveJob = require('./services/jobs/PostSaveJob');
 const postUndoSaveJob = require('./services/jobs/PostUndoSaveJob');
+const addPictures = require('./services/pictures/AddPictures');
 const { mongoDB } = require('../Config');
 
 const options = {
@@ -107,6 +108,7 @@ handleTopicRequest('indeed_getapplied_job', getAppliedJob);
 
 handleTopicRequest('indeed_get_companyDetails', getCompanyDetails);
 handleTopicRequest('indeed_get_user_profile', getUserProfile);
+handleTopicRequest('indeed_add_pictures', addPictures);
 
 handleTopicRequest(
   'indeed_get_companyDetails_by_employerId',

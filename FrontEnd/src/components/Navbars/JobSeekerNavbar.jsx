@@ -290,7 +290,12 @@ const JobSeekerNavbar = () => {
             >
               {/* <div className={styles.navNotch} ></div> */}
               <div className={styles.navMenuUsername}>{user.email}</div>
-              <MenuItem onClick={handleMenuClose}>
+              <MenuItem
+                onClick={() => {
+                  history.push('/jobSeeker/Profile');
+                  handleMenuClose();
+                }}
+              >
                 <PersonIcon className={styles.navMenuIcon} />
                 {' '}
                 Profile

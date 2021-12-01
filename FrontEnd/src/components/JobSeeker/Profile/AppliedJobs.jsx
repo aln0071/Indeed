@@ -9,7 +9,7 @@ import axios from 'axios';
 import Box from '@mui/material/Box';
 // import { styled } from '@mui/material/styles';
 
-// import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 // import axios from 'axios';
 // import StarIcon from '@material-ui/icons/Star';
 import {
@@ -27,33 +27,15 @@ import {
 import { baseUrl, urls } from '../../../utils/constants';
 import MyJobCard from './MyJobCard';
 
-const companyDetails = {
-  id: 2,
-  company: 'Amazon.com',
-  logo: 'https://d2q79iu7y748jz.cloudfront.net/s/_squarelogo/62c36898c1fccfb889efeb7ccefb50b7',
-  description:
-    'Amazon is guided by four principles: customer obsession rather than competitor focus, passion for invention, commitment to operational excellence, and long-term thinking. We are driven by the excitement of building technologies, inventing products, and providing services that change lives. We embrace new ways of doing things, make decisions quickly, and are not afraid to fail. We have the scope and capabilities of a large company, and the spirit and heart of a small one.',
-  ceo_name: 'Jeff Bezos',
-  ceo_image:
-    'https://thumbor.forbes.com/thumbor/fit-in/416x416/filters%3Aformat%28jpg%29/https%3A%2F%2Fspecials-images.forbesimg.com%2Fimageserve%2F5bb22ae84bbe6f67d2e82e05%2F0x0.jpg%3Fbackground%3D000000%26cropX1%3D560%26cropX2%3D1783%26cropY1%3D231%26cropY2%3D1455',
-  founded_year: '1994',
-  revenue: '$10B (USD)',
-  company_size: '10,000',
-  salaries: '10,580',
-  photos: 174,
-  jobs: 2005,
-  questions: 19,
-  ratings: 5,
-};
-
 export function AppliedJobs() {
   //   const classes = useStyle();
-  //   const companyDetails = useSelector((state) => state.companies.currentCompany);
+  const userId = useSelector((state) => state.user.userId);
   //   const [reviews, setReviews] = useState([]);
   const [myJobsResult, setMyJobsResult] = useState([]);
 
   const getMyJobs = async () => {
-    const url = `${baseUrl}${urls.getMyJobs}/1254`;
+    // const url = `${baseUrl}${urls.getMyJobs}/1254`;
+    const url = `${baseUrl}${urls.getMyJobs}/${userId}`;
     const headers = {
       // Authorization: token,
     };
