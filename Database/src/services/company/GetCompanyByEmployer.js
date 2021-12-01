@@ -5,7 +5,7 @@ const Company = require('../../model/Company');
 async function handleRequest(req, callback) {
   try {
     const payload = req.params;
-    const company = await Company.findOne({ ...payload });
+    const company = await Company.findOne({ ...payload }).populate('logo');
 
     // const savedCompany = await company.save();
     callback(null, company);
