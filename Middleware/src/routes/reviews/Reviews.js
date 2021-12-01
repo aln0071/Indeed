@@ -90,10 +90,13 @@ router.get('/jobseeker/:companyId/reviews', async (req, res) => {
           res.status(400).send(error);
         } else {
           if (results) {
-            const { url } = req;
-            redisCli.setex(url, 3600, JSON.stringify(results));
+            redisCli.setex(
+              redisUrl,
+              3600,
+              JSON.stringify({ reviews: results.allCompanyReviews }),
+            );
           }
-          res.status(200).send(results);
+          res.status(200).send(results.data);
         }
       });
     }
