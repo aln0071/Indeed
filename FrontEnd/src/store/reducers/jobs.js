@@ -9,7 +9,9 @@ import {
 const initialState = {
   allJobs: [],
   selectedJob: {},
-  searchedJobs: [],
+  searchedJobs: {
+    jobs: [],
+  },
   searchedValues: [],
   employerPostedJob: {},
 };
