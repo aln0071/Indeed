@@ -17,7 +17,7 @@ const companyInfoSchema = new Schema({
   totalReviews: { type: Number },
   totalSalaryReported: { type: Number },
   pictures: [{ type: mongoose.Types.ObjectId, ref: 'Pictures' }],
-  logo: { type: mongoose.Types.ObjectId },
+  logo: { type: mongoose.Types.ObjectId, ref: 'Pictures' },
   hiredApplicants: { type: Number },
   rejectedApplicants: { type: Number },
   totalApplicants: { type: Number },
