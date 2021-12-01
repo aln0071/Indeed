@@ -1,13 +1,21 @@
 import { Button } from '@mui/material';
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import styles from '../../../../styles.scss';
 import UploadPhotosModal from './UploadPhotosModal';
+import ImageList from './ImageList';
 
 export default function PhotosTab() {
   const [isModalOpen, setOpen] = useState(false);
+  const companyProfile = useSelector((state) => state.externalCompanyProfile);
   return (
     <div className={styles.companyProfileTabBodyContainer}>
-      <h2>Amazon Photos</h2>
+      <h2>
+        {companyProfile.companyName}
+        {' '}
+        Photos
+      </h2>
+      <ImageList />
       <div>
         <Button
           variant="contained"

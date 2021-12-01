@@ -200,6 +200,46 @@
       }
     }
   }
+  &__photosList {
+    display: grid;
+    grid-template-columns: repeat(4, 156px);
+    column-gap: 8px;
+    row-gap: 8px;
+    margin-bottom: 15px;
+    &__image {
+      $img: &;
+      &__container {
+        position: relative;
+        justify-self: start;
+        align-self: start;
+        img {
+          width: 156px;
+          height: 156px;
+        }
+        &:hover {
+          #{$img}__overlay {
+            height: 50px;
+          }
+        }
+      }
+      &__overlay {
+        position: absolute;
+        bottom: 6px;
+        background: rgba(0, 0, 0, 0.7); /* Black see-through */
+        width: 100%;
+        transition: 0.2s ease;
+        height: 0px;
+        overflow: hidden;
+        color: white;
+        font-size: 12px;
+        font-weight: 900;
+        &__contents {
+          padding-left: 10px;
+          padding-top: 10px;
+        }
+      }
+    }
+  }
 }
 
 .nav {

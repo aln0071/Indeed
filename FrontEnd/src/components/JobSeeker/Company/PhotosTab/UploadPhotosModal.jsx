@@ -6,11 +6,12 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { PropTypes } from 'prop-types';
 import { toast } from 'react-toastify';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from '../../../../styles.scss';
 import ImageCard from './ImageCard';
 import { imageUpload, uploadCompanyPhotos } from '../../../../utils/endpoints';
 import { createToastBody, toastOptions } from '../../../../utils';
+import { getExternalCompanyProfileAction } from '../../../../store/actions/companyProfile';
 
 const style = {
   position: 'absolute',
@@ -34,6 +35,7 @@ export default function UploadPhotosModal({ open, setOpen }) {
     (state) => state.externalCompanyProfile.companyId,
   );
   const userId = useSelector((state) => state.user.userId);
+  const dispatch = useDispatch();
 
   const handleSubmit = async () => {
     try {
@@ -49,6 +51,7 @@ export default function UploadPhotosModal({ open, setOpen }) {
         pictures: photos.map((photo) => photo._id),
         companyId,
       });
+      dispatch(getExternalCompanyProfileAction(companyId));
       toast.success('Success! Images uploaded', toastOptions);
       setOpen(false);
       setFiles([]);

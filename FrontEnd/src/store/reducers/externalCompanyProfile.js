@@ -6,6 +6,7 @@ import {
 const initialState = {
   companyId: '',
   companyName: 'Amazon.com',
+  pictures: [],
 };
 
 const externalCompanyProfile = (state = { ...initialState }, action) => {
