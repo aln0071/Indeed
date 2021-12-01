@@ -3,6 +3,7 @@ const multer = require('multer');
 const fs = require('fs');
 const util = require('util');
 const { uploadFile } = require('../../utils/s3');
+const kafka = require('../../kafka/Client');
 
 const unlink = util.promisify(fs.unlink);
 
@@ -13,8 +14,26 @@ router.post('/upload/images', upload.array('image', 5), async (req, res) => {
     const uploadedFiles = await Promise.all(
       req.files.map((file) => uploadFile(file)),
     );
+    const { userId, caption, location } = req.body;
+    uploadedFiles.map((file) => file.key);
+    const request = uploadedFiles.map((file, index) => ({
+      userId,
+      pictureKey: file.key,
+      caption: Array.isArray(caption) ? caption[index] : caption,
+      location: Array.isArray(location) ? location[index] : location,
+    }));
+    // upload details to pictures model
+    const response = await new Promise((resolve, reject) => {
+      kafka.make_request('indeed_add_pictures', request, (error, results) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(results);
+        }
+      });
+    });
     await Promise.all(req.files.map((file) => unlink(file.path)));
-    res.json(uploadedFiles.map((file) => file.key));
+    res.json(response);
   } catch (error) {
     res.status(500).json({
       error: error.message,
