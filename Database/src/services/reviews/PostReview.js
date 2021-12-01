@@ -12,7 +12,10 @@ async function handleRequest(req, callback) {
       reviewDate: Date.now(),
     });
     const savedReview = await review.save();
-    callback(null, savedReview);
+    const allCompanyReviews = await Reviews.find({
+      companyId: req.params.companyId,
+    });
+    callback(null, { data: savedReview, allCompanyReviews });
   } catch (error) {
     callback(error, null);
   }

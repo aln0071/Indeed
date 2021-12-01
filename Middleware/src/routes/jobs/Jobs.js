@@ -10,14 +10,14 @@ router.post('/company/:companyId/jobs', async (req, res) => {
     params: req.params,
     body: req.body,
   };
-  const redisUrl = `/company/${req.params.companyId}/jobs`;
+  const companyJobsRedisUrl = `/company/${req.params.companyId}/jobs`;
   kafka.make_request('indeed_post_job', request, (error, results) => {
     if (error) {
       res.status(400).send(error);
     } else {
       if (results) {
         redisCli.setex(
-          redisUrl,
+          companyJobsRedisUrl,
           3600,
           JSON.stringify({ jobs: results.allCompanyJobs }),
         );
