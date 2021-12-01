@@ -15,6 +15,7 @@ function EditProfile(props) {
   const [street, setStreet] = useState('');
   const [city, setCity] = useState('');
   const [zip, setZip] = useState('');
+
   return (
     <Card
       sx={{ maxWidth: 600, maxHeight: 600 }}
