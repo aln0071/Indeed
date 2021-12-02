@@ -1,32 +1,35 @@
 /* eslint-disable linebreak-style */
+/* eslint-disable no-console */
+/* eslint-disable linebreak-style */
 /* eslint-disable no-shadow */
-const mongoose = require('mongoose');
-const connection = require('./kafka/Connection');
+const mongoose = require("mongoose");
+const connection = require("./kafka/Connection");
 
-require('dotenv').config();
-const getReviews = require('./services/reviews/GetReviews');
-const postJob = require('./services/jobs/PostJob');
-const getJobsForCompany = require('./services/jobs/GetJobsForCompany');
-const getAllJobs = require('./services/jobs/GetAllJobs');
-const getJob = require('./services/jobs/GetJob');
-const getAllCompany = require('./services/company/GetAllCompany');
-const getCompany = require('./services/company/GetCompany');
-const postCompany = require('./services/company/PostCompany');
-const updateCompany = require('./services/company/UpdateCompany');
-const getJobLocations = require('./services/jobs/GetJobLocations');
-const getJobSeekerProfile = require('./services/profile/GetJobSeekerProfile');
-const addJobSeekerInfosalary = require('./services/profile/AddJobSeekerInfosalary');
-const applyJob = require('./services/jobs/ApplyJob');
-const createMessage = require('./services/messaging/CreateMessage');
-const createRoom = require('./services/messaging/CreateRoom');
-const getMessages = require('./services/messaging/GetMessages');
-const getRooms = require('./services/messaging/GetRooms');
-const postReviews = require('./services/reviews/PostReview');
-const postHelpfulReviews = require('./services/reviews/PostReviewHelpfulness');
-const { mongoDB } = require('../Config');
-const getAllReviews = require('./services/reviews/GetAllReviews');
-const AdminReviewAction = require('./services/reviews/AdminReviewAction');
-const IndeedAnalytics = require('./services/reviews/IndeedAnalytics');
+require("dotenv").config();
+const getReviews = require("./services/reviews/GetReviews");
+const postJob = require("./services/jobs/PostJob");
+const getJobsForCompany = require("./services/jobs/GetJobsForCompany");
+const getAllJobs = require("./services/jobs/GetAllJobs");
+const getJob = require("./services/jobs/GetJob");
+const getAllCompany = require("./services/company/GetAllCompany");
+const getCompany = require("./services/company/GetCompany");
+const postCompany = require("./services/company/PostCompany");
+const updateCompany = require("./services/company/UpdateCompany");
+const getJobLocations = require("./services/jobs/GetJobLocations");
+const getJobSeekerProfile = require("./services/profile/GetJobSeekerProfile");
+const addJobSeekerInfosalary = require("./services/profile/AddJobSeekerInfosalary");
+const applyJob = require("./services/jobs/ApplyJob");
+const createMessage = require("./services/messaging/CreateMessage");
+const createRoom = require("./services/messaging/CreateRoom");
+const getMessages = require("./services/messaging/GetMessages");
+const getRooms = require("./services/messaging/GetRooms");
+const postReviews = require("./services/reviews/PostReview");
+const postHelpfulReviews = require("./services/reviews/PostReviewHelpfulness");
+const { mongoDB } = require("../Config");
+const getAllReviews = require("./services/reviews/GetAllReviews");
+const AdminReviewAction = require("./services/reviews/AdminReviewAction");
+const IndeedAnalytics = require("./services/reviews/IndeedAnalytics");
+const IndeedEmployerJobAnalysis = require("./services/jobs/IndeedEmployerJobAnalysis");
 
 const options = {
   useNewUrlParser: true,
@@ -37,16 +40,16 @@ const options = {
 mongoose.connect(mongoDB, options, (err) => {
   if (err) {
     console.log(err);
-    console.log('MongoDB Connection Failed');
+    console.log("MongoDB Connection Failed");
   } else {
-    console.log('MongoDB Connected');
+    console.log("MongoDB Connected");
   }
 });
 
 function handleTopicRequest(topicName, fname) {
   const consumer = connection.getConsumer(topicName);
   const producer = connection.getProducer();
-  consumer.on('message', (message) => {
+  consumer.on("message", (message) => {
     console.log(`message received for ${topicName} `, fname);
     console.log(JSON.stringify(message.value));
     const data = JSON.parse(message.value);
@@ -71,31 +74,32 @@ function handleTopicRequest(topicName, fname) {
   });
 }
 
-handleTopicRequest('indeed_get_reviews', getReviews);
-handleTopicRequest('indeed_get_all_company', getAllCompany);
-handleTopicRequest('indeed_get_company', getCompany);
+handleTopicRequest("indeed_get_reviews", getReviews);
+handleTopicRequest("indeed_get_all_company", getAllCompany);
+handleTopicRequest("indeed_get_company", getCompany);
 
-handleTopicRequest('indeed_post_job', postJob);
-handleTopicRequest('indeed_get_jobs', getJobsForCompany);
-handleTopicRequest('indeed_get_all_jobs', getAllJobs);
-handleTopicRequest('indeed_get_job', getJob);
-handleTopicRequest('indeed_get_all_job_locations', getJobLocations);
+handleTopicRequest("indeed_post_job", postJob);
+handleTopicRequest("indeed_get_jobs", getJobsForCompany);
+handleTopicRequest("indeed_get_all_jobs", getAllJobs);
+handleTopicRequest("indeed_get_job", getJob);
+handleTopicRequest("indeed_get_all_job_locations", getJobLocations);
 
-handleTopicRequest('indeed_post_company', postCompany);
-handleTopicRequest('indeed_put_company', updateCompany);
+handleTopicRequest("indeed_post_company", postCompany);
+handleTopicRequest("indeed_put_company", updateCompany);
 
-handleTopicRequest('indeed_get_jobseeker_profile', getJobSeekerProfile);
-handleTopicRequest('indeed_add_jobseekerInfo_salary', addJobSeekerInfosalary);
+handleTopicRequest("indeed_get_jobseeker_profile", getJobSeekerProfile);
+handleTopicRequest("indeed_add_jobseekerInfo_salary", addJobSeekerInfosalary);
 
-handleTopicRequest('indeed_apply_job', applyJob);
+handleTopicRequest("indeed_apply_job", applyJob);
 
-handleTopicRequest('indeed_create_message', createMessage);
-handleTopicRequest('indeed_get_messages', getMessages);
-handleTopicRequest('indeed_create_room', createRoom);
-handleTopicRequest('indeed_get_rooms', getRooms);
+handleTopicRequest("indeed_create_message", createMessage);
+handleTopicRequest("indeed_get_messages", getMessages);
+handleTopicRequest("indeed_create_room", createRoom);
+handleTopicRequest("indeed_get_rooms", getRooms);
 
-handleTopicRequest('indeed_post_reviews', postReviews);
-handleTopicRequest('indeed_post_helpful_reviews', postHelpfulReviews);
-handleTopicRequest('indeed_get_all_reviews', getAllReviews);
-handleTopicRequest('indeed_admin_review_action', AdminReviewAction);
-handleTopicRequest('indeed_analytics', IndeedAnalytics);
+handleTopicRequest("indeed_post_reviews", postReviews);
+handleTopicRequest("indeed_post_helpful_reviews", postHelpfulReviews);
+handleTopicRequest("indeed_get_all_reviews", getAllReviews);
+handleTopicRequest("indeed_admin_review_action", AdminReviewAction);
+handleTopicRequest("indeed_analytics", IndeedAnalytics);
+handleTopicRequest("indeed_employer_job_analysis", IndeedEmployerJobAnalysis);

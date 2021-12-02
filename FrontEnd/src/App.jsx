@@ -21,6 +21,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import CompanyProfileEmployer from './Pages/CompanyProfileEmployer';
 import CompanyProfileJobSeeker from './Pages/CompanyProfileJobSeeker';
 import AdminHome from './components/AdminPages/AdminPage';
+import EmployerAnalysis from './Pages/EmployerAnalysis';
 
 function App() {
   return (
@@ -48,7 +49,7 @@ function App() {
       <Route exact path="/FindCandidates" component={FindCandidates} />
       <Route exact path="/Products" component={Products} />
       <Route exact path="/Resources" component={Resources} />
-
+      <Route exact path="/Analysis" component={EmployerAnalysis} />
       <Route exact path="/AdminHome" component={AdminHome} />
     </>
   );

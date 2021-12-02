@@ -62,6 +62,10 @@ const menuItems = [
     listText: 'Visit Indeed for Job Seekers',
     listPath: '/',
   },
+  {
+    listText: 'Analysis',
+    listPath: '/Analysis',
+  },
 ];
 
 const EmployerNavbar = () => {
@@ -182,6 +186,14 @@ const EmployerNavbar = () => {
                   style={{ color: '#fff' }}
                 >
                   Resources
+                </Link>
+                <Link
+                  id="Analysis"
+                  className="navEmployee"
+                  to="/Analysis" // add later, given dummy value for now
+                  style={{ color: '#fff' }}
+                >
+                  Analysis
                 </Link>
               </div>
               <div style={{ display: 'flex', height: '80px' }}>
