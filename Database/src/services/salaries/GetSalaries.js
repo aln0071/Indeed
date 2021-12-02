@@ -1,13 +1,17 @@
+/* eslint-disable prefer-const */
 /* eslint-disable no-plusplus */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable max-len */
 const Jobs = require('../../model/Job');
 const Reviews = require('../../model/Review');
 const Companies = require('../../model/Company');
+const Users = require('../../model/User');
 
 async function handleRequest(req, callback) {
   try {
     let averageSalary;
+    let salaryReview;
+    let salaryReviewCount = 0;
     const { what } = req.query;
     const { where } = req.query;
 
@@ -55,6 +59,7 @@ async function handleRequest(req, callback) {
       let reviewQuery = {};
       let company = {};
       let review = {};
+      // only top 5 companies we are intersted in
       for (let i = 0; i < topCompanies.length; i++) {
         reviewQuery = [
           { $match: { companyId: topCompanies[i].companyId } },
@@ -70,11 +75,18 @@ async function handleRequest(req, callback) {
         company = await Companies.findOne({
           companyId: topCompanies[i].companyId,
         });
-        topCompanies[i].averageRating = review[0].averageRating.toFixed(2);
-        topCompanies[i].reviewCount = review[0].reviewCount;
+        salaryReviewCount = await Users.find({
+          companyId: topCompanies[i].companyId,
+          salary: { $gt: 0 },
+        }).count();
+        if (review.length) {
+          topCompanies[i].averageRating = review[0].averageRating.toFixed(2);
+          topCompanies[i].reviewCount = review[0].reviewCount;
+        }
         topCompanies[i].companyName = company.companyName;
+        topCompanies[i].salaryReviewCount = salaryReviewCount;
       }
-      callback(null, { averageSalary, topCompanies });
+      callback(null, { salaryReview, topCompanies });
     }
   } catch (error) {
     callback(error, null);

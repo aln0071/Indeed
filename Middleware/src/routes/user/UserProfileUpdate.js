@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const kafka = require('../../kafka/Client');
 
-router.post('/userProfile/Update/:userId', async (req, res) => {
+router.post('/userProfile', async (req, res) => {
   const request = {
     params: req.params,
     body: req.body,

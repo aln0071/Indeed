@@ -16,6 +16,7 @@ import JobSeekerNavbar from '../Navbars/JobSeekerNavbar';
 
 function JobSeekerChat() {
   const chatRooms = useSelector((state) => state.message.rooms);
+  const userId = useSelector((state) => state.user.userId);
   const dispatch = useDispatch();
   const handleClick = (e, item) => {
     dispatch(setSender(item.jobSeeker));
@@ -23,7 +24,7 @@ function JobSeekerChat() {
     dispatch(getRoomConversations(item));
   };
   useEffect(() => {
-    dispatch(getRooms('125', 'jobSeeker'));
+    dispatch(getRooms(userId, 'jobSeeker'));
   }, []);
 
   useEffect(async () => {
