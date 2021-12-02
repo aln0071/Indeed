@@ -34,6 +34,7 @@ const postSaveJob = require('./services/jobs/PostSaveJob');
 const postUndoSaveJob = require('./services/jobs/PostUndoSaveJob');
 const addPictures = require('./services/pictures/AddPictures');
 const userProfileUpdate = require('./services/profile/UserProfileUpdate');
+const getSalaries = require('./services/salaries/GetSalaries');
 const { mongoDB } = require('../Config');
 
 const options = {
@@ -124,3 +125,4 @@ handleTopicRequest('indeed_post_featured_reviews', postFeaturedReviews);
 handleTopicRequest('indeed_post_save_job', postSaveJob);
 handleTopicRequest('indeed_post_undosave_job', postUndoSaveJob);
 handleTopicRequest('indeed_userprofile_update', userProfileUpdate);
+handleTopicRequest('indeed_get_salaries', getSalaries);

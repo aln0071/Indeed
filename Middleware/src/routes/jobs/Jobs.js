@@ -183,4 +183,18 @@ router.post('/jobseeker/:jobseekerId/undoSaveJob', async (req, res) => {
   });
 });
 
+router.get('/salaries/jobs', async (req, res) => {
+  const request = {
+    params: req.params,
+    query: req.query,
+  };
+  kafka.make_request('indeed_get_salaries', request, (error, results) => {
+    if (error) {
+      res.status(400).send(error);
+    } else {
+      res.status(200).send(results);
+    }
+  });
+});
+
 module.exports = router;
