@@ -48,21 +48,21 @@ router.get('/company/:companyId/jobs', async (req, res) => {
         const error = { message: 'Pass both page and limit and not just one' };
         return res.status(400).send(error);
       }
-    } else {
-      kafka.make_request('indeed_get_jobs', request, (error, results) => {
-        if (error) {
-          return res.status(400).send(error);
-        }
-        if (results) {
-          redisCli.setex(
-            redisUrl,
-            3600,
-            JSON.stringify({ jobs: results.allJobs }),
-          );
-        }
-        return res.status(200).send(results.data);
-      });
+      return res.status(200).send(allJobs);
     }
+    kafka.make_request('indeed_get_jobs', request, (error, results) => {
+      if (error) {
+        return res.status(400).send(error);
+      }
+      if (results) {
+        redisCli.setex(
+          redisUrl,
+          3600,
+          JSON.stringify({ jobs: results.allJobs }),
+        );
+      }
+      return res.status(200).send(results.data);
+    });
   });
 });
 

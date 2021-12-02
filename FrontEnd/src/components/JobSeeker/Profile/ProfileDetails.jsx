@@ -11,12 +11,20 @@ import LockIcon from '@mui/icons-material/Lock';
 import DownloadIcon from '@mui/icons-material/Download';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import MessageIcon from '@mui/icons-material/Message';
+import { useDispatch } from 'react-redux';
 import EditProfile from './EditProfile';
 import JobSeekerNavbar from '../../Navbars/JobSeekerNavbar';
+import Message from '../../Chat/Message';
 import '../../styles.css';
+import { setOpenChatBox } from '../../../store/actions/message';
 
 function ProfileDetails() {
   const [isEdit, setIsEdit] = useState(false);
+  const dispatch = useDispatch();
+  const onMessage = () => {
+    dispatch(setOpenChatBox(true));
+  };
   function stringAvatar(name) {
     return {
       children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
@@ -25,6 +33,7 @@ function ProfileDetails() {
   return (
     <div>
       <JobSeekerNavbar />
+      <Message />
       <div
         // className="landingpage"
         style={{
@@ -113,6 +122,21 @@ function ProfileDetails() {
               >
                 <DeleteIcon />
                 Delete Resume
+              </Button>
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={() => onMessage()}
+                style={{
+                  color: 'blue',
+                  border: '2px solid blue',
+                  borderRadius: '25px',
+                  fontWeight: 'bold',
+                  padding: '14px',
+                }}
+              >
+                <MessageIcon />
+                Message
               </Button>
             </div>
           </CardContent>
