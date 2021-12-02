@@ -46,8 +46,28 @@ async function handleRequest(req, callback) {
     } else if (req.query.page || req.query.limit) {
       error = { message: 'Pass both page and limit and not just one' };
       callback(error, null);
-    } else {
-      jobs = await Jobs.find();
+    } else if (req.query.where && req.query.what) {
+      const condition = [];
+      if (what) {
+        condition.push({ jobTitle: { $regex: what, $options: 'i' } });
+      }
+      if (where) {
+        condition.push({
+          $or: [
+            { 'address.city': { $regex: where, $options: 'i' } },
+            { 'address.state': { $regex: where, $options: 'i' } },
+            { 'address.zipcode': { $regex: where, $options: 'i' } },
+            { 'address.country': { $regex: where, $options: 'i' } },
+          ],
+        });
+      }
+      let query = {};
+      if (condition.length !== 0) {
+        query = {
+          $and: condition,
+        };
+      }
+      jobs = await Jobs.find(query);
     }
     callback(null, { metadata, jobs });
   } catch (error) {
