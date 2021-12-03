@@ -95,9 +95,7 @@ const style = {
 function WhyJoinUs() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const cmpId = useSelector(
-    (state) => state.externalCompanyProfile.companyName,
-  );
+  const cmpId = useSelector((state) => state.externalCompanyProfile.companyId);
 
   console.log(cmpId, 'fsdfdsfsdf');
 
@@ -109,7 +107,7 @@ function WhyJoinUs() {
   useEffect(async () => {
     const id = '61a32673a0660ee943876fc0';
     const response = await axios.get(
-      `${baseUrl}indeed/api/companyDetails/${id}`,
+      `${baseUrl}indeed/api/companyDetails/${cmpId}`,
     );
     console.log(response.data);
     if (response) {

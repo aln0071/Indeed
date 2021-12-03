@@ -1,5 +1,5 @@
 import { baseUrl, urls } from './constants';
-import { post, get } from './request';
+import { post, get, postResume } from './request';
 
 const handleResponse = async (response) => {
   let data = null;
@@ -58,20 +58,20 @@ export const getSearchedJobs = (params) => {
   return get(url, params).then(handleResponse);
 };
 
-// export const saveJob = (params) => {
-//   const url = `${baseUrl}${urls.login}`;
-//   return post(url, params).then(handleResponse);
-// };
+export const saveJob = (params) => {
+  const url = `${baseUrl}${urls.saveJob}/${params.jobId}/saveJob`;
+  return post(url, params).then(handleResponse);
+};
 
-// export const unsaveJob = (params) => {
-//   const url = `${baseUrl}${urls.login}`;
-//   return post(url, params).then(handleResponse);
-// };
+export const unsaveJob = (params) => {
+  const url = `${baseUrl}${urls.saveJob}/${params.jobId}/undoSaveJob`;
+  return post(url, params).then(handleResponse);
+};
 
-// export const storeSearched = (params) => {
-//   const url = `${baseUrl}${urls.login}`;
-//   return post(url, params).then(handleResponse);
-// };
+export const getCompanyJobs = (params) => {
+  const url = `${baseUrl}${urls.getCompanySpecificJobs}/${params.companyId}/jobs?page=${params.page}&limit=${params.limit}`;
+  return get(url, params).then(handleResponse);
+};
 
 export const postReviews = (params) => {
   const url = `${baseUrl}${urls.postReview}/${params.companyId}/reviews`;
@@ -141,4 +141,29 @@ export const postInitialConversation = async (room, message) => {
   const payload = { ...message, chatRoomId: response.chatRoomId };
   postConversation(payload);
   return response;
+};
+
+export const makeReviewFeatured = (params) => {
+  const url = `${baseUrl}${urls.featureReview}/${params.reviewId}/company/${params.companyId}/feature`;
+  return post(url, params).then(handleResponse);
+};
+
+export const getFeaturedReviews = (params) => {
+  const url = `${baseUrl}${urls.fetchFeatured}/${params.companyId}/users/${params.userId}/reviews`;
+  return get(url, params).then(handleResponse);
+};
+
+export const findSalaries = (what, where) => {
+  const url = `${baseUrl}${urls.findSalaries}?what=${what}&where=${where}`;
+  return get(url).then(handleResponse);
+};
+
+export const uploadResume = (params) => {
+  const url = `${baseUrl}${urls.uploadResume}`;
+  return postResume(url, params).then(handleResponse);
+};
+
+export const helpful = (params) => {
+  const url = `${baseUrl}${urls.reviewHelpful}/${params.reviewId}/helpfullness`;
+  return post(url, params).then(handleResponse);
 };

@@ -27,6 +27,7 @@ import { createToastBody, toastOptions } from '../../utils';
 const theme = createTheme();
 
 function PostJob() {
+  const dispatch = useDispatch();
   const history = useHistory();
   const user = useSelector((state) => state.user);
 
@@ -52,7 +53,6 @@ function PostJob() {
   const [reloc, setReloc] = useState(false);
   const [lic, setLic] = useState(false);
   const [companyId, setCompanyId] = useState('');
-  const dispatch = useDispatch();
 
   useEffect(async () => {
     try {
@@ -133,12 +133,12 @@ function PostJob() {
       return false;
     }
     const salaryRegex = new RegExp('^[0-9]*[.]?[0-9]+$');
-    if (!salaryRegex.test(payload.Price)) {
+    if (!salaryRegex.test(payload.jobSalary)) {
       toast.error(createToastBody({ message: 'Invalid salary' }), toastOptions);
       return false;
     }
     const zipRegex = new RegExp('^[0-9]{5}$');
-    if (!zipRegex.test(payload.zipcode)) {
+    if (!zipRegex.test(payload.address.zipcode)) {
       toast.error(
         createToastBody({ message: 'Zipcode must only contain 5 digits' }),
         toastOptions,
@@ -200,7 +200,7 @@ function PostJob() {
       return;
     }
     dispatch(postEmployerJob(payload));
-    history.push('/');
+    history.push('/CompanyProfileEmployerLandingPage');
   };
   return (
     <>

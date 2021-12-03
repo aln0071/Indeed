@@ -24,7 +24,10 @@ const jobSchema = new Schema({
     zipcode: { type: String },
     country: { type: String },
   },
-
+  createdDate: {
+    type: Date,
+    default: Date.now,
+  },
   applicantDetails: [
     {
       jobSeekerId: { type: String, required: true },

@@ -9,6 +9,7 @@ import banner from '../images/banner.jpeg';
 import logo from '../images/cmplogo.jpeg';
 import CompanyTabs from '../components/JobSeeker/Company/CompanyTabs';
 import { getExternalCompanyProfileAction } from '../store/actions/companyProfile';
+import { baseUrl, urls } from '../utils/constants';
 
 const StyledRating = styled(Rating)({
   '& .MuiRating-iconFilled': {
@@ -31,7 +32,15 @@ export default function CompanyProfileJobSeeker() {
     const params = Object.fromEntries(urlSearchParams.entries());
     dispatch(getExternalCompanyProfileAction(params.companyId));
   }, []);
-  const { companyName } = useSelector((state) => state.externalCompanyProfile);
+  const { companyName, logo: companyLogo } = useSelector(
+    (state) => state.externalCompanyProfile,
+  );
+  const logoSource = companyLogo.pictureKey
+    ? `${baseUrl}${urls.getImageFromS3.replace(
+      '{key}',
+      companyLogo.pictureKey,
+    )}`
+    : logo;
   return (
     <>
       <JobSeekerNavbar />
@@ -43,7 +52,7 @@ export default function CompanyProfileJobSeeker() {
         <div className={styles.companyProfileHeader}>
           <div className={styles.companyProfileHeaderSection1}>
             <div className={styles.companyProfileHeaderLogo}>
-              <img src={logo} alt="logo" />
+              <img src={logoSource} alt="logo" width="60px" height="60px" />
             </div>
             <div className={styles.companyProfileHeaderDetails}>
               <div className={styles.companyProfileHeaderName}>
