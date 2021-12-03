@@ -121,9 +121,7 @@ function ProfileDetails() {
                   ? `${userProfile?.firstName} ${userProfile?.lastName}`
                   : 'Your Name'}
               </h1>
-              <p
-                style={{ margin: 0 }}
-              >
+              <p style={{ margin: 0 }}>
                 {`${userProfile?.address?.city} ${userProfile?.address?.zipCode}`}
               </p>
             </div>

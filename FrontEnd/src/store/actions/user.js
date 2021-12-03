@@ -22,6 +22,8 @@ export const loginUserAction = (email, password, history) => async (dispatch) =>
     dispatch(setUserDetailsAction(response));
     if (response.userType === 'jobseeker') {
       history.push('/');
+    } else if (response.userType === 'admin') {
+      history.push('/AdminHome');
     } else {
       history.push('/CompanyProfileEmployerLandingPage');
     }
