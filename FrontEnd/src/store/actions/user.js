@@ -1,5 +1,9 @@
 import { toast } from 'react-toastify';
-import { getUserDetailsWithId, loginUser } from '../../utils/endpoints';
+import {
+  getUserDetailsWithId,
+  loginUser,
+  getUserData,
+} from '../../utils/endpoints';
 import { CLEAR_USER_DETAILS, SET_USER_DETAILS } from './types';
 import { createToastBody, toastOptions } from '../../utils';
 
@@ -34,6 +38,17 @@ export const getUserDetailsWithIdAction = () => async (dispatch, getState) => {
     const response = await getUserDetailsWithId(userId);
     dispatch(setUserDetailsAction(response));
   } catch (error) {
+    toast.error(createToastBody(error), toastOptions);
+  }
+};
+
+export const getProfileAction = (userId) => async (dispatch) => {
+  try {
+    // const { userId } = getState().state.user;
+    const response = await getUserData(userId);
+    dispatch(setUserDetailsAction(response));
+  } catch (error) {
+    toast.info('Please update some data in the profile first', toastOptions);
     toast.error(createToastBody(error), toastOptions);
   }
 };

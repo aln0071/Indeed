@@ -8,6 +8,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
 import { Hidden, Input } from '@mui/material';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
@@ -28,6 +29,8 @@ import {
   storeSearchedAction,
 } from '../../store/actions/jobs';
 import { uploadResumeAction } from '../../store/actions/resume';
+import { setUserDetailsAction } from '../../store/actions/user';
+import { baseUrl, urls } from '../../utils/constants';
 import '../styles.css';
 
 const useStyles = makeStyles(() => ({
@@ -43,10 +46,12 @@ const StartLabel = ({ label }) => (
 function FindJobs() {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const history = useHistory();
   const specificJob = useSelector((state) => state.jobs.selectedJob);
   const searchedJobs = useSelector((state) => state.jobs.searchedJobs.jobs);
   const searchValues = useSelector((state) => state.jobs.searchedValues);
   const meta = useSelector((state) => state.jobs.searchedJobs.metadata);
+  const user = useSelector((state) => state.user);
   const resumeKey = useSelector((state) => state.resume.resumeKey);
   const [what, setWhat] = useState('');
   const [where, setWhere] = useState('');
@@ -109,8 +114,28 @@ function FindJobs() {
     setLastSearched(searchValues);
   }, [searchValues]);
 
+  const postUserProfile = async () => {
+    const url = `${baseUrl}${urls.updateUserProfile}`;
+    const body = {
+      userId: user.userId,
+      resume: resumeKey,
+    };
+    const headers = {
+      // Authorization: token,
+    };
+    try {
+      const res = await axios.post(url, body, { headers });
+      console.log('response', res.data);
+      // TODO Fetch User Profile
+      await dispatch(setUserDetailsAction(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     setIsResume(resumeKey);
+    postUserProfile(resumeKey);
   }, [resumeKey]);
 
   return (
@@ -183,8 +208,15 @@ function FindJobs() {
                 required
                 autoFocus
                 type="file"
+                // onChange={(e) => {
+                //   handleUploadResume(e);
+                // }}
                 onChange={(e) => {
-                  handleUploadResume(e);
+                  if (Object.keys(user).length === 0) {
+                    history.push('/Login');
+                  } else {
+                    handleUploadResume(e);
+                  }
                 }}
               />
               Post Your Resume -

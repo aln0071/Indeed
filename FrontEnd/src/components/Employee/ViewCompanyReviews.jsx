@@ -8,6 +8,7 @@ import { makeStyles } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Box from '@mui/material/Box';
+import { toast } from 'react-toastify';
 import Button from '@mui/material/Button';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
@@ -19,6 +20,8 @@ import {
 import ReviewCard from './ReviewCard';
 import EmployerNavbar from '../Navbars/EmployerNavbar';
 import CustomPagination from '../customComponents/Pagination';
+import { getCompanyDetailsByEmployerId } from '../../utils/endpoints';
+import { createToastBody, toastOptions } from '../../utils';
 
 import '../styles.css';
 
@@ -59,6 +62,22 @@ function Reviews() {
   const [allCompanyReviews, setAllCompanyReviews] = useState(
     allReviews.reviews,
   );
+
+  const [companyId, setCompanyId] = useState('');
+
+  useEffect(async () => {
+    try {
+      const companyDetails = await getCompanyDetailsByEmployerId(user.userId);
+      if (JSON.stringify(companyDetails) === '{}') {
+        history.push('/company-profile');
+        toast.info('Create a company profile first', toastOptions);
+      } else {
+        setCompanyId(companyDetails.companyId);
+      }
+    } catch (error) {
+      toast.error(createToastBody(error), toastOptions);
+    }
+  }, []);
 
   useEffect(() => {
     dispatch(
