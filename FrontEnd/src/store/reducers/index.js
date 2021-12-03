@@ -5,6 +5,7 @@ import message from './message';
 import review from './review';
 import jobs from './jobs';
 import externalCompanyProfile from './externalCompanyProfile';
+import findSalaries from './findSalaries';
 
 export default combineReducers({
   user,
@@ -13,4 +14,5 @@ export default combineReducers({
   jobs,
   review,
   externalCompanyProfile,
+  findSalaries,
 });
