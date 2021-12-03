@@ -53,8 +53,6 @@ const AdminHome = () => {
     setModelMessage(message);
     setTimeout(() => {
       setShowModel(false);
-      setModelMessage('');
-      loadReviewData();
     }, 2000);
   };
 
@@ -99,7 +97,7 @@ const AdminHome = () => {
   function loadReviewPerDay() {
     axios
       .get(
-        'http://localhost:3003/indeed/api/admin/review/analytics?analytics='
+        `${baseUrl}indeed/api/admin/review/analytics?analytics=`
           + 'reviewPerDay',
       )
       .then((res) => {
@@ -110,7 +108,7 @@ const AdminHome = () => {
   function loadTop5CompaniesBasedOnReview() {
     axios
       .get(
-        'http://localhost:3003/indeed/api/admin/review/analytics?analytics='
+        `${baseUrl}indeed/api/admin/review/analytics?analytics=`
           + 'top5ComapniesBasedOnReview',
       )
       .then((res) => {
@@ -126,7 +124,7 @@ const AdminHome = () => {
   function loadTop5CompaniesBasedOnRatings() {
     axios
       .get(
-        'http://localhost:3003/indeed/api/admin/review/analytics?analytics='
+        `${baseUrl}indeed/api/admin/review/analytics?analytics=`
           + 'top5CompaniesBasedOnRating',
       )
       .then((res) => {
@@ -140,15 +138,13 @@ const AdminHome = () => {
   }
 
   function loadReviewData() {
-    axios
-      .get('http://localhost:3003/indeed/api/admin/get_all_reviews')
-      .then((res) => {
-        setReviews(res.data);
-      });
+    axios.get(`${baseUrl}indeed/api/admin/get_all_reviews`).then((res) => {
+      setReviews(res.data);
+    });
   }
 
   function loadPhotosData() {
-    axios.get('https://localhost:3003/photos').then((res) => {
+    axios.get(`${baseUrl}indeed/api/review/admin/getallphotos`).then((res) => {
       setPhotos(res.data);
     });
   }
@@ -156,7 +152,13 @@ const AdminHome = () => {
   function loadPhotosPage() {
     return (
       <div className="imageCardWrapper">
-        <PhotosCard />
+        {photos.map((photo) => (
+          <PhotosCard
+            id={photo._id}
+            pictureKey={photo.pictureKey}
+            showConfirmationModel={showConfirmationModel}
+          />
+        ))}
       </div>
     );
   }
@@ -242,13 +244,13 @@ const AdminHome = () => {
           Analytical Dashboard
         </Link>
 
-        <Link
+        {/*  <Link
           id="FindSalaries"
           className="nav"
           onClick={() => manageTab('companies')}
         >
           Companies
-        </Link>
+        </Link> */}
       </div>
       <div className="subChild2">{currentTab}</div>
       <Popup open={showModel} message={modelMessage} />

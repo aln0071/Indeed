@@ -40,8 +40,10 @@ const getSalaries = require('./services/salaries/GetSalaries');
 const userDeleteResume = require('./services/profile/UserDeleteResume');
 const { mongoDB } = require('../Config');
 const getAllReviews = require('./services/reviews/GetAllReviews');
+const getAllPhotos = require('./services/reviews/GetAllPhotos');
 const AdminReviewAction = require('./services/reviews/AdminReviewAction');
 const IndeedAnalytics = require('./services/reviews/IndeedAnalytics');
+const AdminReviewPhotosAction = require('./services/reviews/AdminReviewPhotosAction');
 const IndeedEmployerJobAnalysis = require('./services/jobs/IndeedEmployerJobAnalysis');
 
 const options = {
@@ -137,5 +139,7 @@ handleTopicRequest('indeed_post_save_job', postSaveJob);
 handleTopicRequest('indeed_post_undosave_job', postUndoSaveJob);
 handleTopicRequest('indeed_userprofile_update', userProfileUpdate);
 handleTopicRequest('indeed_userProfile_deleteResume', userDeleteResume);
+handleTopicRequest('indeed_get_photos_admin', getAllPhotos);
+handleTopicRequest('indeed_review_photos_admin', AdminReviewPhotosAction);
 
 handleTopicRequest('indeed_get_salaries', getSalaries);

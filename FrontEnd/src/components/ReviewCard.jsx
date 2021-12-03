@@ -1,4 +1,6 @@
 /* eslint-disable linebreak-style */
+/* eslint-disable no-undef */
+/* eslint-disable linebreak-style */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable radix */
@@ -24,7 +26,7 @@ export default function ReviewCard(props) {
   function handlAction(action) {
     axios
       .get(
-        `http://localhost:3003/indeed/api/admin/review/action?approved=${action}&id=${props.data._id}`,
+        `${baseUrl}indeed/api/admin/review/action?approved=${action}&id=${props.data._id}`,
       )
       .then((result) => {
         props.showConfirmationModel(

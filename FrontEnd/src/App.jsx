@@ -38,6 +38,8 @@ import CompanyProfileEmployerLandingPage from './Pages/CompanyProfileLandingPage
 import AdminHome from './components/AdminPages/AdminPage';
 import EmployerAnalysis from './Pages/EmployerAnalysis';
 
+import EmployerChat from './components/Chat/EmployerChat';
+
 function App() {
   return (
     <>
@@ -53,7 +55,7 @@ function App() {
         pauseOnHover
       />
       <CssBaseline />
-      <Route exact path="/" component={FindJobs} />
+      {/* <Route exact path="/" component={FindJobs} />
       <Route exact path="/Login" component={Login} />
       <Route exact path="/Register" component={Register} />
       <Route exact path="/CompanyReviews" component={CompanyReviews} />
@@ -63,7 +65,7 @@ function App() {
       <Route exact path="/PostJob" component={PostJob} />
       <Route exact path="/FindCandidates" component={FindCandidates} />
       <Route exact path="/Products" component={Products} />
-      <Route exact path="/Resources" component={Resources} />
+      <Route exact path="/Resources" component={Resources} /> */}
       <Switch>
         <Route exact path="/" component={FindJobs} />
         <Route exact path="/Login" component={Login} />
@@ -95,8 +97,8 @@ function App() {
           path="/jobSeeker/Profile"
           component={ProfileDetails}
         />
-        <ProtectedRoute exact path="/employer/Chat" component={EmployerChat} />
-        <ProtectedRoute exact path="/employer/PostJob" component={PostJob} />
+        {/* <ProtectedRoute exact path="/employer/Chat" component={EmployerChat} />
+        <ProtectedRoute exact path="/employer/PostJob" component={PostJob} /> */}
         <ProtectedRoute path="/employer/Chat" component={EmployerChat} />
         <ProtectedRoute path="/employer/PostJob" component={PostJob} />
         <Route exact path="/CompanySalaryTab" component={CompanySalaryTab} />

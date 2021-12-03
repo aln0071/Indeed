@@ -174,7 +174,7 @@ router.get('/admin/review/action', async (req, res) => {
         return res.status(400).send(error);
       }
       if (results) {
-        const companyReviewsRedisUrl = `/company/${results.data.companyId}/reviews`;
+        const companyReviewsRedisUrl = `/company/${results.companyId}/reviews`;
         redisCli.setex(
           companyReviewsRedisUrl,
           3600,
@@ -278,5 +278,41 @@ router.post(
     );
   },
 );
+
+router.get('/review/admin/getallphotos', async (req, res) => {
+  const request = {
+    query: req.query,
+    params: req.params,
+    body: req.body,
+  };
+
+  kafka.make_request('indeed_get_photos_admin', request, (error, results) => {
+    if (error) {
+      res.status(400).send(error);
+    } else {
+      res.status(200).send(results);
+    }
+  });
+});
+
+router.get('/admin/photo/review', async (req, res) => {
+  const request = {
+    query: req.query,
+    params: req.params,
+    body: req.body,
+  };
+
+  kafka.make_request(
+    'indeed_review_photos_admin',
+    request,
+    (error, results) => {
+      if (error) {
+        res.status(400).send(error);
+      } else {
+        res.status(200).send(results);
+      }
+    },
+  );
+});
 
 module.exports = router;
