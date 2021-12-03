@@ -15,7 +15,13 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 
 const app = express();
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+// passport jwt
+const passport = require('passport');
+
+app.use(passport.initialize());
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(express.json());
 
 app.use(bodyParser.json());
@@ -29,18 +35,19 @@ app.use(morgan("combined"));
 
 app.use(cors());
 
-const review = require("./routes/reviews/Reviews");
-const jobs = require("./routes/jobs/Jobs");
-const company = require("./routes/company/Company");
-const userRegistration = require("./routes/user/UserRegistration");
-const userLogin = require("./routes/user/UserLogin");
-const getUserDetails = require("./routes/user/GetUserDetails");
-const jobSeekerProfile = require("./routes/profile/JobSeekerProfile");
-const fileUpload = require("./routes/file-upload/FileUpload");
-const fileDownload = require("./routes/file-download/FileDownload");
-const messages = require("./routes/messaging/Messages");
-const uploadPhotos = require("./routes/company/UploadPhotos");
-const userProfileUpdate = require("./routes/user/UserProfileUpdate");
+const review = require('./routes/reviews/Reviews');
+const jobs = require('./routes/jobs/Jobs');
+const company = require('./routes/company/Company');
+const userRegistration = require('./routes/user/UserRegistration');
+const userLogin = require('./routes/user/UserLogin');
+const getUserDetails = require('./routes/user/GetUserDetails');
+const jobSeekerProfile = require('./routes/profile/JobSeekerProfile');
+const fileUpload = require('./routes/file-upload/FileUpload');
+const fileDownload = require('./routes/file-download/FileDownload');
+const messages = require('./routes/messaging/Messages');
+const uploadPhotos = require('./routes/company/UploadPhotos');
+const userProfileUpdate = require('./routes/user/UserProfileUpdate');
+const { generateAccessToken, authWithPassport } = require('./utils');
 
 app.use("/indeed/api", review);
 app.use("/indeed/api", jobs);
@@ -55,11 +62,20 @@ app.use("/indeed/api", messages);
 app.use("/indeed/api", uploadPhotos);
 app.use("/indeed/api", userProfileUpdate);
 
-app.get("/", (req, res) => {
-  res.send("hello");
+app.get('/auth', async (req, res) => {
+  const key = await generateAccessToken('test');
+  res.json({
+    response: key,
+  });
+});
+
+app.get('/', (req, res) => {
+  res.send('hello');
 });
 
 const { PORT } = process.env;
+
+authWithPassport();
 
 app.listen(PORT, () => {
   console.log(`Running on port ${PORT}`); //eslint-disable-line
