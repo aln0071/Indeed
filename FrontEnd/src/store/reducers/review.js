@@ -9,7 +9,7 @@ const initialState = {
   postedReview: {},
   allReviews: [],
   message: '',
-  featured: {},
+  featured: [],
 };
 
 const jobs = (state = { ...initialState }, action) => {

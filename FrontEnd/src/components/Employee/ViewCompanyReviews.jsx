@@ -12,12 +12,13 @@ import Button from '@mui/material/Button';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import { getReviewAction } from '../../store/actions/review';
-// import { ColorButton2 } from '../customComponents/index';
+import {
+  getReviewAction,
+  getFeaturedReviewsAction,
+} from '../../store/actions/review';
 import ReviewCard from './ReviewCard';
 import EmployerNavbar from '../Navbars/EmployerNavbar';
 import CustomPagination from '../customComponents/Pagination';
-// import { getFeaturedReviewsAction } from '../../store/../actions/';
 
 import '../styles.css';
 
@@ -44,6 +45,7 @@ function Reviews() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const allReviews = useSelector((state) => state.review.allReviews);
+  const featured = useSelector((state) => state.review.featured);
   const history = useHistory();
   const [helpful, setHelpful] = useState(false);
   const [rating, setRating] = useState(false);
@@ -53,11 +55,23 @@ function Reviews() {
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [meta, setMeta] = useState({});
+  const [allFeatured, setAllFeatured] = useState(featured);
   const [allCompanyReviews, setAllCompanyReviews] = useState(
     allReviews.reviews,
   );
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    dispatch(
+      getFeaturedReviewsAction({
+        companyId: '61a32673a0660ee943876fc0',
+        userId: undefined,
+      }),
+    );
+  }, []);
+
+  useEffect(() => {
+    setAllFeatured(featured);
+  }, [featured]);
 
   useEffect(() => {
     const params = {
@@ -230,7 +244,19 @@ function Reviews() {
               />
             </div>
             <div style={{ width: '50%', marginLeft: '20px' }}>
-              <h1 style={{ margin: 0 }}>Featured Reviews</h1>
+              <h2>Featured Reviews</h2>
+              {allFeatured
+                && allFeatured.featuredReviews
+                && allFeatured.featuredReviews.length > 0
+                && allFeatured.featuredReviews.map((item, index) => (
+                  // eslint-disable-next-line react/no-array-index-key
+                  <ReviewCard
+                    review={item}
+                    key={`featured-${item.reviewId}`}
+                    isFeatured
+                    color="thistle"
+                  />
+                ))}
             </div>
           </div>
         </Box>
