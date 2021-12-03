@@ -1,9 +1,12 @@
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/require-default-props */
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/named */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable implicit-arrow-linebreak */
 
 import React, { useState, useEffect } from 'react';
+import { PropTypes } from 'prop-types';
 import { makeStyles } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -41,7 +44,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function Reviews() {
+function Reviews(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
@@ -66,7 +69,7 @@ function Reviews() {
   useEffect(() => {
     dispatch(
       getFeaturedReviewsAction({
-        companyId: '61a32673a0660ee943876fc0',
+        companyId: location.search.split('=')[1],
         userId: user.userId,
       }),
     );
@@ -79,7 +82,7 @@ function Reviews() {
 
   useEffect(() => {
     const params = {
-      companyId: '61a32673a0660ee943876fc0',
+      companyId: location.search.split('=')[1],
       userId: user.userId,
       sort: all ? '' : helpful ? 'helpful' : date ? 'date' : 'rating',
       order: asc ? 'asc' : 'desc',
@@ -101,7 +104,7 @@ function Reviews() {
   const handleChangePage = (event, val) => {
     setPage(val);
     const params = {
-      companyId: '61a32673a0660ee943876fc0',
+      companyId: location.search.split('=')[1],
       userId: user.userId,
       sort: all ? '' : helpful ? 'helpful' : date ? 'date' : 'rating',
       order: asc ? 'asc' : 'desc',
@@ -117,7 +120,7 @@ function Reviews() {
     setDate(false);
     setAll(false);
     const params = {
-      companyId: '61a32673a0660ee943876fc0',
+      companyId: location.search.split('=')[1],
       userId: user.userId,
       sort: 'helpful',
       order: asc ? 'asc' : 'desc',
@@ -132,7 +135,7 @@ function Reviews() {
     setDate(false);
     setAll(false);
     const params = {
-      companyId: '61a32673a0660ee943876fc0',
+      companyId: location.search.split('=')[1],
       userId: user.userId,
       sort: 'rating',
       order: asc ? 'asc' : 'desc',
@@ -147,7 +150,7 @@ function Reviews() {
     setDate(true);
     setAll(false);
     const params = {
-      companyId: '61a32673a0660ee943876fc0',
+      companyId: location.search.split('=')[1],
       userId: user.userId,
       sort: 'date',
       order: asc ? 'asc' : 'desc',
@@ -162,7 +165,7 @@ function Reviews() {
     setDate(false);
     setAll(true);
     const params = {
-      companyId: '61a32673a0660ee943876fc0',
+      companyId: location.search.split('=')[1],
       userId: user.userId,
       sort: '',
       order: asc ? 'asc' : 'desc',
@@ -262,7 +265,11 @@ function Reviews() {
           // eslint-disable-next-line react/no-array-index-key
           <ReviewCard review={item} key={`review-${item.reviewId}`} />
         ))}
-      <ReviewModal open={open} handleClose={handleClose} />
+      <ReviewModal
+        open={open}
+        handleTabChange={props.handleTabChange}
+        handleClose={handleClose}
+      />
       <CustomPagination
         count={meta ? meta.totalPages : 0}
         page={page}
@@ -271,5 +278,8 @@ function Reviews() {
     </Box>
   );
 }
-
+Reviews.propTypes = {
+  // ...prop type definitions here
+  handleTabChange: PropTypes.func,
+};
 export default Reviews;

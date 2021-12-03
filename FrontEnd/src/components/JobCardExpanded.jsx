@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable no-extra-boolean-cast */
 /* eslint-disable max-len */
@@ -5,9 +6,10 @@
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable react/no-unused-prop-types */
 /* eslint-disable react/require-default-props */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PropTypes } from 'prop-types';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Input } from '@mui/material';
@@ -21,13 +23,21 @@ import StarRateIcon from '@mui/icons-material/StarRate';
 import { ColorButton2 } from './customComponents/index';
 import salarySvg from '../svg/salary.svg';
 import { uploadResumeAction } from '../store/actions/resume';
-import { saveJobAction, unsaveJobAction } from '../store/actions/jobs';
+import {
+  saveJobAction,
+  unsaveJobAction,
+  applyAction,
+} from '../store/actions/jobs';
+import { setUserDetailsAction } from '../store/actions/user';
+import { baseUrl, urls } from '../utils/constants';
+import { createToastBody, toastOptions } from '../utils';
 
 function JobCardExpanded(props) {
   const history = useHistory();
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-
+  const resumeKey = useSelector((state) => state.resume.resumeKey);
+  const [isResume, setIsResume] = useState(resumeKey);
   const [isSaved, setIsSaved] = useState(false);
 
   const handleIsSaved = () => {
@@ -54,6 +64,46 @@ function JobCardExpanded(props) {
     }
   };
 
+  const postUserProfile = async () => {
+    const url = `${baseUrl}${urls.updateUserProfile}`;
+    const body = {
+      userId: user.userId,
+      resume: resumeKey,
+    };
+    const headers = {
+      // Authorization: token,
+    };
+    try {
+      const res = await axios.post(url, body, { headers });
+      console.log('response', res.data);
+      // TODO Fetch User Profile
+      await dispatch(setUserDetailsAction(res.data));
+      dispatch(
+        applyAction({
+          firstName: user.firstName || '',
+          lastName: user.lastName || '',
+          mobile: user.mobile,
+          address: user.address,
+          jobSeekerId: user.userId,
+          status: 'Application Received',
+          resumeLink: resumeKey,
+          jobSeekerName: `${user.firstName} ${user.lastName}`,
+          currentCompany: user.company || '',
+          currentJobTitle: user.currentJobTitle || '',
+          companyId: props.selectedJob.job.companyId,
+          jobId: props.selectedJob.job.jobId,
+        }),
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    setIsResume(resumeKey);
+    postUserProfile(resumeKey);
+  }, [resumeKey]);
+
   return (
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
@@ -72,7 +122,7 @@ function JobCardExpanded(props) {
             {props.selectedJob.job ? props.selectedJob.job.jobTitle : ''}
           </Typography>
           <Typography color="text.secondary">
-            {props.selectedJob.company
+            {props.selectedJob.company && props.selectedJob.company.company
               ? props.selectedJob.company.company.companyName
               : ' '}
             . 4.5
@@ -142,6 +192,12 @@ function JobCardExpanded(props) {
                 onChange={(e) => {
                   if (Object.keys(user).length === 0) {
                     history.push('/Login');
+                  } else if (!user.firstName) {
+                    history.push('/jobSeeker/Profile');
+                    toast.info(
+                      'Fill in all personal details before applying',
+                      toastOptions,
+                    );
                   } else {
                     handleUploadResume(e);
                   }

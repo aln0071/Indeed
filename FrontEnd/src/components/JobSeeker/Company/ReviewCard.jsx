@@ -78,7 +78,11 @@ function ReviewCard(props) {
             {props.review ? props.review.reviewerState : 'State'}
             {' '}
             {' - '}
-            {props.review ? props.review.reviewDate : 'Posted Date'}
+            {props.review
+              ? new Date(
+                parseInt(props.review.reviewDate, 10),
+              ).toLocaleDateString()
+              : 'Posted Date'}
           </Typography>
           <Typography sx={{ mb: 1.5 }} color="text.secondary">
             <p>{props.review.reviewDescription}</p>

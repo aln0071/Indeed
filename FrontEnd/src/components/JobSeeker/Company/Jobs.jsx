@@ -4,6 +4,7 @@
 /* eslint-disable import/no-cycle */
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { Hidden } from '@mui/material';
 import Box from '@mui/material/Box';
 import CustomPagination from '../../customComponents/Pagination';
@@ -23,14 +24,15 @@ function FindJobs() {
   const [page, setPage] = useState(1);
   const [selectedJobs, setSelectedJobs] = useState(specificJob);
   const [searchResults, setSearchResults] = useState(searchedJobs);
+  const location = useLocation();
 
   useEffect(() => {
-    dispatch(getCompanySpecificJobs('619d1f2d333e9575297d0b73', 1, 5));
+    dispatch(getCompanySpecificJobs(location.search.split('=')[1], 1, 5));
   }, []);
 
   const handleChangePage = (event, val) => {
     setPage(val);
-    dispatch(getCompanySpecificJobs('619d1f2d333e9575297d0b73', val, 5));
+    dispatch(getCompanySpecificJobs(location.search.split('=')[1], val, 5));
   };
 
   useEffect(() => {
@@ -39,7 +41,7 @@ function FindJobs() {
     if (searchedJobs.reviews && searchedJobs.reviews[0]) {
       dispatch(
         getSpecificJobAction(
-          '619d1f2d333e9575297d0b73',
+          location.search.split('=')[1],
           searchedJobs.reviews[0].jobId,
         ),
       );

@@ -30,4 +30,5 @@ export const urls = {
   uploadResume: 'indeed/files/upload/resume',
   updateUserProfile: 'indeed/api/userProfile',
   getProfile: 'indeed/api/jobseeker/profile',
+  applyJob: 'indeed/api/jobseeker',
 };

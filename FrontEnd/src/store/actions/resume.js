@@ -11,6 +11,8 @@ export const uploadResumeAction = (key, isApply) => async (dispatch) => {
     });
     if (isApply) {
       toast.success('Applied Successfully', toastOptions);
+    } else {
+      toast.success('Uploaded Successfully', toastOptions);
     }
   } catch (error) {
     toast.error(createToastBody(error), toastOptions);
