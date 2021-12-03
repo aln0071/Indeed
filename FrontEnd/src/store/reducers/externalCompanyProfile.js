@@ -7,6 +7,7 @@ const initialState = {
   companyId: '',
   companyName: 'Amazon.com',
   pictures: [],
+  logo: {},
 };
 
 const externalCompanyProfile = (state = { ...initialState }, action) => {

@@ -6,10 +6,10 @@ router.get('/jobseeker/profile/:id', async (req, res) => {
     'indeed_get_jobseeker_profile',
     req.params,
     (err, results) => {
-      console.log('In result');
+      // console.log('In result');
       // console.log('result in msg', results);
       if (err) {
-        console.log('err', err);
+        // console.log('err', err);
         // res.json({
         //   status: 'Error',
         //   msg: 'Error',
