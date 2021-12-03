@@ -17,6 +17,7 @@ import EmployerNavbar from '../Navbars/EmployerNavbar';
 
 function EmployerChat() {
   const chatRooms = useSelector((state) => state.message.rooms);
+  const userId = useSelector((state) => state.user.userId);
   const dispatch = useDispatch();
   const handleClick = (e, item) => {
     dispatch(setSender(item.employer));
@@ -24,7 +25,7 @@ function EmployerChat() {
     dispatch(getRoomConversations(item));
   };
   useEffect(() => {
-    dispatch(getRooms('124', 'employer'));
+    dispatch(getRooms(userId, 'employer'));
   }, []);
 
   useEffect(async () => {

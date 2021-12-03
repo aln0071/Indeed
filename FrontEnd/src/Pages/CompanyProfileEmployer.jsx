@@ -1,4 +1,8 @@
-/* eslint jsx-a11y/label-has-associated-control: 0 */
+/* eslint
+  jsx-a11y/label-has-associated-control: 0,
+  no-nested-ternary: 0,
+  prefer-destructuring: 0
+*/
 import * as React from 'react';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
@@ -7,13 +11,24 @@ import { useSelector, useDispatch } from 'react-redux';
 import styles from '../styles.scss';
 import EmployerNavbar from '../components/Navbars/EmployerNavbar';
 import {
+  getCompanyProfileForEmployerAction,
   setCompanyProfileAction,
   updateCompanyProfileAction,
 } from '../store/actions/companyProfile';
+import { imageUpload } from '../utils/endpoints';
+import { baseUrl, urls } from '../utils/constants';
+
+let newLogo = null;
 
 export default function CompanyProfileEmployer() {
   const companyProfile = useSelector((state) => state.companyProfile);
+  const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  React.useEffect(() => {
+    dispatch(getCompanyProfileForEmployerAction());
+  }, []);
+
+  const [logo, setLogo] = React.useState('');
 
   const handleChange = (e) => {
     dispatch(
@@ -22,6 +37,17 @@ export default function CompanyProfileEmployer() {
       }),
     );
   };
+
+  const logoRef = React.useRef();
+
+  const logoSrc = logo !== ''
+    ? logo
+    : companyProfile.logo.pictureKey !== undefined
+      ? `${baseUrl}${urls.getImageFromS3.replace(
+        '{key}',
+        companyProfile.logo.pictureKey,
+      )}`
+      : logo;
 
   return (
     <>
@@ -39,7 +65,6 @@ export default function CompanyProfileEmployer() {
                 fullWidth
                 id="companyName"
                 name="companyName"
-                autoFocus
               />
             </div>
           </Grid>
@@ -54,7 +79,6 @@ export default function CompanyProfileEmployer() {
                 fullWidth
                 id="aboutUs"
                 name="aboutUs"
-                autoFocus
               />
             </div>
           </Grid>
@@ -69,7 +93,6 @@ export default function CompanyProfileEmployer() {
                 fullWidth
                 id="workCulture"
                 name="workCulture"
-                autoFocus
               />
             </div>
           </Grid>
@@ -84,7 +107,6 @@ export default function CompanyProfileEmployer() {
                 fullWidth
                 id="companyValues"
                 name="companyValues"
-                autoFocus
               />
             </div>
           </Grid>
@@ -99,7 +121,6 @@ export default function CompanyProfileEmployer() {
                 fullWidth
                 id="companyMission"
                 name="companyMission"
-                autoFocus
               />
             </div>
           </Grid>
@@ -114,7 +135,6 @@ export default function CompanyProfileEmployer() {
                 fullWidth
                 id="companyVision"
                 name="companyVision"
-                autoFocus
               />
             </div>
           </Grid>
@@ -129,8 +149,43 @@ export default function CompanyProfileEmployer() {
                 fullWidth
                 id="website"
                 name="website"
-                autoFocus
               />
+            </div>
+          </Grid>
+          <Grid item padding={3} paddingLeft={5} paddingRight={5}>
+            <div className={styles.loginInput}>
+              <label>Company Logo</label>
+              <br />
+              {logoSrc !== '' && (
+                <img alt="" src={logoSrc} width="100px" height="100px" />
+              )}
+              <br />
+              <input
+                ref={logoRef}
+                type="file"
+                style={{ display: 'none' }}
+                onChange={(e) => {
+                  const { files } = e.target;
+                  if (files[0] !== undefined) {
+                    newLogo = files[0];
+                    const reader = new FileReader();
+                    reader.onload = () => {
+                      const dataUrl = reader.result;
+                      setLogo(dataUrl);
+                    };
+                    reader.readAsDataURL(files[0]);
+                  }
+                }}
+              />
+              <Button
+                variant="contained"
+                onClick={() => {
+                  logoRef.current.click();
+                }}
+                style={{ marginTop: '5px' }}
+              >
+                Choose Logo
+              </Button>
             </div>
           </Grid>
           <Grid
@@ -142,7 +197,21 @@ export default function CompanyProfileEmployer() {
           >
             <Button
               variant="contained"
-              onClick={() => dispatch(updateCompanyProfileAction())}
+              onClick={async () => {
+                // upload new logo
+                if (newLogo !== null) {
+                  const photos = await imageUpload(
+                    [{ file: newLogo }],
+                    user.userId,
+                  );
+                  dispatch(
+                    setCompanyProfileAction({
+                      logo: photos[0]._id,
+                    }),
+                  );
+                }
+                dispatch(updateCompanyProfileAction());
+              }}
             >
               Submit
             </Button>

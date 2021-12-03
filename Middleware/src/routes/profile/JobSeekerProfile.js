@@ -7,14 +7,14 @@ router.get('/jobseeker/profile/:id', async (req, res) => {
     req.params,
     (err, results) => {
       console.log('In result');
-      console.log('result in msg', results);
+      // console.log('result in msg', results);
       if (err) {
         console.log('err', err);
-        res.json({
-          status: 'Error',
-          msg: 'Error',
-        });
-        res.status(400).end();
+        // res.json({
+        //   status: 'Error',
+        //   msg: 'Error',
+        // });
+        res.status(400).send(err);
       } else {
         res.status(200).send(results);
       }

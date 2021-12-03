@@ -3,6 +3,7 @@ const Reviews = require('../../model/Review');
 async function handleRequest(req, callback) {
   let reviews = {};
   let error = {};
+  let metadata = {};
   const { companyId } = req.params;
   const { sort } = req.query;
   const { order } = req.query;
@@ -20,7 +21,9 @@ async function handleRequest(req, callback) {
   } else if (sort === 'helpful') {
     sortCriteria = { helpfulnessPositive: parseInt(sortOrder, 10) };
   }
+
   try {
+    const allCompanyReviews = await Reviews.find({ companyId });
     if (
       req.query.page
       && req.query.limit
@@ -30,6 +33,14 @@ async function handleRequest(req, callback) {
       const page = parseInt(req.query.page, 10);
       const limit = parseInt(req.query.limit, 10);
       const skipIndex = (page - 1) * limit;
+      const totalCount = allCompanyReviews.length;
+      const noOfPagesLeft = totalCount <= limit ? 0 : Math.ceil(totalCount / limit - page);
+      const totalPages = Math.ceil(totalCount / limit);
+      metadata = {
+        noOfPagesLeft,
+        totalCount,
+        totalPages,
+      };
       reviews = await Reviews.find({ companyId })
         .sort(sortCriteria)
         .limit(limit)
@@ -45,9 +56,9 @@ async function handleRequest(req, callback) {
       error = { message: 'Pass both page and limit and not just one' };
       callback(error, null);
     } else {
-      reviews = await Reviews.find({ companyId });
+      reviews = allCompanyReviews;
     }
-    callback(null, reviews);
+    callback(null, { data: { reviews, metadata }, allCompanyReviews });
   } catch (err) {
     callback(err, null);
   }

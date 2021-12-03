@@ -99,7 +99,11 @@ const JobSeekerNavbar = () => {
 
   const handleMenuClose = (operation = () => {}) => {
     setAnchorEl(null);
-    operation();
+    try {
+      operation();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -234,7 +238,7 @@ const JobSeekerNavbar = () => {
                     <Link
                       id="Notifications"
                       className={`nav ${styles.navIcon}`}
-                      to="/"
+                      to="#"
                     >
                       <NotificationsIcon />
                     </Link>
@@ -242,7 +246,7 @@ const JobSeekerNavbar = () => {
                       id="Profile"
                       onClick={handleMenu}
                       className={`nav ${styles.navIcon} ${styles.navIconLast}`}
-                      to="/"
+                      to="#"
                     >
                       <PersonIcon />
                     </Link>
@@ -258,7 +262,11 @@ const JobSeekerNavbar = () => {
                     marginLeft: '24px',
                   }}
                 />
-                <Link id="EmployeeLandingPage" className="nav" to="/PostJob">
+                <Link
+                  id="EmployeeLandingPage"
+                  className="nav"
+                  to="/CompanyProfileEmployerLandingPage"
+                >
                   Employers / Post Job
                 </Link>
               </div>
@@ -282,18 +290,27 @@ const JobSeekerNavbar = () => {
               style={{ transform: 'translate(10px, 50px)' }}
             >
               {/* <div className={styles.navNotch} ></div> */}
-              <div className={styles.navMenuUsername}>user@gmail.com</div>
-              <MenuItem onClick={handleMenuClose}>
+              <div className={styles.navMenuUsername}>{user.email}</div>
+              <MenuItem
+                onClick={() => {
+                  history.push('/jobSeeker/Profile');
+                  handleMenuClose();
+                }}
+              >
                 <PersonIcon className={styles.navMenuIcon} />
                 {' '}
                 Profile
               </MenuItem>
-              <MenuItem onClick={handleMenuClose}>
+              <MenuItem
+                onClick={() => handleMenuClose(() => history.push('/myjobs'))}
+              >
                 <FavoriteIcon className={styles.navMenuIcon} />
                 {' '}
                 My jobs
               </MenuItem>
-              <MenuItem onClick={handleMenuClose}>
+              <MenuItem
+                onClick={() => handleMenuClose(() => history.push('/myreviews'))}
+              >
                 <ReviewsIcon className={styles.navMenuIcon} />
                 {' '}
                 My reviews

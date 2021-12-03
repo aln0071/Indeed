@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 const router = require('express').Router();
 const kafka = require('../../kafka/Client');
 // const redisCli = require('../../redis/Connection');
@@ -10,7 +11,7 @@ router.post('/company', async (req, res) => {
     body: req.body,
   };
 
-  kafka.make_request('indeed_post_company', request, (error, results) => {
+  kafka.make_request('indeed_put_company', request, (error, results) => {
     if (error) {
       res.status(400).send(error);
     } else {
@@ -65,6 +66,41 @@ router.get('/companiesList', async (req, res) => {
       res.status(200).send(results);
     }
   });
+});
+
+router.get('/companyDetails/:companyId', async (req, res) => {
+  const request = {
+    query: req.query,
+    params: req.params,
+    body: req.body,
+  };
+
+  kafka.make_request('indeed_get_companyDetails', request, (error, results) => {
+    if (error) {
+      res.status(400).send(error);
+    } else {
+      res.status(200).send(results);
+    }
+  });
+});
+
+router.get('/companyDetails/forEmployer/:employerId', async (req, res) => {
+  const request = {
+    query: req.query,
+    params: req.params,
+    body: req.body,
+  };
+  kafka.make_request(
+    'indeed_get_companyDetails_by_employerId',
+    request,
+    (error, results) => {
+      if (error) {
+        res.status(400).send(error);
+      } else {
+        res.status(200).send(results || {});
+      }
+    },
+  );
 });
 
 module.exports = router;

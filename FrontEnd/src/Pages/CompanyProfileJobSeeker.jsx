@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from '@mui/material';
 import Rating from '@mui/material/Rating';
 import { styled } from '@mui/material/styles';
+import { useDispatch, useSelector } from 'react-redux';
 import JobSeekerNavbar from '../components/Navbars/JobSeekerNavbar';
 import styles from '../styles.scss';
 import banner from '../images/banner.jpeg';
 import logo from '../images/cmplogo.jpeg';
 import CompanyTabs from '../components/JobSeeker/Company/CompanyTabs';
+import { getExternalCompanyProfileAction } from '../store/actions/companyProfile';
 
 const StyledRating = styled(Rating)({
   '& .MuiRating-iconFilled': {
@@ -21,6 +23,15 @@ const StyledRating = styled(Rating)({
 });
 
 export default function CompanyProfileJobSeeker() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const urlSearchParams = new URLSearchParams(
+      window.location.hash.split('?')[1],
+    );
+    const params = Object.fromEntries(urlSearchParams.entries());
+    dispatch(getExternalCompanyProfileAction(params.companyId));
+  }, []);
+  const { companyName } = useSelector((state) => state.externalCompanyProfile);
   return (
     <>
       <JobSeekerNavbar />
@@ -35,7 +46,9 @@ export default function CompanyProfileJobSeeker() {
               <img src={logo} alt="logo" />
             </div>
             <div className={styles.companyProfileHeaderDetails}>
-              <div className={styles.companyProfileHeaderName}>Amazon.com</div>
+              <div className={styles.companyProfileHeaderName}>
+                {companyName}
+              </div>
               <div className={styles.companyProfileHeaderDetailsSection2}>
                 <div className={styles.companyProfileHeaderScore}>62</div>
                 <div className={styles.companyProfileHeaderReviews}>

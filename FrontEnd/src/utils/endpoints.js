@@ -77,3 +77,68 @@ export const postReviews = (params) => {
   const url = `${baseUrl}${urls.postReview}/${params.companyId}/reviews`;
   return post(url, params).then(handleResponse);
 };
+
+export const postJob = (params) => {
+  const url = `${baseUrl}indeed/api/company/${params.companyId}/jobs`;
+  return post(url, params).then(handleResponse);
+};
+
+export const getReviews = (params) => {
+  const url = `${baseUrl}${urls.getReviews}/${params.companyId}/reviews?sort=${params.sort}&order=${params.order}&page=${params.page}&limit=${params.limit}&user=${params.userId}`;
+  return get(url, params).then(handleResponse);
+};
+
+export const imageUpload = (files, userId) => {
+  const url = `${baseUrl}${urls.imageUpload}`;
+  const formData = new FormData();
+  files.forEach((file) => {
+    formData.append('image', file.file);
+    formData.append('caption', file.caption || '');
+    formData.append('location', file.location || '');
+  });
+  formData.append('userId', userId);
+  return fetch(url, {
+    method: 'POST',
+    body: formData,
+  }).then(handleResponse);
+};
+
+export const uploadCompanyPhotos = ({ companyId, pictures }) => {
+  const url = `${baseUrl}${urls.uploadCompanyPhotos.replace(
+    '{companyId}',
+    companyId,
+  )}`;
+  return post(url, pictures).then(handleResponse);
+};
+
+export const getCompanyDetailsByEmployerId = (employerId) => {
+  const url = `${baseUrl}${urls.getCompanyDetailsByEmployerId.replace(
+    '{employerid}',
+    employerId,
+  )}`;
+  return get(url).then(handleResponse);
+};
+
+export const getUserDetailsWithId = (userId) => {
+  const url = `${baseUrl}${urls.getUserDetailsWithId.replace(
+    '{userId}',
+    userId,
+  )}`;
+  return get(url).then(handleResponse);
+};
+
+export const getCompanyProfileByCompanyId = (companyId) => {
+  const url = `${baseUrl}${urls.getCompanyDetailsByCompanyId.replace(
+    '{companyId}',
+    companyId,
+  )}`;
+  return get(url).then(handleResponse);
+};
+
+export const postInitialConversation = async (room, message) => {
+  const chatRoomUrl = `${baseUrl}indeed/api/chatRooms`;
+  const response = await post(chatRoomUrl, room).then(handleResponse);
+  const payload = { ...message, chatRoomId: response.chatRoomId };
+  postConversation(payload);
+  return response;
+};

@@ -6,6 +6,8 @@ import {
   UPDATE_CONVERSATION,
   SET_SENDER,
   SET_RECEIVER,
+  CREATE_ROOM,
+  OPEN_MESSAGE_BOX,
 } from '../actions/types';
 
 const initialState = {
@@ -13,6 +15,8 @@ const initialState = {
   conversation: [],
   currentRoom: {},
   sender: {},
+  lastCreatedRoom: {},
+  openChat: false,
 };
 
 const message = (state = { ...initialState }, action) => {
@@ -46,6 +50,16 @@ const message = (state = { ...initialState }, action) => {
       return {
         ...state,
         receiver: action.payload,
+      };
+    case CREATE_ROOM:
+      return {
+        ...state,
+        lastCreatedRoom: action.payload,
+      };
+    case OPEN_MESSAGE_BOX:
+      return {
+        ...state,
+        openChat: action.payload,
       };
     default:
       return state;

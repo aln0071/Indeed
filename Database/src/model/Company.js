@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
@@ -15,7 +16,8 @@ const companyInfoSchema = new Schema({
   avgAnnualSalary: { type: Number },
   totalReviews: { type: Number },
   totalSalaryReported: { type: Number },
-  pictures: [String],
+  pictures: [{ type: mongoose.Types.ObjectId, ref: 'Pictures' }],
+  logo: { type: mongoose.Types.ObjectId, ref: 'Pictures' },
   hiredApplicants: { type: Number },
   rejectedApplicants: { type: Number },
   totalApplicants: { type: Number },

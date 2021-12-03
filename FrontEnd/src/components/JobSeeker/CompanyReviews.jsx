@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable no-unused-vars */
 /* eslint-disable max-len */
@@ -16,6 +17,7 @@ import { useHistory } from 'react-router-dom';
 import SearchIcon from '@material-ui/icons/Search';
 import axios from 'axios';
 // import Rating from '@material-ui/lab/Rating';
+import CompanyTabs from './Company/CompanyTabs';
 import {
   Container,
   makeStyles,
@@ -145,18 +147,24 @@ function CompanyReviews() {
   };
 
   const handleCompanyClick = (company) => {
-    history.push('/cmp/companyId');
+    history.push(`/cmp/companyId?companyId=${company.companyId}`);
   };
 
   const handleReviewsClick = (company) => {
-    history.push(`/cmp/companyId/?tab=${'reviews'}`);
+    history.push(
+      `/cmp/companyId/?companyId=${company.companyId}&tab=${'reviews'}`,
+    );
   };
 
   const handleSalariesClick = (company) => {
-    history.push(`/cmp/companyId/?tab=${'salaries'}`);
+    history.push(
+      `/cmp/companyId/?companyId=${company.companyId}&tab=${'salaries'}`,
+    );
   };
   const handleJobsClick = (company) => {
-    history.push(`/cmp/companyId/?tab=${'jobs'}`);
+    history.push(
+      `/cmp/companyId/?companyId=${company.companyId}&tab=${'jobs'}`,
+    );
   };
 
   const SearchButton = withStyles((theme) => ({
@@ -177,6 +185,7 @@ function CompanyReviews() {
   return (
     <>
       <JobSeekerNavbar />
+
       <Container className={classes.container} maxWidth="xl">
         <Grid container className={classes.boxSearch}>
           <Grid

@@ -3,7 +3,9 @@ import {
   SET_COMPANY_PROFILE_DATA,
 } from '../actions/types';
 
-const initialState = {};
+const initialState = {
+  logo: {},
+};
 
 const companyProfile = (state = { ...initialState }, action) => {
   switch (action.type) {
@@ -13,7 +15,7 @@ const companyProfile = (state = { ...initialState }, action) => {
         ...action.payload,
       };
     case CLEAR_COMPANY_PROFILE_DATA:
-      return {};
+      return { ...initialState };
     default:
       return state;
   }

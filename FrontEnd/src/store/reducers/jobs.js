@@ -3,13 +3,17 @@ import {
   GET_SPECIFIC_JOB,
   GET_SEARCHED_JOB,
   STORE_SEARCHED_RESULTS,
+  POST_JOB,
 } from '../actions/types';
 
 const initialState = {
   allJobs: [],
   selectedJob: {},
-  searchedJobs: [],
+  searchedJobs: {
+    jobs: [],
+  },
   searchedValues: [],
+  employerPostedJob: {},
 };
 
 const jobs = (state = { ...initialState }, action) => {
@@ -33,6 +37,11 @@ const jobs = (state = { ...initialState }, action) => {
       return {
         ...state,
         searchedValues: action.payload,
+      };
+    case POST_JOB:
+      return {
+        ...state,
+        employerPostedJob: action.payload,
       };
     default:
       return state;

@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 /* eslint-disable no-extra-boolean-cast */
 /* eslint-disable react/button-has-type */
 /* eslint-disable react/no-array-index-key */
@@ -43,7 +44,7 @@ function FindJobs() {
   const history = useHistory();
   const user = useSelector((state) => state.user);
   const specificJob = useSelector((state) => state.jobs.selectedJob);
-  const searchedJobs = useSelector((state) => state.jobs.searchedJobs);
+  const searchedJobs = useSelector((state) => state.jobs.searchedJobs.jobs);
   const searchValues = useSelector((state) => state.jobs.searchedValues);
 
   const [what, setWhat] = useState('');

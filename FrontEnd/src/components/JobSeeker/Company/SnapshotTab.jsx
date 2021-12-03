@@ -85,10 +85,10 @@ export function Snapshot() {
           <img
             src={companyDetails.ceo_image}
             alt={companyDetails.ceo_name}
-            style={{ height: '350px', borderRadius: '10px' }}
+            style={{ height: '350px', width: '200px', borderRadius: '10px' }}
           />
         </Grid>
-        <Grid container item style={{ flex: 2, flexDirection: 'column' }}>
+        <Grid container item style={{ flex: 0.5, flexDirection: 'column' }}>
           <Grid
             item
             xl={6}
@@ -97,6 +97,8 @@ export function Snapshot() {
               border: '2px solid #f2f2f2',
               borderRadius: '10px',
               padding: '20px',
+              width: 150,
+              height: 150,
             }}
           >
             <div style={{ fontWeight: '600' }}>CEO</div>
@@ -112,6 +114,8 @@ export function Snapshot() {
               border: '2px solid #f2f2f2',
               borderRadius: '10px',
               padding: '20px',
+              width: 150,
+              height: 150,
             }}
           >
             <div style={{ fontWeight: '600' }}>Revenue</div>
@@ -120,7 +124,7 @@ export function Snapshot() {
             <div>{companyDetails.revenue}</div>
           </Grid>
         </Grid>
-        <Grid container item style={{ flex: 3, flexDirection: 'column' }}>
+        <Grid container item style={{ flex: 0.5, flexDirection: 'column' }}>
           <Grid
             item
             xl={6}
@@ -129,6 +133,8 @@ export function Snapshot() {
               border: '2px solid #f2f2f2',
               borderRadius: '10px',
               padding: '20px',
+              width: 150,
+              height: 150,
             }}
           >
             <div style={{ fontWeight: '600' }}>Founded</div>
@@ -144,6 +150,8 @@ export function Snapshot() {
               border: '2px solid #f2f2f2',
               borderRadius: '10px',
               padding: '20px',
+              width: 150,
+              height: 150,
             }}
           >
             <div style={{ fontWeight: '600' }}>Company size</div>

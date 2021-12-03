@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
@@ -24,19 +25,32 @@ const jobSchema = new Schema({
     country: { type: String },
   },
 
-  applicantDetails: [{
-    jobSeekerId: { type: String, required: true },
-    status: { type: String },
-    resumeLink: { type: String },
-    appliedDate: { type: String },
-    currentlyWorking: { type: String },
-    lastWorkingDate: { type: String },
-    experience: { type: Number },
-    currentCompany: { type: String },
-    currentJobTitle: { type: String },
-    currentSalary: { type: Number },
-  }],
+  applicantDetails: [
+    {
+      jobSeekerId: { type: String, required: true },
+      status: { type: String },
+      resumeLink: { type: String },
+      appliedDate: { type: String },
+      currentlyWorking: { type: String },
+      lastWorkingDate: { type: String },
+      experience: { type: Number },
+      currentCompany: { type: String },
+      currentJobTitle: { type: String },
+      currentSalary: { type: Number },
+    },
+  ],
+});
+
+jobSchema.set('toObject', { virtuals: true });
+jobSchema.set('toJSON', { virtuals: true });
+
+jobSchema.virtual('company', {
+  ref: 'company',
+  localField: 'companyId',
+  foreignField: 'companyId',
+  justOne: true, // for many-to-1 relationships
 });
 
 const Jobs = mongoose.model('Jobs', jobSchema);
+
 module.exports = Jobs;

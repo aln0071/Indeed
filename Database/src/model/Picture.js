@@ -3,10 +3,11 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const picturesSchema = new Schema({
-  pictureId: { type: String, required: true },
-  picturePath: { type: String, required: true },
+  pictureKey: { type: String, required: true },
   userId: { type: String, required: true },
-  isApproved: { type: String },
+  isApproved: { type: Boolean, default: false },
+  caption: { type: String },
+  location: { type: String },
   context: { type: String },
 });
 

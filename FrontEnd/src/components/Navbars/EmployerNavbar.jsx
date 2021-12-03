@@ -2,6 +2,10 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable import/no-unresolved */
+/* eslint
+  jsx-a11y/click-events-have-key-events: 0,
+  jsx-a11y/no-noninteractive-element-interactions: 0
+*/
 import React, { useState } from 'react';
 import MobileeRightMenuSlider from '@mui/material/Drawer';
 import DehazeIcon from '@mui/icons-material/Dehaze';
@@ -22,10 +26,17 @@ import {
   Box,
 } from '@mui/material';
 import HelpIcon from '@mui/icons-material/Help';
-import { Link } from 'react-router-dom';
-import { ColorButton } from '../customComponents';
-import logo from '../../svg/employeeLogo.svg';
+import { Link, useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import './styles.css';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
+import PersonIcon from '@mui/icons-material/Person';
+import SettingsIcon from '@mui/icons-material/Settings';
+import { clearUserDetailsAction } from '../../store/actions/user';
+import logo from '../../svg/employeeLogo.svg';
+import { ColorButton } from '../customComponents';
+import styles from '../../styles.scss';
 
 const useStyles = makeStyles(() => ({
   menuSliderContainer: {
@@ -78,6 +89,35 @@ const EmployerNavbar = () => {
   const toggleSlider = (slider, open) => () => {
     setState({ ...state, [slider]: open });
   };
+  const history = useHistory();
+  const user = useSelector((s) => s.user);
+  const dispatch = useDispatch();
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const operations = {
+    logout: () => {
+      dispatch(clearUserDetailsAction());
+    },
+    profile: () => {
+      history.push('/company-profile');
+    },
+    gotoJobseekers: () => {
+      history.push('/');
+    },
+  };
+
+  const handleMenuClose = (operation = () => {}) => {
+    setAnchorEl(null);
+    try {
+      operation();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const sideList = (slider) => (
     <Box
@@ -124,15 +164,16 @@ const EmployerNavbar = () => {
                 width="120"
                 height="80"
                 alt=""
+                onClick={() => history.push('/CompanyProfileEmployerLandingPage')}
               />
               <div>
                 <Link
                   id="SignIn"
-                  // className="navEmployee"
+                  className="navEmployee"
                   style={{ color: '#2557a7', fontWeight: 'bold' }}
                   to="/PostJob"
                 >
-                  <ColorButton>Sign In</ColorButton>
+                  <ColorButton variant="contained">Sign In</ColorButton>
                 </Link>
                 <IconButton onClick={toggleSlider('right', true)}>
                   <DehazeIcon style={{ color: '#fff' }} />
@@ -154,11 +195,14 @@ const EmployerNavbar = () => {
                   width="120"
                   height="80"
                   alt=""
+                  onClick={() => {
+                    history.push('/CompanyProfileEmployerLandingPage');
+                  }}
                 />
                 <Link
                   className="navEmployee"
                   id="PostJob"
-                  to="/PostJob"
+                  to="/employer/PostJob"
                   style={{ color: '#fff' }}
                 >
                   Post a Job
@@ -182,7 +226,7 @@ const EmployerNavbar = () => {
                 <Link
                   id="Resources"
                   className="navEmployee"
-                  to="/PostJob" // add later, given dummy value for now
+                  to="/employer/PostJob" // add later, given dummy value for now
                   style={{ color: '#fff' }}
                 >
                   Resources
@@ -197,6 +241,35 @@ const EmployerNavbar = () => {
                 </Link>
               </div>
               <div style={{ display: 'flex', height: '80px' }}>
+                {user.userId
+                  && history.location.pathname
+                    === '/CompanyProfileEmployerLandingPage' && (
+                    <>
+                      <ColorButton
+                        variant="contained"
+                        style={{
+                          height: '30px',
+                          marginTop: '30px',
+                          textTransform: 'none',
+                        }}
+                        onClick={() => {
+                          history.push('/employer/PostJob');
+                        }}
+                      >
+                        Back to Hiring
+                      </ColorButton>
+                      <hr
+                        width="1"
+                        size="1000%"
+                        style={{
+                          height: '35px',
+                          alignSelf: 'center',
+                          marginRight: '24px',
+                          marginLeft: '24px',
+                        }}
+                      />
+                    </>
+                )}
                 <Link
                   id="HelpCenter"
                   className="navEmployee"
@@ -210,47 +283,118 @@ const EmployerNavbar = () => {
                   <span style={{ marginRight: '5px' }}>Help Center</span>
                   <HelpIcon />
                 </Link>
-                <hr
-                  width="1"
-                  size="1000%"
-                  style={{
-                    height: '35px',
-                    alignSelf: 'center',
-                    marginRight: '24px',
-                    marginLeft: '24px',
-                  }}
-                />
-                <Link
-                  id="SignIn"
-                  className="navEmployee"
-                  style={{ color: '#2557a7', fontWeight: 'bold' }}
-                  to="/PostJob"
-                >
-                  <ColorButton>Sign In</ColorButton>
-                </Link>
-                <hr
-                  width="1"
-                  size="1000%"
-                  style={{
-                    height: '35px',
-                    alignSelf: 'center',
-                    marginRight: '24px',
-                    marginLeft: '24px',
-                  }}
-                />
-                <Link
-                  id="FindJobs"
-                  className="navEmployee"
-                  to="/"
-                  style={{ color: '#fff' }}
-                >
-                  Find Jobs
-                </Link>
+                {!user.userId ? (
+                  <>
+                    <hr
+                      width="1"
+                      size="1000%"
+                      style={{
+                        height: '35px',
+                        alignSelf: 'center',
+                        marginRight: '24px',
+                        marginLeft: '24px',
+                      }}
+                    />
+                    <ColorButton
+                      variant="contained"
+                      style={{
+                        height: '30px',
+                        marginTop: '25px',
+                        textTransform: 'none',
+                      }}
+                      onClick={() => {
+                        history.push('/login');
+                      }}
+                    >
+                      Sign In
+                    </ColorButton>
+                    <hr
+                      width="1"
+                      size="1000%"
+                      style={{
+                        height: '35px',
+                        alignSelf: 'center',
+                        marginRight: '24px',
+                        marginLeft: '24px',
+                      }}
+                    />
+                    <Link
+                      id="FindJobs"
+                      className="navEmployee"
+                      to="/"
+                      style={{ color: '#fff' }}
+                    >
+                      Find Jobs
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <hr
+                      width="1"
+                      size="1000%"
+                      style={{
+                        height: '35px',
+                        alignSelf: 'center',
+                        marginRight: '24px',
+                        marginLeft: '24px',
+                      }}
+                    />
+                    <Link
+                      id="Profile"
+                      onClick={handleMenu}
+                      className={`navEmployee ${styles.navIcon} ${styles.navIconLast}`}
+                      to="#"
+                    >
+                      <PersonIcon sx={{ color: 'white' }} />
+                    </Link>
+                  </>
+                )}
               </div>
             </Hidden>
           </Toolbar>
         </AppBar>
       </Box>
+      <Menu
+        id="menu-appbar"
+        anchorEl={anchorEl}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        keepMounted
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        open={Boolean(anchorEl)}
+        // open={true}
+        onClose={handleMenuClose}
+        // className={styles.navMenu}
+        style={{ transform: 'translate(10px, 50px)' }}
+      >
+        {/* <div className={styles.navNotch} ></div> */}
+        <div className={styles.navMenuUsername}>{user.email}</div>
+        <MenuItem onClick={() => handleMenuClose(operations.profile)}>
+          <PersonIcon className={styles.navMenuIcon} />
+          {' '}
+          Profile
+        </MenuItem>
+        <MenuItem onClick={handleMenuClose}>
+          <SettingsIcon className={styles.navMenuIcon} />
+          {' '}
+          My Settings
+        </MenuItem>
+        <hr className={styles.navMenuDivider} />
+        <MenuItem onClick={() => handleMenuClose(operations.gotoJobseekers)}>
+          <div className={styles.navMenuSignout}>
+            Visit Indeed for job seekers
+          </div>
+        </MenuItem>
+        <hr className={styles.navMenuDivider} />
+        <MenuItem onClick={() => handleMenuClose(operations.logout)}>
+          <div className={styles.navMenuSignout}>Sign out</div>
+        </MenuItem>
+      </Menu>
     </div>
   );
 };

@@ -19,7 +19,7 @@ async function handleRequest(msg, callback) {
     console.log('here', userDetails);
     if (!userDetails) {
       console.log('user not found');
-      callback(null, { msg: 'User not found' });
+      callback({ msg: 'User not found' }, null);
     } else {
       console.log('user found');
       callback(null, userDetails);

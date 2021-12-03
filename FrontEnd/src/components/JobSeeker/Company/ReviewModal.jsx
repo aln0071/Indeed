@@ -2,6 +2,7 @@
 /* eslint-disable no-alert */
 /* eslint-disable react/require-default-props */
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 import { PropTypes } from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -14,6 +15,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { postReviewAction } from '../../../store/actions/review';
 import { ColorButton2 } from '../../customComponents';
 import Rating from '../../customComponents/Rating';
+import { toastOptions } from '../../../utils';
 
 const ReviewModal = (props) => {
   const history = useHistory();
@@ -25,6 +27,7 @@ const ReviewModal = (props) => {
   const [cons, setCons] = useState('');
   const [reviewTitle, setReviewTitle] = useState('');
   const [reviewDescription, setReviewDescription] = useState('');
+  const [learning, setLearning] = useState('');
   const [ceoApproval, setCeoApproval] = useState(0);
 
   const handleRatingChange = (value) => {
@@ -51,6 +54,7 @@ const ReviewModal = (props) => {
             width: '100%',
             justifyContent: 'space-between',
             padding: '20px',
+            marginBottom: '10px',
           }}
         >
           <Typography variant="h6" component="div" sx={{ fontWeight: 'bold' }}>
@@ -69,6 +73,7 @@ const ReviewModal = (props) => {
             width: '100%',
             justifyContent: 'space-between',
             padding: '20px',
+            marginBottom: '10px',
           }}
         >
           <Typography variant="h6" component="div" sx={{ fontWeight: 'bold' }}>
@@ -90,6 +95,7 @@ const ReviewModal = (props) => {
             width: '100%',
             justifyContent: 'space-between',
             padding: '20px',
+            marginBottom: '10px',
           }}
         >
           <Typography variant="h6" component="div" sx={{ fontWeight: 'bold' }}>
@@ -111,6 +117,29 @@ const ReviewModal = (props) => {
             width: '100%',
             justifyContent: 'space-between',
             padding: '20px',
+            marginBottom: '10px',
+          }}
+        >
+          <Typography variant="h6" component="div" sx={{ fontWeight: 'bold' }}>
+            How to prepare ?
+          </Typography>
+          <TextareaAutosize
+            minRows={3}
+            value={learning}
+            onChange={(e) => {
+              setLearning(e.target.value);
+            }}
+            placeholder="How to prepare ?"
+            style={{ width: '70%' }}
+          />
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            width: '100%',
+            justifyContent: 'space-between',
+            padding: '20px',
+            marginBottom: '10px',
           }}
         >
           <Typography variant="h6" component="div" sx={{ fontWeight: 'bold' }}>
@@ -132,6 +161,7 @@ const ReviewModal = (props) => {
             width: '100%',
             justifyContent: 'space-between',
             padding: '20px',
+            marginBottom: '10px',
           }}
         >
           <Typography variant="h6" component="div" sx={{ fontWeight: 'bold' }}>
@@ -153,6 +183,7 @@ const ReviewModal = (props) => {
             width: '100%',
             justifyContent: 'space-between',
             padding: '20px',
+            marginBottom: '10px',
           }}
         >
           <Typography variant="h6" component="div" sx={{ fontWeight: 'bold' }}>
@@ -183,14 +214,18 @@ const ReviewModal = (props) => {
               dispatch(
                 postReviewAction({
                   companyId: '619d1f2d333e9575297d0b73',
+                  userId: user.userId,
                   ceoApproval,
-                  normalRating: rating,
-                  comment: reviewDescription,
+                  rating,
+                  reviewDescription,
                   reviewTitle,
-                  pros,
-                  cons,
+                  learning,
+                  whatPeopleLiked: pros,
+                  areasOfImprovement: cons,
                 }),
               );
+              props.handleClose();
+              toast.success('Success! Review Posted', toastOptions);
             } else {
               alert('Fill all the fields');
             }

@@ -7,7 +7,7 @@ const userDetailsSchema = new Schema({
   firstName: { type: String },
   lastName: { type: String },
   mobile: { type: String },
-  profilePicId: { type: String },
+  profilePicId: { type: mongoose.Types.ObjectId, ref: 'Pictures' },
   address: {
     addressLine1: { type: String },
     addressLine2: { type: String },
@@ -30,7 +30,7 @@ const userDetailsSchema = new Schema({
     state: { type: String },
     country: { type: String },
   },
-  salary: { type: String },
+  salary: { type: Number },
   currentExperience: { type: Number },
   currentlyWorking: { type: Boolean },
   resume: { type: String },
@@ -44,6 +44,7 @@ const userDetailsSchema = new Schema({
     otherBenefits: { type: Boolean },
     otherBenefitsDesc: { type: String },
   },
+  savedJobs: [mongoose.Types.ObjectId],
   readyToWork: { type: Boolean },
 });
 
