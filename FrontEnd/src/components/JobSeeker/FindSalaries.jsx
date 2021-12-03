@@ -195,16 +195,12 @@ function FindSalaries() {
               <div className={styles.findSalariesCard}>
                 <div>
                   <div>
-                    <a
-                      href={`#/cmp/companyid?companyid=${company.companyId}`}
-                    >
+                    <a href={`#/cmp/companyid?companyid=${company.companyId}`}>
                       {company.companyName}
                     </a>
                   </div>
                   <div className={styles.findSalariesCardBottom}>
-                    <a
-                      href={`#/cmp/companyid?companyid=${company.companyId}`}
-                    >
+                    <a href={`#/cmp/companyid?companyid=${company.companyId}`}>
                       <span className={styles.findSalariesCardRating}>
                         {company.averageRating || '0.00'}
                       </span>
@@ -215,16 +211,12 @@ function FindSalaries() {
                         readOnly
                       />
                     </a>
-                    <a
-                      href={`#/cmp/companyid?companyid=${company.companyId}`}
-                    >
+                    <a href={`#/cmp/companyid?companyid=${company.companyId}`}>
                       {company.reviewCount || 0}
                       {' '}
                       reviews
                     </a>
-                    <a
-                      href={`#/cmp/companyid?companyid=${company.companyId}`}
-                    >
+                    <a href={`#/cmp/companyid?companyid=${company.companyId}`}>
                       {company.salaryReviewCount || 0}
                       {' '}
                       salaries reported
