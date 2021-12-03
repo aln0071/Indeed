@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-const Jobs = require('../../model/Job');
+const Jobs = require("../../model/Job");
 
 async function handleRequest(req, callback) {
   try {
@@ -16,15 +16,15 @@ async function handleRequest(req, callback) {
 
       const condition = [];
       if (what) {
-        condition.push({ jobTitle: { $regex: what, $options: 'i' } });
+        condition.push({ jobTitle: { $regex: what, $options: "i" } });
       }
       if (where) {
         condition.push({
           $or: [
-            { 'address.city': { $regex: where, $options: 'i' } },
-            { 'address.state': { $regex: where, $options: 'i' } },
-            { 'address.zipcode': { $regex: where, $options: 'i' } },
-            { 'address.country': { $regex: where, $options: 'i' } },
+            { "address.city": { $regex: where, $options: "i" } },
+            { "address.state": { $regex: where, $options: "i" } },
+            { "address.zipcode": { $regex: where, $options: "i" } },
+            { "address.country": { $regex: where, $options: "i" } },
           ],
         });
       }
@@ -36,28 +36,32 @@ async function handleRequest(req, callback) {
       }
 
       const totalCount = await Jobs.find(query).count();
-      const noOfPagesLeft = totalCount <= limit ? 0 : Math.ceil(totalCount / limit - page);
+      const noOfPagesLeft =
+        totalCount <= limit ? 0 : Math.ceil(totalCount / limit - page);
       metadata = {
         noOfPagesLeft,
         totalCount,
       };
 
-      jobs = await Jobs.find(query).limit(limit).skip(skipIndex);
+      jobs = await Jobs.find(query)
+        .limit(limit)
+        .skip(skipIndex)
+        .populate("company");
     } else if (req.query.page || req.query.limit) {
-      error = { message: 'Pass both page and limit and not just one' };
+      error = { message: "Pass both page and limit and not just one" };
       callback(error, null);
     } else if (req.query.where && req.query.what) {
       const condition = [];
       if (what) {
-        condition.push({ jobTitle: { $regex: what, $options: 'i' } });
+        condition.push({ jobTitle: { $regex: what, $options: "i" } });
       }
       if (where) {
         condition.push({
           $or: [
-            { 'address.city': { $regex: where, $options: 'i' } },
-            { 'address.state': { $regex: where, $options: 'i' } },
-            { 'address.zipcode': { $regex: where, $options: 'i' } },
-            { 'address.country': { $regex: where, $options: 'i' } },
+            { "address.city": { $regex: where, $options: "i" } },
+            { "address.state": { $regex: where, $options: "i" } },
+            { "address.zipcode": { $regex: where, $options: "i" } },
+            { "address.country": { $regex: where, $options: "i" } },
           ],
         });
       }
