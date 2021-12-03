@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-unused-vars */
 // export default Products;
 /* eslint-disable no-extra-boolean-cast */
@@ -8,6 +9,9 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Hidden } from '@mui/material';
 import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Avatar from '@mui/material/Avatar';
 import EmployerNavbar from '../Navbars/EmployerNavbar';
 import CustomPagination from '../customComponents/Pagination';
 import JobCard from '../JobCard';
@@ -27,6 +31,12 @@ function FindJobs() {
   const [page, setPage] = useState(1);
   const [selectedJobs, setSelectedJobs] = useState(specificJob);
   const [searchResults, setSearchResults] = useState(searchedJobs);
+
+  function stringAvatar(name) {
+    return {
+      children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+    };
+  }
 
   const handleChangePage = (event, val) => {
     setPage(val);
@@ -89,6 +99,24 @@ function FindJobs() {
                       page on click Change status of the applicant (Submitted,
                       reviewed, initial screening, Interviewing, Hired)
                     </p>
+                    <Card
+                      sx={{ minWidth: 700, minHeight: 150 }}
+                      style={{ marginBottom: '20px' }}
+                    >
+                      <CardContent style={{ display: 'flex' }}>
+                        <Avatar
+                          alt="Your Name"
+                          sx={{ width: '56px', height: '56px' }}
+                          {...stringAvatar('Your Name')}
+                        />
+                        <div style={{ marginLeft: '20px' }}>
+                          <h1 style={{ margin: 0, lineHeight: 'normal' }}>
+                            Your Name
+                          </h1>
+                          <p style={{ margin: 0 }}>San Jose, CA</p>
+                        </div>
+                      </CardContent>
+                    </Card>
                   </div>
                 </div>
               </div>

@@ -63,25 +63,14 @@ const companyDetails = {
 };
 
 export function SavedJobs() {
-  //   const classes = useStyle();
-  //   const companyDetails = useSelector((state) => state.companies.currentCompany);
-  //   const [reviews, setReviews] = useState([]);
   const userId = useSelector((state) => state.user.userId);
   const [myJobsResult, setMyJobsResult] = useState([]);
-  //   const query = new URLSearchParams(props.location.search);
-  //   const id = query.get('id');
-  //   const dispatch = useDispatch();
-  // const {isAuth} = useSelector(state=>state.login)
 
   const getMyJobs = async () => {
     // const url = `/customers/${customerProfile?._id}/profile`;
-    const url = `${baseUrl}${urls.getMyJobs}/${userId}`;
-    // const url = `${baseUrl}${urls.getMyJobs}/1254`;
-    const headers = {
-      // Authorization: token,
-    };
+    const url = `${baseUrl}indeed/api/jobseeker/${userId}/savedJobs`;
     try {
-      const res = await axios.get(url, { headers });
+      const res = await axios.get(url);
       console.log('response', res.data);
       setMyJobsResult(res.data);
       // await dispatch(updateCustomerProfile(res.data));

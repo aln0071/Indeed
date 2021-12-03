@@ -36,6 +36,7 @@ const addPictures = require('./services/pictures/AddPictures');
 const userProfileUpdate = require('./services/profile/UserProfileUpdate');
 const getSalaries = require('./services/salaries/GetSalaries');
 const userDeleteResume = require('./services/profile/UserDeleteResume');
+const savedJobs = require('./services/jobs/GetSavedJobs');
 const { mongoDB } = require('../Config');
 
 const options = {
@@ -129,3 +130,4 @@ handleTopicRequest('indeed_userprofile_update', userProfileUpdate);
 handleTopicRequest('indeed_userProfile_deleteResume', userDeleteResume);
 
 handleTopicRequest('indeed_get_salaries', getSalaries);
+handleTopicRequest('indeed_get_saved_jobs', savedJobs);

@@ -9,7 +9,7 @@ const reviewSchema = new Schema({
   companyId: { type: String, required: true },
   rating: { type: Number, required: true },
   happinessIndex: { type: Number },
-  learning: { type: String },
+  learning: { type: Number },
   appreciation: { type: Number },
   ceoApproval: { type: Number },
   helpfulnessPositive: { type: Number },

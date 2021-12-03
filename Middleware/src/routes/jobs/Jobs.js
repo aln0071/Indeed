@@ -167,7 +167,7 @@ router.post('/jobseeker/:jobseekerId/saveJob', async (req, res) => {
     params: req.params,
     body: req.body,
   };
-  // console.log(request);
+  console.log(request);
   kafka.make_request('indeed_post_save_job', request, (error, results) => {
     if (error) {
       res.status(400).send(error);
@@ -198,6 +198,20 @@ router.get('/salaries/jobs', async (req, res) => {
     query: req.query,
   };
   kafka.make_request('indeed_get_salaries', request, (error, results) => {
+    if (error) {
+      res.status(400).send(error);
+    } else {
+      res.status(200).send(results);
+    }
+  });
+});
+
+router.get('/jobseeker/:jobseekerId/savedJobs', async (req, res) => {
+  const request = {
+    params: req.params,
+    query: req.query,
+  };
+  kafka.make_request('indeed_get_saved_jobs', request, (error, results) => {
     if (error) {
       res.status(400).send(error);
     } else {
