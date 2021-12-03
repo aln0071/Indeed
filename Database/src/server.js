@@ -1,4 +1,6 @@
 /* eslint-disable linebreak-style */
+/* eslint-disable no-console */
+/* eslint-disable linebreak-style */
 /* eslint-disable no-shadow */
 const mongoose = require('mongoose');
 const connection = require('./kafka/Connection');
@@ -38,6 +40,12 @@ const getSalaries = require('./services/salaries/GetSalaries');
 const userDeleteResume = require('./services/profile/UserDeleteResume');
 const savedJobs = require('./services/jobs/GetSavedJobs');
 const { mongoDB } = require('../Config');
+const getAllReviews = require('./services/reviews/GetAllReviews');
+const getAllPhotos = require('./services/reviews/GetAllPhotos');
+const AdminReviewAction = require('./services/reviews/AdminReviewAction');
+const IndeedAnalytics = require('./services/reviews/IndeedAnalytics');
+const AdminReviewPhotosAction = require('./services/reviews/AdminReviewPhotosAction');
+const IndeedEmployerJobAnalysis = require('./services/jobs/IndeedEmployerJobAnalysis');
 
 const options = {
   useNewUrlParser: true,
@@ -106,6 +114,10 @@ handleTopicRequest('indeed_get_messages', getMessages);
 handleTopicRequest('indeed_create_room', createRoom);
 handleTopicRequest('indeed_get_rooms', getRooms);
 
+handleTopicRequest('indeed_get_all_reviews', getAllReviews);
+handleTopicRequest('indeed_admin_review_action', AdminReviewAction);
+handleTopicRequest('indeed_analytics', IndeedAnalytics);
+handleTopicRequest('indeed_employer_job_analysis', IndeedEmployerJobAnalysis);
 handleTopicRequest('indeed_post_reviews', postReviews);
 handleTopicRequest('indeed_post_helpful_reviews', postHelpfulReviews);
 handleTopicRequest('indeed_getapplied_job', getAppliedJob);
@@ -128,6 +140,8 @@ handleTopicRequest('indeed_post_save_job', postSaveJob);
 handleTopicRequest('indeed_post_undosave_job', postUndoSaveJob);
 handleTopicRequest('indeed_userprofile_update', userProfileUpdate);
 handleTopicRequest('indeed_userProfile_deleteResume', userDeleteResume);
+handleTopicRequest('indeed_get_photos_admin', getAllPhotos);
+handleTopicRequest('indeed_review_photos_admin', AdminReviewPhotosAction);
 
 handleTopicRequest('indeed_get_salaries', getSalaries);
 handleTopicRequest('indeed_get_saved_jobs', savedJobs);

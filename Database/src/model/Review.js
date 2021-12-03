@@ -6,7 +6,7 @@ const { Schema } = mongoose;
 const reviewSchema = new Schema({
   reviewId: { type: mongoose.Types.ObjectId, auto: true },
   userId: { type: String, required: true },
-  companyId: { type: String, required: true },
+  companyId: { type: mongoose.Schema.Types.ObjectId, ref: 'companies' },
   rating: { type: Number, required: true },
   happinessIndex: { type: Number },
   learning: { type: Number },
