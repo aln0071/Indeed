@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/button-has-type */
@@ -149,27 +150,25 @@ function ProfileDetails() {
                 }}
               >
                 <FileUploadIcon />
-                {isResume === '' && (
-                  <label htmlFor="resumeApply">
-                    <Input
-                      accept="application/pdf"
-                      style={{ display: 'none' }}
-                      id="resumeApply"
-                      name="resumeApply"
-                      required
-                      autoFocus
-                      type="file"
-                      onChange={(e) => {
-                        if (Object.keys(userProfile).length === 0) {
-                          history.push('/Login');
-                        } else {
-                          handleUploadResume(e);
-                        }
-                      }}
-                    />
-                    Upload Resume
-                  </label>
-                )}
+                <label htmlFor="resumeApply">
+                  <Input
+                    accept="application/pdf"
+                    style={{ display: 'none' }}
+                    id="resumeApply"
+                    name="resumeApply"
+                    required
+                    autoFocus
+                    type="file"
+                    onChange={(e) => {
+                      if (Object.keys(userProfile).length === 0) {
+                        history.push('/Login');
+                      } else {
+                        handleUploadResume(e);
+                      }
+                    }}
+                  />
+                  Upload Resume
+                </label>
               </Button>
               <Button
                 variant="outlined"
