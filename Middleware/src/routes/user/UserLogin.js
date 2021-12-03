@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const kafka = require('../../kafka/Client');
-const { executeQuery } = require('../../utils');
+const { executeQuery, generateAccessToken } = require('../../utils');
 const { _login } = require('../../utils/query');
 
 router.post('/UserLogin', async (req, res) => {
@@ -16,6 +16,8 @@ router.post('/UserLogin', async (req, res) => {
       const isValidUser = await bcrypt.compare(password, userData.password);
       if (isValidUser) {
         delete userData.password;
+        const token = generateAccessToken(userData.userId);
+        userData.token = `Bearer ${token}`;
         kafka.make_request(
           'indeed_get_user_profile',
           { userId: userData.userId },

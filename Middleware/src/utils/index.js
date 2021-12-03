@@ -1,5 +1,11 @@
 /* eslint no-param-reassign: 0, no-prototype-builtins: 0 */
+const dotenv = require('dotenv');
+const jwt = require('jsonwebtoken');
+const passport = require('passport');
+const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt');
 const { pool } = require('./mysql');
+
+dotenv.config();
 
 // to execute an sql query
 function executeQuery(queryString, params = {}) {
@@ -37,6 +43,39 @@ function executeQuery(queryString, params = {}) {
   });
 }
 
+// to generate new access token
+function generateAccessToken(username) {
+  return jwt.sign({ username }, process.env.SECRET, { expiresIn: '1h' });
+}
+
+function authWithPassport() {
+  const opts = {
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    secretOrKey: process.env.SECRET,
+  };
+
+  passport.use(
+    new JwtStrategy(opts, async (jwtPayload, callback) => {
+      try {
+        // const { username } = jwtPayload;
+        // const user = await findUserWithEmail(username);
+        // if (user === null) {
+        //   throw new Error('Invalid user');
+        // }
+        console.log(jwtPayload);
+        callback(null, jwtPayload);
+      } catch (error) {
+        callback(null, false);
+      }
+    }),
+  );
+}
+
+const authMiddleware = passport.authenticate('jwt', { session: false });
+
 module.exports = {
   executeQuery,
+  generateAccessToken,
+  authWithPassport,
+  authMiddleware,
 };
