@@ -24,9 +24,12 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import { useHistory } from 'react-router-dom';
 import DatePicker from '@mui/lab/DatePicker';
+import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import JobSeekerNavbar from '../../Navbars/JobSeekerNavbar';
 import { baseUrl } from '../../../utils/constants';
 import styles from '../../../styles.scss';
+import { createToastBody, toastOptions } from '../../../utils';
 
 const theme = createTheme();
 
@@ -41,14 +44,62 @@ function AddSalary() {
   const [relevantExp, setRelevantExp] = useState('');
   const [otherBenefitsDesc, setOtherBenefitsDesc] = useState('');
   const [endDate, setendDate] = React.useState(null);
-  const userId = '123';
 
-  console.log(endDate);
+  const isValid = (payload) => {
+    const nameRegex = new RegExp('^[a-zA-Z ]{1,256}$');
+    if (!nameRegex.test(payload.companyName)) {
+      toast.error(
+        createToastBody({
+          message: 'Company Name Should have only characters',
+        }),
+        toastOptions,
+      );
+      return false;
+    }
+    if (!nameRegex.test(payload.jobTitle)) {
+      toast.error(
+        createToastBody({ message: 'Job Title Should have only characters' }),
+        toastOptions,
+      );
+      return false;
+    }
+
+    if (!nameRegex.test(payload.jobLocation)) {
+      toast.error(
+        createToastBody({
+          message: 'Job Location Should have only characters',
+        }),
+        toastOptions,
+      );
+      return false;
+    }
+    const phoneRegex = new RegExp('^[0-9]{10}$');
+    if (!phoneRegex.test(payload.currentPay)) {
+      toast.error(
+        createToastBody({ message: 'Current Pay Should have only digits' }),
+        toastOptions,
+      );
+      return false;
+    }
+    if (!phoneRegex.test(payload.relevantExp)) {
+      toast.error(
+        createToastBody({ message: 'Experience Should have only digits' }),
+        toastOptions,
+      );
+      return false;
+    }
+    return true;
+  };
+  const userId = useSelector((state) => state.user.userId);
+  const companyId = useSelector(
+    (state) => state.externalCompanyProfile.companyId,
+  );
+  console.log(userId);
 
   const handleSubmit = async () => {
     console.log('helo');
     const payload = {
-      userId,
+      companyId,
       companyName,
       jobTitle,
       jobLocation,
@@ -64,7 +115,9 @@ function AddSalary() {
       otherBenefits,
       otherBenefitsDesc,
     };
-
+    if (!isValid(payload)) {
+      return;
+    }
     axios
       .post(`${baseUrl}indeed/api/jobseeker/add/salary/${userId}`, payload)
       .then((response) => {
@@ -94,18 +147,20 @@ function AddSalary() {
   });
 
   const handleChange = (event) => {
-    console.log(state);
+    // console.log(state);
 
     setState({
       ...state,
       [event.target.name]: event.target.checked,
     });
 
-    console.log('.....', event.target.value);
+    console.log('.....', event.target.name);
     if (event.target.name === 'otherBenefits') {
-      console.log(event.target.name);
+      // console.log(event.target.name);
       setCancel(true);
       console.log(cancel);
+    } else {
+      setCancel(false);
     }
   };
 
@@ -225,6 +280,8 @@ function AddSalary() {
                     fullWidth
                     id="title"
                     name="Jon Title"
+                    // error={jobTitleError}
+                    // helperText={jobTitleHelper}
                     autoComplete="email"
                     autoFocus
                     onChange={(event) => {
@@ -240,6 +297,8 @@ function AddSalary() {
                     fullWidth
                     id="Location"
                     name="Location"
+                    // error={jobLocationError}
+                    // helperText={jobLocationHelper}
                     autoComplete="email"
                     autoFocus
                     onChange={(event) => {
@@ -260,7 +319,7 @@ function AddSalary() {
                 <div className={styles.loginHeader}>
                   <label>Your anonymous pay will help other job seekers.</label>
                 </div>
-
+                <br />
                 <div className={styles.loginHeader}>
                   <label>What’s your pay at Your Current Company?</label>
                   <TextField
@@ -269,6 +328,8 @@ function AddSalary() {
                     fullWidth
                     id="number"
                     name="number"
+                    // error={currentPayError}
+                    // helperText={currentPayHelper}
                     autoComplete="number"
                     autoFocus
                     onChange={(event) => {
@@ -288,6 +349,8 @@ function AddSalary() {
                     fullWidth
                     id="number"
                     name="number"
+                    // error={relevantExpError}
+                    // helperText={relevantExpHelper}
                     autoComplete="email"
                     autoFocus
                     onChange={(event) => {
@@ -371,7 +434,7 @@ function AddSalary() {
                           label="Other Benefits"
                         />
                       </FormGroup>
-                      {cancel ? (
+                      {otherBenefits ? (
                         <TextField
                           margin="normal"
                           required
@@ -391,7 +454,7 @@ function AddSalary() {
                   </Box>
                 </div>
 
-                <br />
+                {/* <br /> */}
                 <Divider />
                 <br />
                 <ButtonGroup

@@ -12,6 +12,12 @@ async function handleRequest(req, callback) {
         city: req.body.city,
         zipCode: req.body.zip,
       },
+      jobPreference: {
+        jobTitle: req.body.jobTitle,
+        jobType: req.body.jobType,
+        contract: req.body.contract,
+        desiredPay: req.body.desiredPay,
+      },
     };
 
     const user = await User.find({ userId: req.params.userId });
