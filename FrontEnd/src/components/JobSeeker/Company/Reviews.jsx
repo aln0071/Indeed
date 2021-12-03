@@ -6,7 +6,7 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
@@ -51,8 +51,13 @@ function Reviews() {
   const [asc, setAsc] = useState(true);
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(1);
-  const [allCompanyReviews, setAllCompanyReviews] = useState(allReviews);
+  const [meta, setMeta] = useState({});
+  const location = useLocation();
 
+  const [allCompanyReviews, setAllCompanyReviews] = useState(
+    allReviews.reviews,
+  );
+  // location.search.split('=')[1],
   useEffect(() => {
     const params = {
       companyId: '61a32673a0660ee943876fc0',
@@ -66,7 +71,8 @@ function Reviews() {
   }, [asc]);
 
   useEffect(() => {
-    setAllCompanyReviews(allReviews);
+    setAllCompanyReviews(allReviews.reviews);
+    setMeta(allReviews.metadata);
   }, [allReviews]);
 
   const handleClose = () => {
@@ -220,13 +226,14 @@ function Reviews() {
           Write Review
         </ColorButton2>
       </div>
-      {allCompanyReviews.map((item, index) => (
-        // eslint-disable-next-line react/no-array-index-key
-        <ReviewCard review={item} key={`review-${item.reviewId}`} />
-      ))}
+      {allCompanyReviews
+        && allCompanyReviews.map((item, index) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <ReviewCard review={item} key={`review-${item.reviewId}`} />
+        ))}
       <ReviewModal open={open} handleClose={handleClose} />
       <CustomPagination
-        count={10}
+        count={meta ? meta.totalPages : 0}
         page={page}
         handleChangePage={handleChangePage}
       />

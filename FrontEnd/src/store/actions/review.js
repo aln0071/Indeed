@@ -5,6 +5,7 @@ import {
   getReviews,
   makeReviewFeatured,
   getFeaturedReviews,
+  helpful,
 } from '../../utils/endpoints';
 import {
   POST_REVIEW,
@@ -45,6 +46,11 @@ export const featureAReview = (params) => async (dispatch) => {
       type: FEATURE_A_REVIEW,
       payload: response,
     });
+    if (params.isFeatured) {
+      toast.success('Review featured successfully', toastOptions);
+    } else {
+      toast.success('Review removed from featured', toastOptions);
+    }
   } catch (error) {
     toast.error(createToastBody(error), toastOptions);
   }
@@ -57,6 +63,14 @@ export const getFeaturedReviewsAction = (params) => async (dispatch) => {
       type: GET_FEATURED_REVIEWS,
       payload: response,
     });
+  } catch (error) {
+    toast.error(createToastBody(error), toastOptions);
+  }
+};
+
+export const reviewHelpful = (params) => async () => {
+  try {
+    await helpful(params);
   } catch (error) {
     toast.error(createToastBody(error), toastOptions);
   }

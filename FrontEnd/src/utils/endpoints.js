@@ -64,7 +64,7 @@ export const saveJob = (params) => {
 };
 
 export const unsaveJob = (params) => {
-  const url = `${baseUrl}${urls.saveJob}/${params.jobId}/undoSaveJob}`;
+  const url = `${baseUrl}${urls.saveJob}/${params.jobId}/undoSaveJob`;
   return post(url, params).then(handleResponse);
 };
 
@@ -161,4 +161,9 @@ export const findSalaries = (what, where) => {
 export const uploadResume = (params) => {
   const url = `${baseUrl}${urls.uploadResume}`;
   return postResume(url, params).then(handleResponse);
+};
+
+export const helpful = (params) => {
+  const url = `${baseUrl}${urls.reviewHelpful}/${params.reviewId}/helpfullness`;
+  return post(url, params).then(handleResponse);
 };

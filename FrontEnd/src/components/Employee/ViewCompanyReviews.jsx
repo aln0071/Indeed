@@ -13,10 +13,11 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import { getReviewAction } from '../../store/actions/review';
-import { ColorButton2 } from '../customComponents/index';
+// import { ColorButton2 } from '../customComponents/index';
 import ReviewCard from './ReviewCard';
 import EmployerNavbar from '../Navbars/EmployerNavbar';
 import CustomPagination from '../customComponents/Pagination';
+// import { getFeaturedReviewsAction } from '../../store/../actions/';
 
 import '../styles.css';
 
@@ -51,7 +52,12 @@ function Reviews() {
   const [asc, setAsc] = useState(true);
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(1);
-  const [allCompanyReviews, setAllCompanyReviews] = useState(allReviews);
+  const [meta, setMeta] = useState({});
+  const [allCompanyReviews, setAllCompanyReviews] = useState(
+    allReviews.reviews,
+  );
+
+  useEffect(() => {}, []);
 
   useEffect(() => {
     const params = {
@@ -66,7 +72,8 @@ function Reviews() {
   }, [asc]);
 
   useEffect(() => {
-    setAllCompanyReviews(allReviews);
+    setAllCompanyReviews(allReviews.reviews);
+    setMeta(allReviews.metadata);
   }, [allReviews]);
 
   const handleClose = () => {
@@ -211,12 +218,13 @@ function Reviews() {
           </div>
           <div style={{ display: 'flex', width: '100%' }}>
             <div style={{ width: '50%' }}>
-              {allCompanyReviews.map((item, index) => (
-                // eslint-disable-next-line react/no-array-index-key
-                <ReviewCard review={item} key={`review-${item.reviewId}`} />
-              ))}
+              {allCompanyReviews
+                && allCompanyReviews.map((item, index) => (
+                  // eslint-disable-next-line react/no-array-index-key
+                  <ReviewCard review={item} key={`review-${item.reviewId}`} />
+                ))}
               <CustomPagination
-                count={10}
+                count={meta ? meta.totalPages : 0}
                 page={page}
                 handleChangePage={handleChangePage}
               />

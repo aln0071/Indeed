@@ -5,7 +5,7 @@
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable react/no-unused-prop-types */
 /* eslint-disable react/require-default-props */
-import React from 'react';
+import React, { useState } from 'react';
 import { PropTypes } from 'prop-types';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
@@ -21,24 +21,24 @@ import StarRateIcon from '@mui/icons-material/StarRate';
 import { ColorButton2 } from './customComponents/index';
 import salarySvg from '../svg/salary.svg';
 import { uploadResumeAction } from '../store/actions/resume';
-// import { saveJobAction, unsaveJobAction } from '../store/actions/jobs';
+import { saveJobAction, unsaveJobAction } from '../store/actions/jobs';
 
 function JobCardExpanded(props) {
   const history = useHistory();
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  // const [isSaved, setIsSaved] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
 
-  // const handleIsSaved = (jobId) => {
-  //   if (isSaved) {
-  //     setIsSaved(false);
-  //     dispatch(saveJobAction(jobId));
-  //   } else {
-  //     setIsSaved(true);
-  //     dispatch(unsaveJobAction(jobId));
-  //   }
-  // };
+  const handleIsSaved = () => {
+    if (isSaved) {
+      setIsSaved(false);
+      dispatch(unsaveJobAction(props.selectedJob.job.jobId));
+    } else {
+      setIsSaved(true);
+      dispatch(saveJobAction(props.selectedJob.job.jobId));
+    }
+  };
 
   const handleUploadResume = async (e) => {
     const isApply = true;
@@ -150,7 +150,11 @@ function JobCardExpanded(props) {
               Apply Now
             </label>
           </ColorButton2>
-          <IconButton>
+          <IconButton
+            onClick={() => {
+              handleIsSaved();
+            }}
+          >
             <FavoriteBorderIcon />
           </IconButton>
         </Box>

@@ -3,7 +3,7 @@
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable react/no-unused-prop-types */
 /* eslint-disable react/require-default-props */
-import React from 'react';
+import React, { useState } from 'react';
 import { PropTypes } from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import Card from '@mui/material/Card';
@@ -13,9 +13,12 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import CustomRating from '../../customComponents/Rating';
+import { reviewHelpful } from '../../../store/actions/review';
 
 function ReviewCard(props) {
   const dispatch = useDispatch();
+  const [checked, setChecked] = useState(true);
+  const [checkedAlt, setCheckedAlt] = useState(false);
   const userType = useSelector((state) => state.user.userType);
   return (
     <Card sx={{ minWidth: 275 }} style={{ marginBottom: '20px' }}>
@@ -78,10 +81,43 @@ function ReviewCard(props) {
               Was this Review Helpful ?
               <FormGroup>
                 <FormControlLabel
-                  control={<Checkbox defaultChecked />}
                   label="Yes"
+                  checked={checked}
+                  control={<Checkbox />}
+                  onChange={(e) => {
+                    setChecked(e.target.checked);
+                    if (e.target.checked) {
+                      setCheckedAlt(false);
+                      dispatch(
+                        reviewHelpful({
+                          helpfulnessPositive: 1,
+                          reviewId: props.review.reviewId,
+                        }),
+                      );
+                    } else {
+                      setCheckedAlt(true);
+                    }
+                  }}
                 />
-                <FormControlLabel control={<Checkbox />} label="No" />
+                <FormControlLabel
+                  checked={checkedAlt}
+                  control={<Checkbox />}
+                  label="No"
+                  onChange={(e) => {
+                    setCheckedAlt(e.target.checked);
+                    if (e.target.checked) {
+                      setChecked(false);
+                      dispatch(
+                        reviewHelpful({
+                          helpfulnessNegative: 1,
+                          reviewId: props.review.reviewId,
+                        }),
+                      );
+                    } else {
+                      setChecked(true);
+                    }
+                  }}
+                />
               </FormGroup>
             </p>
           </Typography>

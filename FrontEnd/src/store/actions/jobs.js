@@ -64,6 +64,7 @@ export const getSearchedJobsAction = (what, where, page, limit) => async (dispat
 export const saveJobAction = (jobId) => async () => {
   try {
     await saveJob({ jobId });
+    toast.success('Saved Successfully', toastOptions);
   } catch (error) {
     toast.error(createToastBody(error), toastOptions);
   }
@@ -72,6 +73,7 @@ export const saveJobAction = (jobId) => async () => {
 export const unsaveJobAction = (jobId) => async () => {
   try {
     await unsaveJob({ jobId });
+    toast.success('Un-saved Successfully', toastOptions);
   } catch (error) {
     toast.error(createToastBody(error), toastOptions);
   }
