@@ -27,19 +27,9 @@ import { createToastBody, toastOptions } from '../../utils';
 const theme = createTheme();
 
 function PostJob() {
+  const dispatch = useDispatch();
   const history = useHistory();
   const user = useSelector((state) => state.user);
-  useEffect(async () => {
-    try {
-      const companyDetails = await getCompanyDetailsByEmployerId(user.userId);
-      if (JSON.stringify(companyDetails) === '{}') {
-        history.push('/company-profile');
-        toast.info('Create a company profile first', toastOptions);
-      }
-    } catch (error) {
-      toast.error(createToastBody(error), toastOptions);
-    }
-  }, []);
 
   const [jobTitle, setJobTitle] = useState('');
   const [jobSalary, setJobSalary] = useState();
@@ -62,8 +52,101 @@ function PostJob() {
   const [eap, setEap] = useState(false);
   const [reloc, setReloc] = useState(false);
   const [lic, setLic] = useState(false);
-  const companyId = '61a3227aa0660ee943876fa1';
-  const dispatch = useDispatch();
+  const [companyId, setCompanyId] = useState('');
+
+  useEffect(async () => {
+    try {
+      const companyDetails = await getCompanyDetailsByEmployerId(user.userId);
+      if (JSON.stringify(companyDetails) === '{}') {
+        history.push('/company-profile');
+        toast.info('Create a company profile first', toastOptions);
+      } else {
+        setCompanyId(companyDetails.companyId);
+      }
+    } catch (error) {
+      toast.error(createToastBody(error), toastOptions);
+    }
+  }, []);
+
+  const isValid = (payload) => {
+    if (payload.jobTitle === '') {
+      toast.error(
+        createToastBody({ message: 'Job title cant be empty' }),
+        toastOptions,
+      );
+      return false;
+    }
+    if (payload.jobDescription === '') {
+      toast.error(
+        createToastBody({ message: 'Job summary cant be empty' }),
+        toastOptions,
+      );
+      return false;
+    }
+    if (payload.qualification === '') {
+      toast.error(
+        createToastBody({ message: 'Job qualification cant be empty' }),
+        toastOptions,
+      );
+      return false;
+    }
+    if (payload.jobType === '') {
+      toast.error(
+        createToastBody({ message: 'Job type cant be empty' }),
+        toastOptions,
+      );
+      return false;
+    }
+    if (payload.industry === '') {
+      toast.error(
+        createToastBody({ message: 'Industry cant be empty' }),
+        toastOptions,
+      );
+      return false;
+    }
+    if (payload.address.addressLine1 === '') {
+      toast.error(
+        createToastBody({ message: 'Address cant be empty' }),
+        toastOptions,
+      );
+      return false;
+    }
+    if (payload.address.city === '') {
+      toast.error(
+        createToastBody({ message: 'City cant be empty' }),
+        toastOptions,
+      );
+      return false;
+    }
+    if (payload.address.state === '') {
+      toast.error(
+        createToastBody({ message: 'State cant be empty' }),
+        toastOptions,
+      );
+      return false;
+    }
+    if (payload.address.country === '') {
+      toast.error(
+        createToastBody({ message: 'Country cant be empty' }),
+        toastOptions,
+      );
+      return false;
+    }
+    const salaryRegex = new RegExp('^[0-9]*[.]?[0-9]+$');
+    if (!salaryRegex.test(payload.Price)) {
+      toast.error(createToastBody({ message: 'Invalid salary' }), toastOptions);
+      return false;
+    }
+    const zipRegex = new RegExp('^[0-9]{5}$');
+    if (!zipRegex.test(payload.zipcode)) {
+      toast.error(
+        createToastBody({ message: 'Zipcode must only contain 5 digits' }),
+        toastOptions,
+      );
+      return false;
+    }
+    return true;
+  };
 
   const handleSubmit = () => {
     const benefits = [];
@@ -113,6 +196,9 @@ function PostJob() {
         zipcode,
       },
     };
+    if (!isValid(payload)) {
+      return;
+    }
     dispatch(postEmployerJob(payload));
     history.push('/');
   };

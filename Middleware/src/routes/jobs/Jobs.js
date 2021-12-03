@@ -33,6 +33,7 @@ router.get('/company/:companyId/jobs', async (req, res) => {
     params: req.params,
     body: req.body,
   };
+  let metadata = {};
   const redisUrl = `/company/${req.params.companyId}/jobs`;
   redisCli.get(redisUrl, (err, data) => {
     if (err) throw err;
@@ -42,7 +43,15 @@ router.get('/company/:companyId/jobs', async (req, res) => {
         const page = parseInt(req.query.page, 10) || 1;
         const limit = parseInt(req.query.limit, 10) || 5;
         const slicedData = allJobs.slice((page - 1) * limit, page * limit);
-        return res.status(200).send(slicedData);
+        const totalCount = allJobs.length;
+        const noOfPagesLeft = totalCount <= limit ? 0 : Math.ceil(totalCount / limit - page);
+        const totalPages = Math.ceil(totalCount / limit);
+        metadata = {
+          noOfPagesLeft,
+          totalCount,
+          totalPages,
+        };
+        return res.status(200).send({ metadata, reviews: slicedData });
       }
       if (req.query.page || req.query.limit) {
         const error = { message: 'Pass both page and limit and not just one' };

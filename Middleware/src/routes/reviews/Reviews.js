@@ -32,6 +32,7 @@ router.get('/jobseeker/:companyId/reviews', async (req, res) => {
     params: req.params,
     body: req.body,
   };
+  let metadata = {};
   const redisUrl = `/company/${req.params.companyId}/reviews`;
   redisCli.get(redisUrl, (err, data) => {
     if (err) throw err;
@@ -59,6 +60,14 @@ router.get('/jobseeker/:companyId/reviews', async (req, res) => {
           const page = parseInt(req.query.page, 10);
           const limit = parseInt(req.query.limit, 10);
           // const skipIndex = (page - 1) * limit;
+          const totalCount = allReviews.length;
+          const noOfPagesLeft = totalCount <= limit ? 0 : Math.ceil(totalCount / limit - page);
+          const totalPages = Math.ceil(totalCount / limit);
+          metadata = {
+            noOfPagesLeft,
+            totalCount,
+            totalPages,
+          };
           allReviews.sort(sortByParamAndOrder(req.query.sort, req.query.order));
           reviewsToReturn = allReviews.slice((page - 1) * limit, page * limit);
         } else if (req.query.sort && req.query.order) {
@@ -71,6 +80,14 @@ router.get('/jobseeker/:companyId/reviews', async (req, res) => {
           const limit = parseInt(req.query.limit, 10);
           // const skipIndex = (page - 1) * limit;
           // reviews = await Reviews.find({ companyId }).limit(limit).skip(skipIndex);
+          const totalCount = allReviews.length;
+          const noOfPagesLeft = totalCount <= limit ? 0 : Math.ceil(totalCount / limit - page);
+          const totalPages = Math.ceil(totalCount / limit);
+          metadata = {
+            noOfPagesLeft,
+            totalCount,
+            totalPages,
+          };
           reviewsToReturn = allReviews.slice((page - 1) * limit, page * limit);
         } else if (req.query.page || req.query.limit) {
           const error = {
@@ -80,7 +97,7 @@ router.get('/jobseeker/:companyId/reviews', async (req, res) => {
         } else {
           reviewsToReturn = allReviews;
         }
-        return res.status(200).send(reviewsToReturn);
+        return res.status(200).send({ metadata, reviews: reviewsToReturn });
       } catch (error) {
         return res.status(400).send(error);
       }

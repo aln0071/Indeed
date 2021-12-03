@@ -27,4 +27,5 @@ export const urls = {
   getImageFromS3: 'indeed/files/images/{key}',
   updateUserDetailsWithId: '',
   fetchReviewByUserId: '',
+  findSalaries: 'indeed/api/salaries/jobs',
 };

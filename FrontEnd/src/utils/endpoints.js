@@ -157,3 +157,8 @@ export const getFeaturedReviews = (params) => {
   const url = `${baseUrl}${urls.fetchFeatured}/${params.companyId}/users/${params.userId}/reviews`;
   return get(url, params).then(handleResponse);
 };
+
+export const findSalaries = (what, where) => {
+  const url = `${baseUrl}${urls.findSalaries}?what=${what}&where=${where}`;
+  return get(url).then(handleResponse);
+};

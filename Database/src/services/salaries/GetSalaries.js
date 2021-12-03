@@ -10,7 +10,6 @@ const Users = require('../../model/User');
 async function handleRequest(req, callback) {
   try {
     let averageSalary;
-    let salaryReview;
     let salaryReviewCount = 0;
     const { what } = req.query;
     const { where } = req.query;
@@ -36,7 +35,7 @@ async function handleRequest(req, callback) {
       }
       averageSalary = await Jobs.aggregate(averageSalaryQuery);
       if (averageSalary.length) {
-        averageSalary = averageSalary[0].averageSalary;
+        averageSalary = averageSalary[0].averageSalary.toFixed(2);
       }
       let topCompanies = {};
       let topCompaniesQuery = {};
@@ -74,7 +73,7 @@ async function handleRequest(req, callback) {
         review = await Reviews.aggregate(reviewQuery);
         company = await Companies.findOne({
           companyId: topCompanies[i].companyId,
-        });
+        }).populate('logo');
         salaryReviewCount = await Users.find({
           companyId: topCompanies[i].companyId,
           salary: { $gt: 0 },
@@ -85,8 +84,9 @@ async function handleRequest(req, callback) {
         }
         topCompanies[i].companyName = company.companyName;
         topCompanies[i].salaryReviewCount = salaryReviewCount;
+        topCompanies[i].logo = company.logo;
       }
-      callback(null, { salaryReview, topCompanies });
+      callback(null, { averageSalary, topCompanies });
     }
   } catch (error) {
     callback(error, null);
