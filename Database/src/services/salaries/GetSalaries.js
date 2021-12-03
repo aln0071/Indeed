@@ -73,7 +73,7 @@ async function handleRequest(req, callback) {
         review = await Reviews.aggregate(reviewQuery);
         company = await Companies.findOne({
           companyId: topCompanies[i].companyId,
-        });
+        }).populate('logo');
         salaryReviewCount = await Users.find({
           companyId: topCompanies[i].companyId,
           salary: { $gt: 0 },
@@ -84,6 +84,7 @@ async function handleRequest(req, callback) {
         }
         topCompanies[i].companyName = company.companyName;
         topCompanies[i].salaryReviewCount = salaryReviewCount;
+        topCompanies[i].logo = company.logo;
       }
       callback(null, { averageSalary, topCompanies });
     }
