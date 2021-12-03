@@ -41,5 +41,16 @@ const jobSchema = new Schema({
   ],
 });
 
+jobSchema.set('toObject', { virtuals: true });
+jobSchema.set('toJSON', { virtuals: true });
+
+jobSchema.virtual('company', {
+  ref: 'company',
+  localField: 'companyId',
+  foreignField: 'companyId',
+  justOne: true, // for many-to-1 relationships
+});
+
 const Jobs = mongoose.model('Jobs', jobSchema);
+
 module.exports = Jobs;
