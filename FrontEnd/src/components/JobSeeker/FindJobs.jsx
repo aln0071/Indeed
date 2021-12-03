@@ -213,11 +213,13 @@ function FindJobs() {
               <div className="subChild2">
                 <div className="left">
                   <div className="cardWrapper">
-                    {searchResults.map((item, index) => (
-                      <p key={`job-${index}`}>
-                        <JobCard job={item} />
-                      </p>
-                    ))}
+                    {searchResults
+                      && searchResults.length > 0
+                      && searchResults.map((item, index) => (
+                        <p key={`job-${index}`}>
+                          <JobCard job={item} />
+                        </p>
+                      ))}
                     <CustomPagination
                       count={metaData ? metaData.totalPages : 0}
                       page={page}
@@ -237,11 +239,13 @@ function FindJobs() {
             <Hidden mdUp>
               <div>
                 <div className="cardWrapper">
-                  {searchResults.map((item, index) => (
-                    <p key={`job-${index}`}>
-                      <JobCard job={item} />
-                    </p>
-                  ))}
+                  {searchResults
+                    && searchResults.length > 0
+                    && searchResults.map((item, index) => (
+                      <p key={`job-${index}`}>
+                        <JobCard job={item} />
+                      </p>
+                    ))}
                   <CustomPagination
                     count={metaData ? metaData.noOfPagesLeft : 0}
                     page={page}

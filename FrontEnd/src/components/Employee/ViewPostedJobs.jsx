@@ -22,6 +22,7 @@ function FindJobs() {
   const dispatch = useDispatch();
   const specificJob = useSelector((state) => state.jobs.selectedJob);
   const searchedJobs = useSelector((state) => state.jobs.companySpecificJobs);
+  const [meta, setMeta] = useState({});
 
   const [page, setPage] = useState(1);
   const [selectedJobs, setSelectedJobs] = useState(specificJob);
@@ -37,10 +38,14 @@ function FindJobs() {
   }, []);
 
   useEffect(() => {
-    setSearchResults(searchedJobs);
-    if (searchedJobs[0]) {
+    setSearchResults(searchedJobs.reviews);
+    setMeta(searchedJobs.metadata);
+    if (searchedJobs.reviews && searchedJobs.reviews[0]) {
       dispatch(
-        getSpecificJobAction('619d1f2d333e9575297d0b73', searchedJobs[0].jobId),
+        getSpecificJobAction(
+          '619d1f2d333e9575297d0b73',
+          searchedJobs.reviews[0].jobId,
+        ),
       );
     }
   }, [searchedJobs]);
@@ -62,13 +67,15 @@ function FindJobs() {
               <div className="child">
                 <div className="left">
                   <div className="cardWrapper">
-                    {searchResults.map((item, index) => (
-                      <p key={`job-${index}`}>
-                        <JobCard job={item} />
-                      </p>
-                    ))}
+                    {searchResults
+                      && searchResults.length > 0
+                      && searchResults.map((item, index) => (
+                        <p key={`job-${index}`}>
+                          <JobCard job={item} />
+                        </p>
+                      ))}
                     <CustomPagination
-                      count={10}
+                      count={meta ? meta.totalPages : 0}
                       page={page}
                       handleChangePage={handleChangePage}
                     />
@@ -89,13 +96,15 @@ function FindJobs() {
             <Hidden mdUp>
               <div>
                 <div className="cardWrapper">
-                  {searchResults.map((item, index) => (
-                    <p key={`job-${index}`}>
-                      <JobCard job={item} />
-                    </p>
-                  ))}
+                  {searchResults
+                    && searchResults.length > 0
+                    && searchResults.map((item, index) => (
+                      <p key={`job-${index}`}>
+                        <JobCard job={item} />
+                      </p>
+                    ))}
                   <CustomPagination
-                    count={10}
+                    count={meta ? meta.totalPages : 0}
                     page={page}
                     handleChangePage={handleChangePage}
                   />
