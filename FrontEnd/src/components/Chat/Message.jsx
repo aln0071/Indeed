@@ -17,7 +17,7 @@ function Message(props) {
   const [body, setBody] = useState('');
   const openChat = useSelector((state) => state.message.openChat);
   const employerId = useSelector((state) => state.user.userId);
-  const jobSeekerId = '456';
+  const jobSeekerId = sessionStorage.getItem('selectedUser');
   const clearInput = () => {
     setSubject('');
     setBody('');

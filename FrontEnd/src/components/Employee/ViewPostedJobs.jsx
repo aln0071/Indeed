@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-unused-vars */
 // export default Products;
@@ -8,12 +10,13 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { Hidden } from '@mui/material';
+import { Hidden, TextField } from '@mui/material';
 import Box from '@mui/material/Box';
 import { toast } from 'react-toastify';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Avatar from '@mui/material/Avatar';
+import MenuItem from '@mui/material/MenuItem';
 import EmployerNavbar from '../Navbars/EmployerNavbar';
 import CustomPagination from '../customComponents/Pagination';
 import JobCard from '../JobCard';
@@ -26,6 +29,24 @@ import { getCompanyDetailsByEmployerId } from '../../utils/endpoints';
 import { createToastBody, toastOptions } from '../../utils';
 import '../styles.css';
 
+const internalStatus = [
+  {
+    key: 'submitted',
+    value: 'Submitted',
+  },
+  {
+    key: 'reviewed',
+    value: 'Reviewed',
+  },
+  {
+    key: 'interviewing',
+    value: 'Interviewing',
+  },
+  {
+    key: 'hired',
+    value: 'Hired)',
+  },
+];
 function FindJobs() {
   const dispatch = useDispatch();
   const specificJob = useSelector((state) => state.jobs.selectedJob);
@@ -37,6 +58,8 @@ function FindJobs() {
   const [page, setPage] = useState(1);
   const [selectedJobs, setSelectedJobs] = useState(specificJob);
   const [searchResults, setSearchResults] = useState(searchedJobs);
+  const [applicants, setApplicants] = useState([]);
+  const [status, setStatus] = useState('Submitted');
 
   function stringAvatar(name) {
     return {
@@ -46,11 +69,11 @@ function FindJobs() {
 
   const handleChangePage = (event, val) => {
     setPage(val);
-    dispatch(getCompanySpecificJobs('619d1f2d333e9575297d0b73', val, 5));
+    dispatch(getCompanySpecificJobs('619d1ad1486697e6b773d282', val, 5));
   };
 
   useEffect(() => {
-    dispatch(getCompanySpecificJobs('619d1f2d333e9575297d0b73', 1, 5));
+    dispatch(getCompanySpecificJobs('619d1ad1486697e6b773d282', 1, 5));
   }, []);
 
   const [companyId, setCompanyId] = useState('');
@@ -59,8 +82,8 @@ function FindJobs() {
     try {
       const companyDetails = await getCompanyDetailsByEmployerId(user.userId);
       if (JSON.stringify(companyDetails) === '{}') {
-        history.push('/company-profile');
-        toast.info('Create a company profile first', toastOptions);
+        // history.push('/company-profile');
+        // toast.info('Create a company profile first', toastOptions);
       } else {
         setCompanyId(companyDetails.companyId);
       }
@@ -75,7 +98,7 @@ function FindJobs() {
     if (searchedJobs.reviews && searchedJobs.reviews[0]) {
       dispatch(
         getSpecificJobAction(
-          '619d1f2d333e9575297d0b73',
+          '619d1ad1486697e6b773d282',
           searchedJobs.reviews[0].jobId,
         ),
       );
@@ -84,7 +107,15 @@ function FindJobs() {
 
   useEffect(() => {
     setSelectedJobs(specificJob);
+    if (specificJob.job) {
+      setApplicants(specificJob.job.applicantDetails);
+    }
   }, [specificJob]);
+
+  const onApplicantSelect = (item) => {
+    sessionStorage.setItem('selectedUser', item.jobSeekerId);
+    history.push('/employer/JobseekerProfile');
+  };
 
   return (
     <>
@@ -117,28 +148,57 @@ function FindJobs() {
                   <div className="cardWrapper">
                     <p>
                       {/* <JobCardExpanded selectedJob={selectedJobs} /> */}
-                      Display applicant details redirection to their profile
-                      page on click Change status of the applicant (Submitted,
-                      reviewed, initial screening, Interviewing, Hired)
                     </p>
-                    <Card
-                      sx={{ minWidth: 700, minHeight: 150 }}
-                      style={{ marginBottom: '20px' }}
-                    >
-                      <CardContent style={{ display: 'flex' }}>
-                        <Avatar
-                          alt="Your Name"
-                          sx={{ width: '56px', height: '56px' }}
-                          {...stringAvatar('Your Name')}
-                        />
-                        <div style={{ marginLeft: '20px' }}>
-                          <h1 style={{ margin: 0, lineHeight: 'normal' }}>
-                            Your Name
-                          </h1>
-                          <p style={{ margin: 0 }}>San Jose, CA</p>
-                        </div>
-                      </CardContent>
-                    </Card>
+                    {applicants
+                      && applicants.length > 0
+                      && applicants.map((item, index) => (
+                        <Card
+                          sx={{ minWidth: 700, minHeight: 150 }}
+                          style={{ marginBottom: '20px' }}
+                        >
+                          <CardContent style={{ display: 'flex' }}>
+                            <Avatar
+                              alt="Your Name"
+                              sx={{ width: '56px', height: '56px' }}
+                              {...stringAvatar(item.jobSeekerName)}
+                            />
+                            <div
+                              style={{ marginLeft: '20px', cursor: 'pointer' }}
+                              onClick={() => onApplicantSelect(item)}
+                            >
+                              <h1 style={{ margin: 0, lineHeight: 'normal' }}>
+                                {item.jobSeekerName}
+                              </h1>
+                              <p style={{ margin: 0 }}>San Jose, CA</p>
+                            </div>
+                            <div style={{ marginLeft: '20px' }}>
+                              <TextField
+                                margin="none"
+                                required
+                                fullWidth
+                                value={status}
+                                onChange={(e) => setStatus(e.target.value)}
+                                type="text"
+                                id="category"
+                                label="Applicant Status"
+                                name="category"
+                                autoComplete="category"
+                                autoFocus
+                                select
+                              >
+                                {internalStatus.map((option) => (
+                                  <MenuItem
+                                    key={option.key}
+                                    value={option.value}
+                                  >
+                                    {option.value}
+                                  </MenuItem>
+                                ))}
+                              </TextField>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))}
                   </div>
                 </div>
               </div>

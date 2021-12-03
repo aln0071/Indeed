@@ -41,6 +41,7 @@ import AdminHome from './components/AdminPages/AdminPage';
 import EmployerAnalysis from './Pages/EmployerAnalysis';
 
 import EmployerChat from './components/Chat/EmployerChat';
+import EmployerJobseekerProfile from './components/JobSeeker/Profile/EmployerJobseeker';
 
 function App() {
   return (
@@ -118,6 +119,11 @@ function App() {
         <Route exact path="/CompanySalaryTab" component={CompanySalaryTab} />
         <Route exact path="/WhyJoinUs" component={WhyJoinUs} />
         <Route exact path="/AddSalary" component={AddSalary} />
+        <Route
+          exact
+          path="/employer/JobseekerProfile"
+          component={EmployerJobseekerProfile}
+        />
 
         <Route
           exact
