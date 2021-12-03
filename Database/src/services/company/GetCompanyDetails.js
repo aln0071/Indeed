@@ -6,7 +6,9 @@ async function handleRequest(req, callback) {
   try {
     const company = await Company.findOne({
       companyId: req.params.companyId,
-    }).populate('pictures');
+    })
+      .populate('pictures')
+      .populate('logo');
 
     // const savedCompany = await company.save();
     callback(null, company);
