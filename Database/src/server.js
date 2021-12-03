@@ -46,6 +46,7 @@ const AdminReviewAction = require('./services/reviews/AdminReviewAction');
 const IndeedAnalytics = require('./services/reviews/IndeedAnalytics');
 const AdminReviewPhotosAction = require('./services/reviews/AdminReviewPhotosAction');
 const IndeedEmployerJobAnalysis = require('./services/jobs/IndeedEmployerJobAnalysis');
+const updateApplicantStatus = require('./services/jobs/UpdateApplicantStatus');
 
 const options = {
   useNewUrlParser: true,
@@ -145,3 +146,4 @@ handleTopicRequest('indeed_review_photos_admin', AdminReviewPhotosAction);
 
 handleTopicRequest('indeed_get_salaries', getSalaries);
 handleTopicRequest('indeed_get_saved_jobs', savedJobs);
+handleTopicRequest('indeed_update_applicant_status', updateApplicantStatus);
