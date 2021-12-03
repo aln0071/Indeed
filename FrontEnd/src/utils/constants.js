@@ -29,4 +29,5 @@ export const urls = {
   findSalaries: 'indeed/api/salaries/jobs',
   uploadResume: 'indeed/files/upload/resume',
   updateUserProfile: 'indeed/api/userProfile',
+  getProfile: 'indeed/api/jobseeker/profile',
 };

@@ -167,3 +167,13 @@ export const helpful = (params) => {
   const url = `${baseUrl}${urls.reviewHelpful}/${params.reviewId}/helpfullness`;
   return post(url, params).then(handleResponse);
 };
+
+export const getUserData = (userId) => {
+  const url = `${baseUrl}${urls.getProfile}/${userId}`;
+  return get(url, userId).then(handleResponse);
+};
+
+export const updateUserProfile = (params) => {
+  const url = `${baseUrl}${urls.updateUserProfile}/${params.userId}`;
+  return post(url, params).then(handleResponse);
+};
