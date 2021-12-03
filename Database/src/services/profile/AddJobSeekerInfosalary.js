@@ -4,6 +4,7 @@ const User = require('../../model/User');
 async function handleRequest(req, callback) {
   try {
     const payload = {
+      companyId: req.body.companyId,
       companyName: req.body.companyName,
       jobTitle: req.body.jobTitle,
       jobLocation: req.body.jobLocation,

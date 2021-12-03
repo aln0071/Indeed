@@ -12,6 +12,8 @@ import '../styles.css';
 import CompanyTab from './Company/CompanyTabs';
 import { baseUrl, urls } from '../../utils/constants';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+
 import {
   Container,
   makeStyles,
@@ -92,6 +94,12 @@ const style = {
 
 function WhyJoinUs() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const cmpId = useSelector(
+    (state) => state.externalCompanyProfile.companyName,
+  );
+
+  console.log(cmpId, 'fsdfdsfsdf');
 
   const [aboutUs, setAboutUs] = useState('');
   const [workCulture, setWorkCulture] = useState('');
@@ -103,12 +111,12 @@ function WhyJoinUs() {
     const response = await axios.get(
       `${baseUrl}indeed/api/companyDetails/${id}`,
     );
-    console.log(response.data[0].aboutUs);
+    console.log(response.data);
     if (response) {
-      setAboutUs(response.data[0].aboutUs);
-      setWorkCulture(response.data[0].workCulture);
-      setCompanyValue(response.data[0].companyValues);
-      setCompanyName(response.data[0].companyName);
+      setAboutUs(response.data.aboutUs);
+      setWorkCulture(response.data.workCulture);
+      setCompanyValue(response.data.companyValues);
+      setCompanyName(response.data.companyName);
     }
     console.log(aboutUs);
   }, []);

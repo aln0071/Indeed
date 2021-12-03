@@ -16,4 +16,23 @@ router.post('/userProfile', async (req, res) => {
   });
 });
 
+router.post('/userProfile/deleteResume/:userId', async (req, res) => {
+  const request = {
+    params: req.params,
+    body: req.body,
+  };
+
+  kafka.make_request(
+    'indeed_userProfile_deleteResume',
+    request,
+    (error, results) => {
+      if (error) {
+        res.status(400).send(error);
+      } else {
+        res.status(200).send(results);
+      }
+    },
+  );
+});
+
 module.exports = router;
