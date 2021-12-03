@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -14,6 +15,12 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 
 const app = express();
+
+// passport jwt
+const passport = require('passport');
+
+app.use(passport.initialize());
+
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(express.json());
 
@@ -40,6 +47,7 @@ const fileDownload = require('./routes/file-download/FileDownload');
 const messages = require('./routes/messaging/Messages');
 const uploadPhotos = require('./routes/company/UploadPhotos');
 const userProfileUpdate = require('./routes/user/UserProfileUpdate');
+const { generateAccessToken, authWithPassport } = require('./utils');
 
 app.use('/indeed/api', review);
 app.use('/indeed/api', jobs);
@@ -54,11 +62,20 @@ app.use('/indeed/api', messages);
 app.use('/indeed/api', uploadPhotos);
 app.use('/indeed/api', userProfileUpdate);
 
+app.get('/auth', async (req, res) => {
+  const key = await generateAccessToken('test');
+  res.json({
+    response: key,
+  });
+});
+
 app.get('/', (req, res) => {
   res.send('hello');
 });
 
 const { PORT } = process.env;
+
+authWithPassport();
 
 app.listen(PORT, () => {
   console.log(`Running on port ${PORT}`); //eslint-disable-line

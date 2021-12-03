@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable import/no-unresolved */
@@ -79,6 +80,10 @@ const menuItems = [
   {
     listText: 'Visit Indeed for Job Seekers',
     listPath: '/',
+  },
+  {
+    listText: 'Analysis',
+    listPath: '/Analysis',
   },
 ];
 
@@ -249,6 +254,14 @@ const EmployerNavbar = () => {
                   style={{ color: '#fff' }}
                 >
                   Resources
+                </Link>
+                <Link
+                  id="Analysis"
+                  className="navEmployee"
+                  to="/Analysis" // add later, given dummy value for now
+                  style={{ color: '#fff' }}
+                >
+                  Analysis
                 </Link>
               </div>
               <div style={{ display: 'flex', height: '80px' }}>

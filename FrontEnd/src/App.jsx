@@ -1,4 +1,5 @@
 /* eslint-disable linebreak-style */
+/* eslint-disable no-undef */
 /* eslint-disable import/no-duplicates */
 /* eslint-disable linebreak-style */
 import React from 'react';
@@ -19,7 +20,7 @@ import Products from './components/Employee/Products';
 import ViewCompanyReviews from './components/Employee/ViewCompanyReviews';
 import ViewPostedJobs from './components/Employee/ViewPostedJobs';
 import Resources from './components/Employee/Resources';
-import EmployerChat from './components/Chat/EmployerChat';
+
 import 'react-toastify/dist/ReactToastify.css';
 import CompanyProfileEmployer from './Pages/CompanyProfileEmployer';
 
@@ -36,6 +37,10 @@ import AddSalary from './components/JobSeeker/AddSalary/AddSalary';
 import ProtectedRoute from './components/ProtectedRoutes';
 import ConfirmEmployerLogin from './Pages/ConfirmEmployerLogin';
 import CompanyProfileEmployerLandingPage from './Pages/CompanyProfileLandingPage';
+import AdminHome from './components/AdminPages/AdminPage';
+import EmployerAnalysis from './Pages/EmployerAnalysis';
+
+import EmployerChat from './components/Chat/EmployerChat';
 
 function App() {
   return (
@@ -52,6 +57,17 @@ function App() {
         pauseOnHover
       />
       <CssBaseline />
+      {/* <Route exact path="/" component={FindJobs} />
+      <Route exact path="/Login" component={Login} />
+      <Route exact path="/Register" component={Register} />
+      <Route exact path="/CompanyReviews" component={CompanyReviews} />
+      <Route exact path="/FindSalaries" component={FindSalaries} />
+      <Route exact path="/company-profile" component={CompanyProfileEmployer} />
+      <Route exact path="/cmp/companyid" component={CompanyProfileJobSeeker} />
+      <Route exact path="/PostJob" component={PostJob} />
+      <Route exact path="/FindCandidates" component={FindCandidates} />
+      <Route exact path="/Products" component={Products} />
+      <Route exact path="/Resources" component={Resources} /> */}
       <Switch>
         <Route exact path="/" component={FindJobs} />
         <Route exact path="/FindJobs" component={FindJobs} />
@@ -84,8 +100,8 @@ function App() {
           path="/jobSeeker/Profile"
           component={ProfileDetails}
         />
-        <ProtectedRoute exact path="/employer/Chat" component={EmployerChat} />
-        <ProtectedRoute exact path="/employer/PostJob" component={PostJob} />
+        {/* <ProtectedRoute exact path="/employer/Chat" component={EmployerChat} />
+        <ProtectedRoute exact path="/employer/PostJob" component={PostJob} /> */}
         <ProtectedRoute path="/employer/Chat" component={EmployerChat} />
         <ProtectedRoute path="/employer/PostJob" component={PostJob} />
 
@@ -108,6 +124,8 @@ function App() {
           path="/CompanyProfileEmployerLandingPage"
           component={CompanyProfileEmployerLandingPage}
         />
+        <ProtectedRoute exact path="/Analysis" component={EmployerAnalysis} />
+        <ProtectedRoute exact path="/AdminHome" component={AdminHome} />
       </Switch>
     </>
   );
