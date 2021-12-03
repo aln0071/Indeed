@@ -53,11 +53,23 @@ function ProfileDetails() {
             <Avatar
               alt="Your Name"
               sx={{ width: '56px', height: '56px' }}
-              {...stringAvatar('Your Name')}
+              {...stringAvatar(
+                userProfile.firstName
+                  ? `${userProfile?.firstName} ${userProfile?.lastName}`
+                  : 'Your Name',
+              )}
             />
             <div style={{ marginLeft: '20px' }}>
-              <h1 style={{ margin: 0, lineHeight: 'normal' }}>Your Name</h1>
-              <p style={{ margin: 0 }}>San Jose, CA</p>
+              <h1 style={{ margin: 0, lineHeight: 'normal' }}>
+                {userProfile.firstName
+                  ? `${userProfile?.firstName} ${userProfile?.lastName}`
+                  : 'Your Name'}
+              </h1>
+              <p
+                style={{ margin: 0 }}
+              >
+                {`${userProfile?.address?.city} ${userProfile?.address?.zipCode}`}
+              </p>
             </div>
           </CardContent>
         </Card>
