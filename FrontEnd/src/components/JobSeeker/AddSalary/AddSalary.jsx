@@ -73,7 +73,7 @@ function AddSalary() {
       );
       return false;
     }
-    const phoneRegex = new RegExp('^[0-9]{10}$');
+    const phoneRegex = new RegExp('^[0-9]{1,10}$');
     if (!phoneRegex.test(payload.currentPay)) {
       toast.error(
         createToastBody({ message: 'Current Pay Should have only digits' }),

@@ -284,7 +284,7 @@ const EmployerNavbar = () => {
                 <Link
                   id="HelpCenter"
                   className="navEmployee"
-                  to="/PostJob" // add later, given dummy value for now
+                  // to="/PostJob" // add later, given dummy value for now
                   style={{
                     color: '#fff',
                     display: 'flex',

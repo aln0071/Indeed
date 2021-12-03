@@ -167,7 +167,7 @@ router.post('/jobseeker/:jobseekerId/saveJob', async (req, res) => {
     params: req.params,
     body: req.body,
   };
-  console.log(request);
+  // console.log(request);
   kafka.make_request('indeed_post_save_job', request, (error, results) => {
     if (error) {
       res.status(400).send(error);

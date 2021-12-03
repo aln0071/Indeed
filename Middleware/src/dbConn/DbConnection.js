@@ -1,8 +1,9 @@
-const mysql = require("mysql");
+/* eslint-disable linebreak-style */
+const mysql = require('mysql');
 
 let db;
 
-require("dotenv").config();
+require('dotenv').config();
 
 function dbConnectionProvider() {
   if (!db) {
