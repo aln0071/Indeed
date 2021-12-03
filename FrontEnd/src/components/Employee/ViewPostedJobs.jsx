@@ -6,8 +6,10 @@
 /* eslint-disable import/no-cycle */
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { Hidden } from '@mui/material';
 import Box from '@mui/material/Box';
+import { toast } from 'react-toastify';
 import EmployerNavbar from '../Navbars/EmployerNavbar';
 import CustomPagination from '../customComponents/Pagination';
 import JobCard from '../JobCard';
@@ -16,11 +18,15 @@ import {
   getSpecificJobAction,
   getCompanySpecificJobs,
 } from '../../store/actions/jobs';
+import { getCompanyDetailsByEmployerId } from '../../utils/endpoints';
+import { createToastBody, toastOptions } from '../../utils';
 import '../styles.css';
 
 function FindJobs() {
   const dispatch = useDispatch();
   const specificJob = useSelector((state) => state.jobs.selectedJob);
+  const user = useSelector((state) => state.user);
+  const history = useHistory();
   const searchedJobs = useSelector((state) => state.jobs.companySpecificJobs);
   const [meta, setMeta] = useState({});
 
@@ -35,6 +41,22 @@ function FindJobs() {
 
   useEffect(() => {
     dispatch(getCompanySpecificJobs('619d1f2d333e9575297d0b73', 1, 5));
+  }, []);
+
+  const [companyId, setCompanyId] = useState('');
+
+  useEffect(async () => {
+    try {
+      const companyDetails = await getCompanyDetailsByEmployerId(user.userId);
+      if (JSON.stringify(companyDetails) === '{}') {
+        history.push('/company-profile');
+        toast.info('Create a company profile first', toastOptions);
+      } else {
+        setCompanyId(companyDetails.companyId);
+      }
+    } catch (error) {
+      toast.error(createToastBody(error), toastOptions);
+    }
   }, []);
 
   useEffect(() => {
