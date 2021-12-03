@@ -44,8 +44,10 @@ async function handleRequest(req, callback) {
         totalPages,
       };
 
-      jobs = await Jobs.find(query).limit(limit).skip(skipIndex);
-      // .populate('company');
+      jobs = await Jobs.find(query)
+        .limit(limit)
+        .skip(skipIndex)
+        .populate('company');
     } else if (req.query.page || req.query.limit) {
       error = { message: 'Pass both page and limit and not just one' };
       callback(error, null);

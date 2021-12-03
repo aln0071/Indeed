@@ -17,6 +17,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Avatar from '@mui/material/Avatar';
 import MenuItem from '@mui/material/MenuItem';
+import axios from 'axios';
 import EmployerNavbar from '../Navbars/EmployerNavbar';
 import CustomPagination from '../customComponents/Pagination';
 import JobCard from '../JobCard';
@@ -28,6 +29,7 @@ import {
 import { getCompanyDetailsByEmployerId } from '../../utils/endpoints';
 import { createToastBody, toastOptions } from '../../utils';
 import '../styles.css';
+import { baseUrl } from '../../utils/constants';
 
 const internalStatus = [
   {
@@ -74,6 +76,18 @@ function FindJobs() {
     dispatch(getCompanySpecificJobs(companyId, val, 5));
   };
 
+  const onChange = async (e, item) => {
+    const payload = {
+      userId: item.jobSeekerId,
+      jobId: specificJob.job.jobId,
+      internalStatus: e.target.value,
+    };
+    const response = await axios.post(
+      `${baseUrl}indeed/api/jobs/applicantstatus`,
+      payload,
+    );
+  };
+
   useEffect(() => {
     if (companyId) {
       dispatch(getCompanySpecificJobs(companyId, 1, 5));
@@ -84,8 +98,8 @@ function FindJobs() {
     try {
       const companyDetails = await getCompanyDetailsByEmployerId(user.userId);
       if (JSON.stringify(companyDetails) === '{}') {
-        // history.push('/company-profile');
-        // toast.info('Create a company profile first', toastOptions);
+        history.push('/company-profile');
+        toast.info('Create a company profile first', toastOptions);
       } else {
         setCompanyId(companyDetails.companyId);
       }
@@ -174,7 +188,10 @@ function FindJobs() {
                                 required
                                 fullWidth
                                 value={status}
-                                onChange={(e) => setStatus(e.target.value)}
+                                onChange={(e) => {
+                                  onChange(e, item);
+                                  setStatus(e.target.value);
+                                }}
                                 type="text"
                                 id="category"
                                 label="Applicant Status"

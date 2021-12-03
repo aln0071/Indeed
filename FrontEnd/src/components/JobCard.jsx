@@ -36,7 +36,9 @@ function JobCard(props) {
           {props.job.jobTitle}
         </Typography>
         <Typography color="text.secondary">
-          SplashTop Inc. 4.5
+          {props.job.company && props.job.company.company
+            ? props.job.company.company.companyName
+            : ''}
           <StarRateIcon
             style={{
               position: 'relative',
