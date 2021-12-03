@@ -177,3 +177,8 @@ export const updateUserProfile = (params) => {
   const url = `${baseUrl}${urls.updateUserProfile}/${params.userId}`;
   return post(url, params).then(handleResponse);
 };
+
+export const applyForaJob = (params) => {
+  const url = `${baseUrl}${urls.applyJob}/${params.jobSeekerId}/applyJob/${params.jobId}/${params.companyId}`;
+  return post(url, params).then(handleResponse);
+};

@@ -97,7 +97,7 @@ function FindJobs() {
     setSearchResults(searchedJobs);
     if (searchedJobs[0]) {
       dispatch(
-        getSpecificJobAction('619d1f2d333e9575297d0b73', searchedJobs[0].jobId),
+        getSpecificJobAction(searchedJobs[0].companyId, searchedJobs[0].jobId),
       );
     }
   }, [searchedJobs]);

@@ -73,20 +73,26 @@ function Reviews() {
         toast.info('Create a company profile first', toastOptions);
       } else {
         setCompanyId(companyDetails.companyId);
+        dispatch(
+          getFeaturedReviewsAction({
+            companyId: companyDetails.companyId,
+            userId: undefined,
+          }),
+        );
       }
     } catch (error) {
       toast.error(createToastBody(error), toastOptions);
     }
   }, []);
 
-  useEffect(() => {
-    dispatch(
-      getFeaturedReviewsAction({
-        companyId: '61a32673a0660ee943876fc0',
-        userId: undefined,
-      }),
-    );
-  }, []);
+  // useEffect(() => {
+  //   dispatch(
+  //     getFeaturedReviewsAction({
+  //       companyId: '61a32673a0660ee943876fc0',
+  //       userId: undefined,
+  //     }),
+  //   );
+  // }, []);
 
   useEffect(() => {
     setAllFeatured(featured);
@@ -94,15 +100,17 @@ function Reviews() {
 
   useEffect(() => {
     const params = {
-      companyId: '61a32673a0660ee943876fc0',
+      companyId,
       userId: user.userId,
       sort: all ? '' : helpful ? 'helpful' : date ? 'date' : 'rating',
       order: asc ? 'asc' : 'desc',
       page: page || 1,
       limit: 5,
     };
-    dispatch(getReviewAction(params));
-  }, [asc]);
+    if (companyId) {
+      dispatch(getReviewAction(params));
+    }
+  }, [asc, companyId]);
 
   useEffect(() => {
     setAllCompanyReviews(allReviews.reviews);
@@ -116,7 +124,7 @@ function Reviews() {
   const handleChangePage = (event, val) => {
     setPage(val);
     const params = {
-      companyId: '61a32673a0660ee943876fc0',
+      companyId,
       userId: user.userId,
       sort: all ? '' : helpful ? 'helpful' : date ? 'date' : 'rating',
       order: asc ? 'asc' : 'desc',
@@ -132,7 +140,7 @@ function Reviews() {
     setDate(false);
     setAll(false);
     const params = {
-      companyId: '61a32673a0660ee943876fc0',
+      companyId,
       userId: user.userId,
       sort: 'helpful',
       order: asc ? 'asc' : 'desc',
@@ -147,7 +155,7 @@ function Reviews() {
     setDate(false);
     setAll(false);
     const params = {
-      companyId: '61a32673a0660ee943876fc0',
+      companyId,
       userId: user.userId,
       sort: 'rating',
       order: asc ? 'asc' : 'desc',
@@ -162,7 +170,7 @@ function Reviews() {
     setDate(true);
     setAll(false);
     const params = {
-      companyId: '61a32673a0660ee943876fc0',
+      companyId,
       userId: user.userId,
       sort: 'date',
       order: asc ? 'asc' : 'desc',
@@ -177,7 +185,7 @@ function Reviews() {
     setDate(false);
     setAll(true);
     const params = {
-      companyId: '61a32673a0660ee943876fc0',
+      companyId,
       userId: user.userId,
       sort: '',
       order: asc ? 'asc' : 'desc',

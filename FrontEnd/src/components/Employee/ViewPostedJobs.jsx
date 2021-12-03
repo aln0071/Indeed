@@ -67,16 +67,18 @@ function FindJobs() {
     };
   }
 
+  const [companyId, setCompanyId] = useState('');
+
   const handleChangePage = (event, val) => {
     setPage(val);
-    dispatch(getCompanySpecificJobs('619d1ad1486697e6b773d282', val, 5));
+    dispatch(getCompanySpecificJobs(companyId, val, 5));
   };
 
   useEffect(() => {
-    dispatch(getCompanySpecificJobs('619d1ad1486697e6b773d282', 1, 5));
-  }, []);
-
-  const [companyId, setCompanyId] = useState('');
+    if (companyId) {
+      dispatch(getCompanySpecificJobs(companyId, 1, 5));
+    }
+  }, [companyId]);
 
   useEffect(async () => {
     try {
@@ -95,15 +97,10 @@ function FindJobs() {
   useEffect(() => {
     setSearchResults(searchedJobs.reviews);
     setMeta(searchedJobs.metadata);
-    if (searchedJobs.reviews && searchedJobs.reviews[0]) {
-      dispatch(
-        getSpecificJobAction(
-          '619d1ad1486697e6b773d282',
-          searchedJobs.reviews[0].jobId,
-        ),
-      );
+    if (searchedJobs.reviews && searchedJobs.reviews[0] && companyId) {
+      dispatch(getSpecificJobAction(companyId, searchedJobs.reviews[0].jobId));
     }
-  }, [searchedJobs]);
+  }, [searchedJobs, companyId]);
 
   useEffect(() => {
     setSelectedJobs(specificJob);

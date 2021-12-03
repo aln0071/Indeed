@@ -15,7 +15,7 @@ import salarySvg from '../svg/salary.svg';
 function JobCard(props) {
   const dispatch = useDispatch();
   const handleSelectJob = () => {
-    dispatch(getSpecificJobAction('619d1f2d333e9575297d0b73', props.job.jobId));
+    dispatch(getSpecificJobAction(props.job.companyId, props.job.jobId));
   };
 
   return (

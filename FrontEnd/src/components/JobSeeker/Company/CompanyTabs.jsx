@@ -105,7 +105,7 @@ export default function BasicTabs() {
         <WhyJoinUs />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <Review />
+        <Review handleTabChange={handleChange} />
       </TabPanel>
       <TabPanel value={value} index={3}>
         <CompanySalaryTab />
