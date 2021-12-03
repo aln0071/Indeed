@@ -148,24 +148,6 @@ router.post(
   },
 );
 
-router.get('/employer/jobAnalysis/:employerId', async (req, res) => {
-  const request = {
-    params: req.params,
-    body: req.body,
-  };
-  kafka.make_request(
-    'indeed_employer_job_analysis',
-    request,
-    (error, results) => {
-      if (error) {
-        res.status(400).send(error);
-      } else {
-        res.status(200).send(results);
-      }
-    },
-  );
-});
-
 router.get('/jobseeker/getAppliedJob/:jobseekerId', async (req, res) => {
   const request = {
     params: req.params,
@@ -216,6 +198,20 @@ router.get('/salaries/jobs', async (req, res) => {
     query: req.query,
   };
   kafka.make_request('indeed_get_salaries', request, (error, results) => {
+    if (error) {
+      res.status(400).send(error);
+    } else {
+      res.status(200).send(results);
+    }
+  });
+});
+
+router.get('/jobseeker/:jobseekerId/savedJobs', async (req, res) => {
+  const request = {
+    params: req.params,
+    query: req.query,
+  };
+  kafka.make_request('indeed_get_saved_jobs', request, (error, results) => {
     if (error) {
       res.status(400).send(error);
     } else {

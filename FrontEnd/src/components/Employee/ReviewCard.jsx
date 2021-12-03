@@ -1,5 +1,3 @@
-
-/* eslint-disable linebreak-style */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/forbid-prop-types */
@@ -8,22 +6,52 @@
 import React, { useState } from 'react';
 import { PropTypes } from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
+import { IconButton } from '@mui/material';
 import Card from '@mui/material/Card';
+import StarsIcon from '@mui/icons-material/Stars';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import CustomRating from '../../customComponents/Rating';
-import { reviewHelpful } from '../../../store/actions/review';
+import CustomRating from '../customComponents/Rating';
+import { featureAReview } from '../../store/actions/review';
 
 function ReviewCard(props) {
   const dispatch = useDispatch();
-  const [checked, setChecked] = useState(true);
-  const [checkedAlt, setCheckedAlt] = useState(false);
-  const userType = useSelector((state) => state.user.userType);
+  // const userType = useSelector((state) => state.user.userType);
+  const [featured, setFeatured] = useState(false);
+
+  const feature = () => {
+    if (featured) {
+      setFeatured(false);
+      dispatch(
+        featureAReview({
+          isFeatured: false,
+          reviewId: props.review.reviewId,
+          companyId: props.review.companyId,
+        }),
+      );
+    } else {
+      setFeatured(true);
+      dispatch(
+        featureAReview({
+          isFeatured: true,
+          reviewId: props.review.reviewId,
+          companyId: props.review.companyId,
+        }),
+      );
+    }
+  };
+
+  // useEffect(() => {
+
+  // }, [])
   return (
-    <Card sx={{ minWidth: 275 }} style={{ marginBottom: '20px' }}>
+    <Card
+      sx={{ minWidth: 275 }}
+      style={{
+        marginBottom: '20px',
+        background: props.color ? props.color : 'initial',
+      }}
+    >
       <CardContent style={{ display: 'flex' }}>
         <div style={{ width: '20%' }}>
           <Typography
@@ -78,51 +106,22 @@ function ReviewCard(props) {
           <Typography sx={{ mb: 1.5 }} color="text.secondary">
             <p>{props.review.reviewDescription}</p>
           </Typography>
-          <Typography sx={{ mb: 1 }} color="text.primary">
-            <p>
-              Was this Review Helpful ?
-              <FormGroup>
-                <FormControlLabel
-                  label="Yes"
-                  checked={checked}
-                  control={<Checkbox />}
-                  onChange={(e) => {
-                    setChecked(e.target.checked);
-                    if (e.target.checked) {
-                      setCheckedAlt(false);
-                      dispatch(
-                        reviewHelpful({
-                          helpfulnessPositive: 1,
-                          reviewId: props.review.reviewId,
-                        }),
-                      );
-                    } else {
-                      setCheckedAlt(true);
-                    }
+          {!props.isFeatured && (
+            <Typography sx={{ mb: 1 }} color="text.primary">
+              <p>
+                Feature this review ?
+                <IconButton
+                  onClick={() => {
+                    feature();
                   }}
-                />
-                <FormControlLabel
-                  checked={checkedAlt}
-                  control={<Checkbox />}
-                  label="No"
-                  onChange={(e) => {
-                    setCheckedAlt(e.target.checked);
-                    if (e.target.checked) {
-                      setChecked(false);
-                      dispatch(
-                        reviewHelpful({
-                          helpfulnessNegative: 1,
-                          reviewId: props.review.reviewId,
-                        }),
-                      );
-                    } else {
-                      setChecked(true);
-                    }
-                  }}
-                />
-              </FormGroup>
-            </p>
-          </Typography>
+                >
+                  <StarsIcon
+                    style={{ color: featured ? 'yellowgreen' : 'black' }}
+                  />
+                </IconButton>
+              </p>
+            </Typography>
+          )}
         </div>
       </CardContent>
     </Card>
@@ -131,5 +130,7 @@ function ReviewCard(props) {
 ReviewCard.propTypes = {
   // ...prop type definitions here
   review: PropTypes.object,
+  isFeatured: PropTypes.bool,
+  color: PropTypes.string,
 };
 export default ReviewCard;

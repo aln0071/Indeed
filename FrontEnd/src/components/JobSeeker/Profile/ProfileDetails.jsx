@@ -45,7 +45,7 @@ function ProfileDetails() {
         }}
       >
         <Card
-          sx={{ minWidth: 600, minHeight: 150 }}
+          sx={{ minWidth: 700, minHeight: 150 }}
           style={{ marginBottom: '20px' }}
         >
           <CardContent style={{ display: 'flex' }}>
@@ -61,7 +61,7 @@ function ProfileDetails() {
           </CardContent>
         </Card>
         <Card
-          sx={{ minWidth: 600, minHeight: 150 }}
+          sx={{ minWidth: 700, minHeight: 150 }}
           style={{ marginBottom: '20px' }}
         >
           <CardContent>
@@ -144,7 +144,7 @@ function ProfileDetails() {
         {isEdit ? (
           <EditProfile setEdit={setIsEdit} />
         ) : (
-          <Card sx={{ minWidth: 600 }} style={{ marginBottom: '20px' }}>
+          <Card sx={{ minWidth: 700 }} style={{ marginBottom: '20px' }}>
             <CardContent>
               <div
                 style={{

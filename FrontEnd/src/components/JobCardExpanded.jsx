@@ -1,13 +1,16 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable no-extra-boolean-cast */
 /* eslint-disable max-len */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable react/no-unused-prop-types */
 /* eslint-disable react/require-default-props */
-import React from 'react';
+import React, { useState } from 'react';
 import { PropTypes } from 'prop-types';
-import { useSelector } from 'react-redux';
+import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { Input } from '@mui/material';
 import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
 import CardContent from '@mui/material/CardContent';
@@ -17,15 +20,55 @@ import Typography from '@mui/material/Typography';
 import StarRateIcon from '@mui/icons-material/StarRate';
 import { ColorButton2 } from './customComponents/index';
 import salarySvg from '../svg/salary.svg';
+import { uploadResumeAction } from '../store/actions/resume';
+import { saveJobAction, unsaveJobAction } from '../store/actions/jobs';
 
 function JobCardExpanded(props) {
   const history = useHistory();
   const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  const [isSaved, setIsSaved] = useState(false);
+
+  const handleIsSaved = () => {
+    if (isSaved) {
+      setIsSaved(false);
+      dispatch(unsaveJobAction(props.selectedJob.job.jobId));
+    } else {
+      setIsSaved(true);
+      dispatch(saveJobAction(props.selectedJob.job.jobId));
+    }
+  };
+
+  const handleUploadResume = async (e) => {
+    const isApply = true;
+    const file = e.target.files[0];
+    const fileData = new FormData();
+    fileData.append('resume', file);
+    if (fileData) {
+      const response = await axios.post(
+        'http://localhost:3003/indeed/files/upload/resume',
+        fileData,
+      );
+      dispatch(uploadResumeAction(response.data.fileKey, isApply));
+    }
+  };
+
   return (
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
         <Box style={{ boxShadow: '0 4px 2px -2px gray', marginBottom: '20px' }}>
-          <Typography variant="h5" component="div" sx={{ fontWeight: 'bold' }}>
+          <Typography
+            variant="h5"
+            component="div"
+            style={{ cursor: 'pointer' }}
+            sx={{ fontWeight: 'bold' }}
+            onClick={() => {
+              history.push(
+                `/cmp/companyId?companyId=${props.selectedJob.job.companyId}`,
+              );
+            }}
+          >
             {props.selectedJob.job ? props.selectedJob.job.jobTitle : ''}
           </Typography>
           <Typography color="text.secondary">
@@ -78,16 +121,40 @@ function JobCardExpanded(props) {
           <ColorButton2
             variant="contained"
             style={{ margin: '20px 0 20px 0' }}
-            onClick={() => {
-              if (Object.keys(user).length === 0) {
-                history.push('/Login');
-              }
-            }}
+            // onClick={() => {
+            //   if (Object.keys(user).length === 0) {
+            //     history.push('/Login');
+            //   } else {
+            //     document.getElementById('resume').addEventListener('change');
+            //   }
+            // }}
           >
             {' '}
-            Apply Now
+            <label htmlFor="resumeApply">
+              <Input
+                accept="application/pdf"
+                style={{ display: 'none' }}
+                id="resumeApply"
+                name="resumeApply"
+                required
+                autoFocus
+                type="file"
+                onChange={(e) => {
+                  if (Object.keys(user).length === 0) {
+                    history.push('/Login');
+                  } else {
+                    handleUploadResume(e);
+                  }
+                }}
+              />
+              Apply Now
+            </label>
           </ColorButton2>
-          <IconButton>
+          <IconButton
+            onClick={() => {
+              handleIsSaved();
+            }}
+          >
             <FavoriteBorderIcon />
           </IconButton>
         </Box>

@@ -6,7 +6,7 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
@@ -15,13 +15,12 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import {
   getReviewAction,
   getFeaturedReviewsAction,
-} from '../../../store/actions/review';
-import { ColorButton2 } from '../../customComponents/index';
+} from '../../store/actions/review';
 import ReviewCard from './ReviewCard';
-import ReviewModal from './ReviewModal';
-import CustomPagination from '../../customComponents/Pagination';
+import EmployerNavbar from '../Navbars/EmployerNavbar';
+import CustomPagination from '../customComponents/Pagination';
 
-import '../../styles.css';
+import '../styles.css';
 
 const useStyles = makeStyles(() => ({
   searchContainer: {
@@ -46,6 +45,7 @@ function Reviews() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const allReviews = useSelector((state) => state.review.allReviews);
+  const featured = useSelector((state) => state.review.featured);
   const history = useHistory();
   const [helpful, setHelpful] = useState(false);
   const [rating, setRating] = useState(false);
@@ -55,8 +55,7 @@ function Reviews() {
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [meta, setMeta] = useState({});
-  const location = useLocation();
-
+  const [allFeatured, setAllFeatured] = useState(featured);
   const [allCompanyReviews, setAllCompanyReviews] = useState(
     allReviews.reviews,
   );
@@ -69,7 +68,11 @@ function Reviews() {
       }),
     );
   }, []);
-  // location.search.split('=')[1],
+
+  useEffect(() => {
+    setAllFeatured(featured);
+  }, [featured]);
+
   useEffect(() => {
     const params = {
       companyId: '61a32673a0660ee943876fc0',
@@ -168,88 +171,97 @@ function Reviews() {
     setAsc(!asc);
   };
   return (
-    <Box sx={{ width: '100%', typography: 'body1' }}>
-      <div className={classes.wrapper}>
-        <ButtonGroup
-          variant="outlined"
-          aria-label="outlined button group"
-          style={{ marginBottom: '20px' }}
-        >
-          <Button
-            className={classes.root}
-            style={{
-              background: all ? '#595959' : 'initial',
-              color: all ? 'white' : 'initial',
-            }}
-            onClick={handleAll}
-          >
-            All
-          </Button>
-          <Button
-            className={classes.root}
-            style={{
-              background: helpful ? '#595959' : 'initial',
-              color: helpful ? 'white' : 'initial',
-            }}
-            onClick={handleHelpful}
-          >
-            Helpful
-          </Button>
-          <Button
-            className={classes.root}
-            style={{
-              background: rating ? '#595959' : 'initial',
-              color: rating ? 'white' : 'initial',
-            }}
-            onClick={handleRating}
-          >
-            Rating
-          </Button>
-          <Button
-            className={classes.root}
-            style={{
-              background: date ? '#595959' : 'initial',
-              color: date ? 'white' : 'initial',
-            }}
-            onClick={handleDate}
-          >
-            Date
-          </Button>
-          <Button className={classes.root} onClick={handleAsc}>
-            {asc ? (
-              <ArrowUpwardIcon className={classes.icon} />
-            ) : (
-              <ArrowDownwardIcon className={classes.icon} />
-            )}
-          </Button>
-        </ButtonGroup>
-        <ColorButton2
-          variant="contained"
-          style={{ margin: '20px 0 20px 0' }}
-          onClick={() => {
-            if (Object.keys(user).length === 0) {
-              history.push('/Login');
-            } else {
-              setOpen(true);
-            }
-          }}
-        >
-          {' '}
-          Write Review
-        </ColorButton2>
+    <>
+      <EmployerNavbar />
+      <div style={{ margin: '20px' }}>
+        <Box sx={{ width: '100%', typography: 'body1' }}>
+          <div className={classes.wrapper}>
+            <ButtonGroup
+              variant="outlined"
+              aria-label="outlined button group"
+              style={{ marginBottom: '20px' }}
+            >
+              <Button
+                className={classes.root}
+                style={{
+                  background: all ? '#595959' : 'initial',
+                  color: all ? 'white' : 'initial',
+                }}
+                onClick={handleAll}
+              >
+                All
+              </Button>
+              <Button
+                className={classes.root}
+                style={{
+                  background: helpful ? '#595959' : 'initial',
+                  color: helpful ? 'white' : 'initial',
+                }}
+                onClick={handleHelpful}
+              >
+                Helpful
+              </Button>
+              <Button
+                className={classes.root}
+                style={{
+                  background: rating ? '#595959' : 'initial',
+                  color: rating ? 'white' : 'initial',
+                }}
+                onClick={handleRating}
+              >
+                Rating
+              </Button>
+              <Button
+                className={classes.root}
+                style={{
+                  background: date ? '#595959' : 'initial',
+                  color: date ? 'white' : 'initial',
+                }}
+                onClick={handleDate}
+              >
+                Date
+              </Button>
+              <Button className={classes.root} onClick={handleAsc}>
+                {asc ? (
+                  <ArrowUpwardIcon className={classes.icon} />
+                ) : (
+                  <ArrowDownwardIcon className={classes.icon} />
+                )}
+              </Button>
+            </ButtonGroup>
+          </div>
+          <div style={{ display: 'flex', width: '100%' }}>
+            <div style={{ width: '50%' }}>
+              {allCompanyReviews
+                && allCompanyReviews.map((item, index) => (
+                  // eslint-disable-next-line react/no-array-index-key
+                  <ReviewCard review={item} key={`review-${item.reviewId}`} />
+                ))}
+              <CustomPagination
+                count={meta ? meta.totalPages : 0}
+                page={page}
+                handleChangePage={handleChangePage}
+              />
+            </div>
+            <div style={{ width: '50%', marginLeft: '20px' }}>
+              <h2>Featured Reviews</h2>
+              {allFeatured
+                && allFeatured.featuredReviews
+                && allFeatured.featuredReviews.length > 0
+                && allFeatured.featuredReviews.map((item, index) => (
+                  // eslint-disable-next-line react/no-array-index-key
+                  <ReviewCard
+                    review={item}
+                    key={`featured-${item.reviewId}`}
+                    isFeatured
+                    color="thistle"
+                  />
+                ))}
+            </div>
+          </div>
+        </Box>
       </div>
-      {allCompanyReviews
-        && allCompanyReviews.map((item, index) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <ReviewCard review={item} key={`review-${item.reviewId}`} />
-        ))}
-      <ReviewModal open={open} handleClose={handleClose} />
-      <CustomPagination
-        count={meta ? meta.totalPages : 0}
-        page={page}
-        handleChangePage={handleChangePage}
-      />
-    </Box>
+    </>
   );
 }
 

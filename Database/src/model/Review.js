@@ -9,7 +9,7 @@ const reviewSchema = new Schema({
   companyId: { type: mongoose.Schema.Types.ObjectId, ref: 'companies' },
   rating: { type: Number, required: true },
   happinessIndex: { type: Number },
-  learning: { type: String },
+  learning: { type: Number },
   appreciation: { type: Number },
   ceoApproval: { type: Number },
   helpfulnessPositive: { type: Number },

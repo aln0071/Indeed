@@ -66,6 +66,14 @@ const menuItems = [
     listPath: '/Products',
   },
   {
+    listText: 'View Company Reviews',
+    listPath: '/employee/ViewCompanyReviews',
+  },
+  {
+    listText: 'Posted Jobs',
+    listPath: '/employee/ViewPostedJobs',
+  },
+  {
     listText: 'Resources',
     listPath: '/Resources',
   },
@@ -224,6 +232,22 @@ const EmployerNavbar = () => {
                   Products
                 </Link>
                 <Link
+                  id="ViewCompanyReviews"
+                  className="navEmployee"
+                  to="/employee/ViewCompanyReviews"
+                  style={{ color: '#fff' }}
+                >
+                  View Company Reviews
+                </Link>
+                <Link
+                  id="ViewPostedJobs"
+                  className="navEmployee"
+                  to="/employee/ViewPostedJobs"
+                  style={{ color: '#fff' }}
+                >
+                  View Posted Jobs
+                </Link>
+                <Link
                   id="Resources"
                   className="navEmployee"
                   to="/employer/PostJob" // add later, given dummy value for now
@@ -273,7 +297,7 @@ const EmployerNavbar = () => {
                 <Link
                   id="HelpCenter"
                   className="navEmployee"
-                  to="/PostJob" // add later, given dummy value for now
+                  // to="/PostJob" // add later, given dummy value for now
                   style={{
                     color: '#fff',
                     display: 'flex',

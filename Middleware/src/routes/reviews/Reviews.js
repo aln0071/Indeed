@@ -140,6 +140,7 @@ router.get('/jobseeker/reviews/:userId', async (req, res) => {
   });
 });
 
+
 router.get('/admin/get_all_reviews', async (req, res) => {
   const request = {
     query: req.query,
@@ -185,6 +186,7 @@ router.get('/admin/review/action', async (req, res) => {
     },
   );
 });
+
 router.post('/reviews/:reviewId/helpfullness', async (req, res) => {
   const request = {
     query: req.query,

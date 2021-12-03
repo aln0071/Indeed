@@ -25,19 +25,24 @@ async function handleRequest(req, callback) {
 
     console.log(payload);
 
-    const user = await User.findOne({ userId: req.params.userId });
-    if (!user) {
-      callback(null, { msg: 'User not found' });
+    const { userId } = req.params;
+    if (userId === undefined) {
+      callback({ error: 'unable to determine user' }, null);
     }
-    User.findOneAndUpdate(
+
+    // await User.findOneAndUpdate({ userId: req.params.userId });
+
+    const user = await User.findOneAndUpdate(
       { userId: req.params.userId },
-      payload,
-      { new: true },
-      (err, updatedUser) => {
-        if (err) callback(null, err);
-        callback(null, updatedUser);
+      {
+        $set: { ...payload },
+      },
+      {
+        new: true,
+        upsert: true,
       },
     );
+    callback(null, user);
   } catch (error) {
     callback(error, null);
   }

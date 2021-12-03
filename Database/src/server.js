@@ -38,6 +38,7 @@ const addPictures = require('./services/pictures/AddPictures');
 const userProfileUpdate = require('./services/profile/UserProfileUpdate');
 const getSalaries = require('./services/salaries/GetSalaries');
 const userDeleteResume = require('./services/profile/UserDeleteResume');
+const savedJobs = require('./services/jobs/GetSavedJobs');
 const { mongoDB } = require('../Config');
 const getAllReviews = require('./services/reviews/GetAllReviews');
 const getAllPhotos = require('./services/reviews/GetAllPhotos');
@@ -143,3 +144,4 @@ handleTopicRequest('indeed_get_photos_admin', getAllPhotos);
 handleTopicRequest('indeed_review_photos_admin', AdminReviewPhotosAction);
 
 handleTopicRequest('indeed_get_salaries', getSalaries);
+handleTopicRequest('indeed_get_saved_jobs', savedJobs);

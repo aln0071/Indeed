@@ -17,6 +17,8 @@ import CompanyReviews from './components/JobSeeker/CompanyReviews';
 import PostJob from './components/Employee/PostJob';
 import FindCandidates from './components/Employee/FindCandidates';
 import Products from './components/Employee/Products';
+import ViewCompanyReviews from './components/Employee/ViewCompanyReviews';
+import ViewPostedJobs from './components/Employee/ViewPostedJobs';
 import Resources from './components/Employee/Resources';
 
 import 'react-toastify/dist/ReactToastify.css';
@@ -68,6 +70,7 @@ function App() {
       <Route exact path="/Resources" component={Resources} /> */}
       <Switch>
         <Route exact path="/" component={FindJobs} />
+        <Route exact path="/FindJobs" component={FindJobs} />
         <Route exact path="/Login" component={Login} />
         <Route exact path="/Register" component={Register} />
         <Route exact path="/CompanyReviews" component={CompanyReviews} />
@@ -101,6 +104,17 @@ function App() {
         <ProtectedRoute exact path="/employer/PostJob" component={PostJob} /> */}
         <ProtectedRoute path="/employer/Chat" component={EmployerChat} />
         <ProtectedRoute path="/employer/PostJob" component={PostJob} />
+
+        <Route
+          exact
+          path="/employee/ViewCompanyReviews"
+          component={ViewCompanyReviews}
+        />
+        <Route
+          exact
+          path="/employee/ViewPostedJobs"
+          component={ViewPostedJobs}
+        />
         <Route exact path="/CompanySalaryTab" component={CompanySalaryTab} />
         <Route exact path="/WhyJoinUs" component={WhyJoinUs} />
         <Route exact path="/AddSalary" component={AddSalary} />

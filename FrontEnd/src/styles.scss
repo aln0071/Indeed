@@ -438,3 +438,74 @@
     }
   }
 }
+
+.findSalaries {
+  &__section1 {
+    display: flex;
+    min-height: 326px;
+    background: #e8f3fc;
+    h2 {
+      margin: 0px;
+    }
+    p {
+      font-size: 12px;
+      margin: 0px;
+      margin-top: 10px;
+    }
+    img {
+      height: 328px;
+    }
+    &__container {
+      flex: 1 1 0px;
+      position: relative;
+    }
+    &__content {
+      margin-top: 60px;
+      margin-left: 120px;
+    }
+    &__input {
+      margin-top: 10px;
+      display: flex;
+    }
+  }
+  &__section2 {
+    max-width: 952px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    margin-bottom: 30px;
+  }
+  &__card {
+    a {
+      text-decoration: none;
+      color: black;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    border: 1px solid gainsboro;
+    background-color: #fbfbfb;
+    display: flex;
+    padding: 10px;
+    &__container {
+      border: 1px solid gainsboro;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    & > div:first-of-type {
+      flex-grow: 1;
+    }
+    &__bottom {
+      padding-top: 10px;
+      display: flex;
+      align-items: center;
+      a {
+        margin-right: 20px;
+        color: #6f6f6f;
+      }
+    }
+    &__rating {
+      padding-right: 10px;
+    }
+  }
+}
