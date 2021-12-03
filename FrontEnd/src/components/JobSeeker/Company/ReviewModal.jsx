@@ -5,8 +5,9 @@ import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { PropTypes } from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
+import TextField from '@material-ui/core/TextField';
 import Typography from '@mui/material/Typography';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -20,6 +21,8 @@ import { toastOptions } from '../../../utils';
 const ReviewModal = (props) => {
   const history = useHistory();
   const user = useSelector((state) => state.user);
+  const location = useLocation();
+
   const dispatch = useDispatch();
 
   const [rating, setRating] = useState(0);
@@ -123,8 +126,9 @@ const ReviewModal = (props) => {
           <Typography variant="h6" component="div" sx={{ fontWeight: 'bold' }}>
             How to prepare ?
           </Typography>
-          <TextareaAutosize
+          <TextField
             minRows={3}
+            type="number"
             value={learning}
             onChange={(e) => {
               setLearning(e.target.value);
@@ -213,7 +217,7 @@ const ReviewModal = (props) => {
             ) {
               dispatch(
                 postReviewAction({
-                  companyId: '619d1f2d333e9575297d0b73',
+                  companyId: location.search.split('=')[1],
                   userId: user.userId,
                   ceoApproval,
                   rating,
@@ -224,6 +228,10 @@ const ReviewModal = (props) => {
                   areasOfImprovement: cons,
                 }),
               );
+              props.handleTabChange('', 0);
+              // history.push(
+              //   `/cmp/companyId?companyId=${location.search.split('=')[1]}`,
+              // );
               props.handleClose();
               toast.success('Success! Review Posted', toastOptions);
             } else {
@@ -242,6 +250,7 @@ ReviewModal.propTypes = {
   // ...prop type definitions here
   open: PropTypes.bool,
   handleClose: PropTypes.func,
+  handleTabChange: PropTypes.func,
 };
 
 export default ReviewModal;

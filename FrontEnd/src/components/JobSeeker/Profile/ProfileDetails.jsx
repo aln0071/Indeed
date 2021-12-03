@@ -198,7 +198,7 @@ function ProfileDetails() {
                 <DeleteIcon />
                 Delete Resume
               </Button>
-              <Button
+              {/* <Button
                 variant="outlined"
                 color="primary"
                 onClick={() => onMessage()}
@@ -212,7 +212,7 @@ function ProfileDetails() {
               >
                 <MessageIcon />
                 Message
-              </Button>
+              </Button> */}
             </div>
           </CardContent>
         </Card>

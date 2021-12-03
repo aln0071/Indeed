@@ -115,7 +115,7 @@ function EditProfile(props) {
             only provided to employers you apply or respond to.
           </span>
         </p>
-        <p>chessghanashri@gmail.com</p>
+        <p>{userProfile.email}</p>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <label
             htmlFor="phone"

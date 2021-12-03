@@ -7,6 +7,7 @@ import {
   postJob,
   saveJob,
   unsaveJob,
+  applyForaJob,
 } from '../../utils/endpoints';
 import {
   GET_ALL_JOBS,
@@ -101,6 +102,18 @@ export const getCompanySpecificJobs = (companyId, page, limit) => async (dispatc
       type: GET_COMPANY_SPECIFIC_JOBS,
       payload: response,
     });
+  } catch (error) {
+    toast.error(createToastBody(error), toastOptions);
+  }
+};
+
+export const applyAction = (params) => async () => {
+  try {
+    await applyForaJob(params);
+    // dispatch({
+    //   type: APPLY_FOR_JOB,
+    //   payload: response,
+    // });
   } catch (error) {
     toast.error(createToastBody(error), toastOptions);
   }
