@@ -3,6 +3,7 @@ const User = require('../../model/User');
 async function handleRequest(req, callback) {
   try {
     const payload = {
+      userId: req.body.userId,
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       mobile: req.body.mobile,

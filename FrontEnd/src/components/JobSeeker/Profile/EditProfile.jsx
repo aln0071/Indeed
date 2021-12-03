@@ -1,3 +1,4 @@
+/* eslint-disable import/extensions */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/require-default-props */
 /* eslint-disable react/button-has-type */
@@ -7,14 +8,46 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { Button } from '@material-ui/core';
 import LockIcon from '@mui/icons-material/Lock';
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUserDetailsAction } from '../../../store/actions/user.js';
+import { baseUrl, urls } from '../../../utils/constants';
 
 function EditProfile(props) {
-  const [phone, setPhone] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [street, setStreet] = useState('');
-  const [city, setCity] = useState('');
-  const [zip, setZip] = useState('');
+  const userProfile = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  const [phone, setPhone] = useState(userProfile?.mobile);
+  const [firstName, setFirstName] = useState(userProfile?.firstName);
+  const [lastName, setLastName] = useState(userProfile?.lastName);
+  const [street, setStreet] = useState(userProfile?.address?.addressLine1);
+  const [city, setCity] = useState(userProfile?.address?.city);
+  const [zip, setZip] = useState(userProfile?.address?.zipCode);
+
+  const postUserProfile = async () => {
+    const url = `${baseUrl}${urls.updateUserProfile}`;
+    const body = {
+      userId: userProfile.userId,
+      firstName,
+      lastName,
+      mobile: phone,
+      // "resume": "",
+      street,
+      city,
+      zip,
+    };
+    const headers = {
+      // Authorization: token,
+    };
+    try {
+      const res = await axios.post(url, body, { headers });
+      console.log('response', res.data);
+      // TODO Fetch User Profile
+      await dispatch(setUserDetailsAction(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <Card
@@ -217,6 +250,7 @@ function EditProfile(props) {
               width: '100px',
             }}
             onClick={() => {
+              postUserProfile();
               props.setEdit(false);
             }}
           >

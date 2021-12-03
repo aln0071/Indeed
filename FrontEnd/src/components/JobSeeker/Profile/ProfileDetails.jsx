@@ -12,7 +12,7 @@ import DownloadIcon from '@mui/icons-material/Download';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import MessageIcon from '@mui/icons-material/Message';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import EditProfile from './EditProfile';
 import JobSeekerNavbar from '../../Navbars/JobSeekerNavbar';
 import Message from '../../Chat/Message';
@@ -25,6 +25,7 @@ function ProfileDetails() {
   const onMessage = () => {
     dispatch(setOpenChatBox(true));
   };
+  const userProfile = useSelector((state) => state.user);
   function stringAvatar(name) {
     return {
       children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
@@ -170,10 +171,11 @@ function ProfileDetails() {
                   <EditIcon />
                 </IconButton>
               </div>
-              <p style={{ color: 'grey' }}>Ghanashri Mariyanna</p>
               <p style={{ color: 'grey' }}>
-                chessghanashri@gmail.com
-                {' '}
+                {`${userProfile?.firstName} ${userProfile?.lastName}`}
+              </p>
+              <p style={{ color: 'grey' }}>
+                {userProfile?.email || 'Not Present'}
                 <LockIcon fontSize="small" style={{ top: '-5px' }} />
               </p>
               <button
@@ -187,14 +189,15 @@ function ProfileDetails() {
                   setIsEdit(true);
                 }}
               >
-                Add Phone Number
+                {userProfile?.mobile || 'Add Phone Number'}
               </button>
               <p style={{ color: 'grey' }}>
-                171 W Julian St, #208
-                {' '}
+                {`${userProfile?.address?.addressLine1}`}
                 <LockIcon fontSize="small" style={{ top: '-5px' }} />
               </p>
-              <p style={{ color: 'grey' }}>San Jose, CA 95110</p>
+              <p style={{ color: 'grey' }}>
+                {` ${userProfile?.address?.city} ${userProfile?.address?.zipCode}`}
+              </p>
             </CardContent>
           </Card>
         )}

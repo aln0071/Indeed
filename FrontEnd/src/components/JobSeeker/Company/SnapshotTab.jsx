@@ -7,7 +7,7 @@ import React from 'react';
 // import Box from '@mui/material/Box';
 // import { styled } from '@mui/material/styles';
 
-// import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 // import axios from 'axios';
 // import StarIcon from '@material-ui/icons/Star';
 import {
@@ -65,14 +65,15 @@ export function Snapshot() {
   //   const query = new URLSearchParams(props.location.search);
   //   const id = query.get('id');
   //   const dispatch = useDispatch();
-  // const {isAuth} = useSelector(state=>state.login)
+  const companyProfile = useSelector((state) => state.externalCompanyProfile);
   return (
     <Container maxwidth="xl">
       <Grid item style={{ marginTop: '20px', marginBottom: '30px' }}>
         <Typography variant="caption">
-          {companyDetails.company}
+          {companyProfile.companyName || companyDetails.company}
           {' '}
-          Careers and Employment
+          Careers and
+          Employment
         </Typography>
       </Grid>
       <Grid item style={{ marginTop: '20px', marginBottom: '50px' }}>
@@ -84,7 +85,7 @@ export function Snapshot() {
         <Grid item style={{ flex: 1 }}>
           <img
             src={companyDetails.ceo_image}
-            alt={companyDetails.ceo_name}
+            alt={companyProfile.ceoName || companyDetails.ceo_name}
             style={{ height: '350px', width: '200px', borderRadius: '10px' }}
           />
         </Grid>
@@ -104,7 +105,7 @@ export function Snapshot() {
             <div style={{ fontWeight: '600' }}>CEO</div>
             <br />
             <br />
-            <div>{companyDetails.ceo_name}</div>
+            <div>{companyProfile.ceoName || companyDetails.ceo_name}</div>
           </Grid>
           <Grid
             item
@@ -121,7 +122,7 @@ export function Snapshot() {
             <div style={{ fontWeight: '600' }}>Revenue</div>
             <br />
             <br />
-            <div>{companyDetails.revenue}</div>
+            <div>{companyProfile.revenue || companyDetails.revenue}</div>
           </Grid>
         </Grid>
         <Grid container item style={{ flex: 0.5, flexDirection: 'column' }}>
@@ -140,7 +141,9 @@ export function Snapshot() {
             <div style={{ fontWeight: '600' }}>Founded</div>
             <br />
             <br />
-            <div style={{}}>{companyDetails.founded_year}</div>
+            <div style={{}}>
+              {companyProfile.founded || companyDetails.founded_year}
+            </div>
           </Grid>
           <Grid
             item
@@ -160,7 +163,7 @@ export function Snapshot() {
             <div style={{}}>
               more than
               <br />
-              {companyDetails.company_size}
+              {companyProfile.companySize || companyDetails.company_size}
             </div>
           </Grid>
         </Grid>
@@ -170,7 +173,7 @@ export function Snapshot() {
           variant="body2"
           style={{ color: '#767676', textAlign: 'left' }}
         >
-          {companyDetails.description}
+          {companyProfile.aboutUs || companyDetails.description}
         </Typography>
       </Grid>
       <Typography
