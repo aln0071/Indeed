@@ -142,3 +142,8 @@ export const postInitialConversation = async (room, message) => {
   postConversation(payload);
   return response;
 };
+
+export const findSalaries = (what, where) => {
+  const url = `${baseUrl}${urls.findSalaries}?what=${what}&where=${where}`;
+  return get(url).then(handleResponse);
+};

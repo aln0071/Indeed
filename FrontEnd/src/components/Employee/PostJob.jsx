@@ -27,6 +27,7 @@ import { createToastBody, toastOptions } from '../../utils';
 const theme = createTheme();
 
 function PostJob() {
+  const dispatch = useDispatch();
   const history = useHistory();
   const user = useSelector((state) => state.user);
 
@@ -52,7 +53,6 @@ function PostJob() {
   const [reloc, setReloc] = useState(false);
   const [lic, setLic] = useState(false);
   const [companyId, setCompanyId] = useState('');
-  const dispatch = useDispatch();
 
   useEffect(async () => {
     try {

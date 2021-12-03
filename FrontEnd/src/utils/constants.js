@@ -23,4 +23,5 @@ export const urls = {
   getUserDetailsWithId: 'indeed/user/UserDetailsForId/{userId}',
   getCompanyDetailsByCompanyId: 'indeed/api/companyDetails/{companyId}',
   getImageFromS3: 'indeed/files/images/{key}',
+  findSalaries: 'indeed/api/salaries/jobs',
 };
