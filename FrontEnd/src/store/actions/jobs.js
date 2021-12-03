@@ -5,6 +5,8 @@ import {
   getSearchedJobs,
   getCompanyJobs,
   postJob,
+  saveJob,
+  unsaveJob,
 } from '../../utils/endpoints';
 import {
   GET_ALL_JOBS,
@@ -59,13 +61,21 @@ export const getSearchedJobsAction = (what, where, page, limit) => async (dispat
   }
 };
 
-// export const saveJobAction = () => async (dispatch) => {
+export const saveJobAction = (jobId) => async () => {
+  try {
+    await saveJob({ jobId });
+  } catch (error) {
+    toast.error(createToastBody(error), toastOptions);
+  }
+};
 
-// };
-
-// export const unsaveJobAction = () => async (dispatch) => {
-
-// };
+export const unsaveJobAction = (jobId) => async () => {
+  try {
+    await unsaveJob({ jobId });
+  } catch (error) {
+    toast.error(createToastBody(error), toastOptions);
+  }
+};
 
 export const storeSearchedAction = (searchResults) => async (dispatch) => {
   dispatch({

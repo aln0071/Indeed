@@ -1,13 +1,14 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable linebreak-style */
 /* eslint-disable no-extra-boolean-cast */
 /* eslint-disable react/button-has-type */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable import/no-cycle */
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { Hidden } from '@mui/material';
+import { Hidden, Input } from '@mui/material';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import SearchIcon from '@material-ui/icons/Search';
@@ -26,6 +27,7 @@ import {
   getSearchedJobsAction,
   storeSearchedAction,
 } from '../../store/actions/jobs';
+import { uploadResumeAction } from '../../store/actions/resume';
 import '../styles.css';
 
 const useStyles = makeStyles(() => ({
@@ -41,12 +43,11 @@ const StartLabel = ({ label }) => (
 function FindJobs() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const history = useHistory();
-  const user = useSelector((state) => state.user);
   const specificJob = useSelector((state) => state.jobs.selectedJob);
   const searchedJobs = useSelector((state) => state.jobs.searchedJobs.jobs);
   const searchValues = useSelector((state) => state.jobs.searchedValues);
-
+  const meta = useSelector((state) => state.jobs.searchedJobs.metadata);
+  const resumeKey = useSelector((state) => state.resume.resumeKey);
   const [what, setWhat] = useState('');
   const [where, setWhere] = useState('');
   const [value, setValue] = useState('1');
@@ -54,6 +55,8 @@ function FindJobs() {
   const [selectedJobs, setSelectedJobs] = useState(specificJob);
   const [searchResults, setSearchResults] = useState(searchedJobs);
   const [lastSearched, setLastSearched] = useState(searchValues);
+  const [metaData, setMetaData] = useState({});
+  const [isResume, setIsResume] = useState(resumeKey);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -72,6 +75,19 @@ function FindJobs() {
     dispatch(getSearchedJobsAction(what, where, val, 5));
   };
 
+  const handleUploadResume = async (e) => {
+    const file = e.target.files[0];
+    const fileData = new FormData();
+    fileData.append('resume', file);
+    if (fileData) {
+      const response = await axios.post(
+        'http://localhost:3003/indeed/files/upload/resume',
+        fileData,
+      );
+      dispatch(uploadResumeAction(response.data.fileKey));
+    }
+  };
+
   useEffect(() => {
     setSearchResults(searchedJobs);
     if (searchedJobs[0]) {
@@ -82,12 +98,20 @@ function FindJobs() {
   }, [searchedJobs]);
 
   useEffect(() => {
+    setMetaData(meta);
+  }, [meta]);
+
+  useEffect(() => {
     setSelectedJobs(specificJob);
   }, [specificJob]);
 
   useEffect(() => {
     setLastSearched(searchValues);
   }, [searchValues]);
+
+  useEffect(() => {
+    setIsResume(resumeKey);
+  }, [resumeKey]);
 
   return (
     <Box sx={{ width: '100%', typography: 'body1' }}>
@@ -140,25 +164,34 @@ function FindJobs() {
             Find Jobs
           </ColorButton2>
         </Grid>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <button
-            style={{
-              all: 'unset',
-              fontWeight: 'bold',
-              color: '#2557a7',
-              cursor: 'pointer',
-            }}
-            onClick={() => {
-              if (Object.keys(user).length === 0) {
-                history.push('/Login');
-              }
-            }}
-          >
-            Post Your Resume -
-            {' '}
-          </button>
-          It only takes a few seconds
-        </div>
+        {isResume === '' && (
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <label
+              htmlFor="resume"
+              style={{
+                all: 'unset',
+                fontWeight: 'bold',
+                color: '#2557a7',
+                cursor: 'pointer',
+              }}
+            >
+              <Input
+                accept="application/pdf"
+                style={{ display: 'none' }}
+                id="resume"
+                name="resume"
+                required
+                autoFocus
+                type="file"
+                onChange={(e) => {
+                  handleUploadResume(e);
+                }}
+              />
+              Post Your Resume -
+            </label>
+            It only takes a few seconds
+          </div>
+        )}
         <br />
         <hr />
         <TabContext value={value}>
@@ -186,7 +219,7 @@ function FindJobs() {
                       </p>
                     ))}
                     <CustomPagination
-                      count={10}
+                      count={metaData ? metaData.totalPages : 0}
                       page={page}
                       handleChangePage={handleChangePage}
                     />
@@ -210,7 +243,7 @@ function FindJobs() {
                     </p>
                   ))}
                   <CustomPagination
-                    count={10}
+                    count={metaData ? metaData.noOfPagesLeft : 0}
                     page={page}
                     handleChangePage={handleChangePage}
                   />

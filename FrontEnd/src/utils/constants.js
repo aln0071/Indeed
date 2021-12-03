@@ -9,7 +9,7 @@ export const urls = {
   getCompanySpecificJobs: 'indeed/api/company',
   getSearchedJobs: 'indeed/api/jobs',
   getReviews: 'indeed/api/jobseeker',
-  saveJob: '',
+  saveJob: '/indeed/api/jobseeker',
   unsaveJob: '',
   featureReview: 'indeed/api/reviews',
   fetchFeatured: 'indeed/api/jobseeker',
@@ -28,4 +28,5 @@ export const urls = {
   updateUserDetailsWithId: '',
   fetchReviewByUserId: '',
   findSalaries: 'indeed/api/salaries/jobs',
+  uploadResume: 'indeed/files/upload/resume',
 };
