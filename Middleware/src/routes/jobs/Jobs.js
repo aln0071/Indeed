@@ -27,6 +27,25 @@ router.post('/company/:companyId/jobs', async (req, res) => {
   });
 });
 
+router.post('/jobs/applicantstatus', async (req, res) => {
+  const request = {
+    query: req.query,
+    params: req.params,
+    body: req.body,
+  };
+  kafka.make_request(
+    'indeed_update_applicant_status',
+    request,
+    (error, results) => {
+      if (error) {
+        res.status(400).send(error);
+      } else {
+        res.status(200).send(results);
+      }
+    },
+  );
+});
+
 router.get('/company/:companyId/jobs', async (req, res) => {
   const request = {
     query: req.query,
