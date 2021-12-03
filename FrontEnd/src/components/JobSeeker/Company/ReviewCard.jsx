@@ -21,7 +21,13 @@ function ReviewCard(props) {
   const [checkedAlt, setCheckedAlt] = useState(false);
   const userType = useSelector((state) => state.user.userType);
   return (
-    <Card sx={{ minWidth: 275 }} style={{ marginBottom: '20px' }}>
+    <Card
+      sx={{ minWidth: 275 }}
+      style={{
+        marginBottom: '20px',
+        background: props.color ? props.color : 'initial',
+      }}
+    >
       <CardContent style={{ display: 'flex' }}>
         <div style={{ width: '20%' }}>
           <Typography
@@ -76,51 +82,53 @@ function ReviewCard(props) {
           <Typography sx={{ mb: 1.5 }} color="text.secondary">
             <p>{props.review.reviewDescription}</p>
           </Typography>
-          <Typography sx={{ mb: 1 }} color="text.primary">
-            <p>
-              Was this Review Helpful ?
-              <FormGroup>
-                <FormControlLabel
-                  label="Yes"
-                  checked={checked}
-                  control={<Checkbox />}
-                  onChange={(e) => {
-                    setChecked(e.target.checked);
-                    if (e.target.checked) {
-                      setCheckedAlt(false);
-                      dispatch(
-                        reviewHelpful({
-                          helpfulnessPositive: 1,
-                          reviewId: props.review.reviewId,
-                        }),
-                      );
-                    } else {
-                      setCheckedAlt(true);
-                    }
-                  }}
-                />
-                <FormControlLabel
-                  checked={checkedAlt}
-                  control={<Checkbox />}
-                  label="No"
-                  onChange={(e) => {
-                    setCheckedAlt(e.target.checked);
-                    if (e.target.checked) {
-                      setChecked(false);
-                      dispatch(
-                        reviewHelpful({
-                          helpfulnessNegative: 1,
-                          reviewId: props.review.reviewId,
-                        }),
-                      );
-                    } else {
-                      setChecked(true);
-                    }
-                  }}
-                />
-              </FormGroup>
-            </p>
-          </Typography>
+          {!props.isFeatured && (
+            <Typography sx={{ mb: 1 }} color="text.primary">
+              <p>
+                Was this Review Helpful ?
+                <FormGroup>
+                  <FormControlLabel
+                    label="Yes"
+                    checked={checked}
+                    control={<Checkbox />}
+                    onChange={(e) => {
+                      setChecked(e.target.checked);
+                      if (e.target.checked) {
+                        setCheckedAlt(false);
+                        dispatch(
+                          reviewHelpful({
+                            helpfulnessPositive: 1,
+                            reviewId: props.review.reviewId,
+                          }),
+                        );
+                      } else {
+                        setCheckedAlt(true);
+                      }
+                    }}
+                  />
+                  <FormControlLabel
+                    checked={checkedAlt}
+                    control={<Checkbox />}
+                    label="No"
+                    onChange={(e) => {
+                      setCheckedAlt(e.target.checked);
+                      if (e.target.checked) {
+                        setChecked(false);
+                        dispatch(
+                          reviewHelpful({
+                            helpfulnessNegative: 1,
+                            reviewId: props.review.reviewId,
+                          }),
+                        );
+                      } else {
+                        setChecked(true);
+                      }
+                    }}
+                  />
+                </FormGroup>
+              </p>
+            </Typography>
+          )}
         </div>
       </CardContent>
     </Card>
@@ -129,5 +137,7 @@ function ReviewCard(props) {
 ReviewCard.propTypes = {
   // ...prop type definitions here
   review: PropTypes.object,
+  isFeatured: PropTypes.bool,
+  color: PropTypes.string,
 };
 export default ReviewCard;
