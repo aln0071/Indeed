@@ -29,6 +29,7 @@ import {
 import { uploadResumeAction } from '../../../store/actions/resume';
 import { setOpenChatBox } from '../../../store/actions/message';
 import { baseUrl, urls } from '../../../utils/constants';
+import { downloadFile } from '../../../utils/endpoints';
 
 function ProfileDetails() {
   const [isEdit, setIsEdit] = useState(false);
@@ -187,6 +188,17 @@ function ProfileDetails() {
                   borderRadius: '25px',
                   fontWeight: 'bold',
                   padding: '14px',
+                }}
+                onClick={() => {
+                  const url = `${baseUrl}${urls.getImageFromS3.replace(
+                    '{key}',
+                    'd8645b558a6a3aee50eb41e2460057d5',
+                  )}`;
+                  try {
+                    downloadFile(url, 'test.png');
+                  } catch (error) {
+                    console.log(error);
+                  }
                 }}
               >
                 <DownloadIcon />
