@@ -28,4 +28,5 @@ export const urls = {
   fetchReviewByUserId: '',
   findSalaries: 'indeed/api/salaries/jobs',
   uploadResume: 'indeed/files/upload/resume',
+  updateUserProfile: 'indeed/api/userProfile',
 };

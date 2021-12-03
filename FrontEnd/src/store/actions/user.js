@@ -3,7 +3,7 @@ import { getUserDetailsWithId, loginUser } from '../../utils/endpoints';
 import { CLEAR_USER_DETAILS, SET_USER_DETAILS } from './types';
 import { createToastBody, toastOptions } from '../../utils';
 
-const setUserDetailsAction = (userDetails) => ({
+export const setUserDetailsAction = (userDetails) => ({
   type: SET_USER_DETAILS,
   payload: userDetails,
 });
