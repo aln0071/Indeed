@@ -200,8 +200,6 @@ const AdminHome = () => {
             data={top5CompaniesBasedOnAvgRating}
             label="Top 5 companies based on average rating"
           />
-          {/* <CustomBarChart />
-          <CustomBarChart /> */}
         </div>
       </div>
     );
@@ -252,7 +250,18 @@ const AdminHome = () => {
           Companies
         </Link> */}
       </div>
-      <div className="subChild2">{currentTab}</div>
+      <div className="subChild2">
+        {currentTab || (
+          <div className="cardWrapper" style={{ minWidth: '80%' }}>
+            {reviews.map((review) => (
+              <ReviewCard
+                data={review}
+                showConfirmationModel={showConfirmationModel}
+              />
+            ))}
+          </div>
+        )}
+      </div>
       <Popup open={showModel} message={modelMessage} />
     </div>
   );
