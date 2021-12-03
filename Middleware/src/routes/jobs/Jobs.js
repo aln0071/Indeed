@@ -34,36 +34,32 @@ router.get('/company/:companyId/jobs', async (req, res) => {
     body: req.body,
   };
   const redisUrl = `/company/${req.params.companyId}/jobs`;
-  redisCli.get(redisUrl, (err, data) => {
-    if (err) throw err;
-    if (data !== null) {
-      const allJobs = JSON.parse(data).jobs;
-      if (req.query.page && req.query.limit) {
-        const page = parseInt(req.query.page, 10) || 1;
-        const limit = parseInt(req.query.limit, 10) || 5;
-        const slicedData = allJobs.slice((page - 1) * limit, page * limit);
-        return res.status(200).send(slicedData);
-      }
-      if (req.query.page || req.query.limit) {
-        const error = { message: 'Pass both page and limit and not just one' };
-        return res.status(400).send(error);
-      }
-      return res.status(200).send(allJobs);
+  // redisCli.get(redisUrl, (err, data) => {
+  //   if (err) throw err;
+  //   if (data !== null) {
+  //     const allJobs = JSON.parse(data).jobs;
+  //     if (req.query.page && req.query.limit) {
+  //       const page = parseInt(req.query.page, 10) || 1;
+  //       const limit = parseInt(req.query.limit, 10) || 5;
+  //       const slicedData = allJobs.slice((page - 1) * limit, page * limit);
+  //       return res.status(200).send(slicedData);
+  //     }
+  //     if (req.query.page || req.query.limit) {
+  //       const error = { message: 'Pass both page and limit and not just one' };
+  //       return res.status(400).send(error);
+  //     }
+  //     return res.status(200).send(allJobs);
+  //   }
+  kafka.make_request('indeed_get_jobs', request, (error, results) => {
+    if (error) {
+      return res.status(400).send(error);
     }
-    kafka.make_request('indeed_get_jobs', request, (error, results) => {
-      if (error) {
-        return res.status(400).send(error);
-      }
-      if (results) {
-        redisCli.setex(
-          redisUrl,
-          3600,
-          JSON.stringify({ jobs: results.allJobs }),
-        );
-      }
-      return res.status(200).send(results.data);
-    });
+    if (results) {
+      redisCli.setex(redisUrl, 3600, JSON.stringify({ jobs: results.allJobs }));
+    }
+    return res.status(200).send(results.data);
   });
+  // });
 });
 
 router.get('/jobs', async (req, res) => {

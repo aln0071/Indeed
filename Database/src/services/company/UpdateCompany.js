@@ -14,7 +14,7 @@ async function handleRequest(req, callback) {
     const company = await Company.findOneAndUpdate(
       { companyId },
       {
-        $set: { ...payload },
+        $set: { ...payload, _id: companyId },
         $push: { pictures },
       },
       {
