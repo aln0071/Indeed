@@ -18,7 +18,7 @@ import '../../styles.css';
 function FindJobs() {
   const dispatch = useDispatch();
   const specificJob = useSelector((state) => state.jobs.selectedJob);
-  const searchedJobs = useSelector((state) => state.jobs.companySpecificJobs);
+  const searchedJobs = useSelector((state) => state.jobs.searchedJobs.jobs);
 
   const [page, setPage] = useState(1);
   const [selectedJobs, setSelectedJobs] = useState(specificJob);
