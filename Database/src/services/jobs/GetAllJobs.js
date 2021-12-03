@@ -37,15 +37,15 @@ async function handleRequest(req, callback) {
 
       const totalCount = await Jobs.find(query).count();
       const noOfPagesLeft = totalCount <= limit ? 0 : Math.ceil(totalCount / limit - page);
+      const totalPages = Math.ceil(totalCount / limit);
       metadata = {
         noOfPagesLeft,
         totalCount,
+        totalPages,
       };
 
-      jobs = await Jobs.find(query)
-        .limit(limit)
-        .skip(skipIndex)
-        .populate('company');
+      jobs = await Jobs.find(query).limit(limit).skip(skipIndex);
+      // .populate('company');
     } else if (req.query.page || req.query.limit) {
       error = { message: 'Pass both page and limit and not just one' };
       callback(error, null);

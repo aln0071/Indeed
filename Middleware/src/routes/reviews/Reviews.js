@@ -1,17 +1,17 @@
 /* eslint-disable consistent-return */
 /* eslint-disable max-len */
-const router = require('express').Router();
-const kafka = require('../../kafka/Client');
-const redisCli = require('../../redis/Connection');
+const router = require("express").Router();
+const kafka = require("../../kafka/Client");
+const redisCli = require("../../redis/Connection");
 
-router.post('/jobseeker/:companyId/reviews', async (req, res) => {
+router.post("/jobseeker/:companyId/reviews", async (req, res) => {
   const request = {
     query: req.query,
     params: req.params,
     body: req.body,
   };
   const companyReviewsRedisUrl = `/company/${req.params.companyId}/reviews`;
-  kafka.make_request('indeed_post_reviews', request, (error, results) => {
+  kafka.make_request("indeed_post_reviews", request, (error, results) => {
     if (error) {
       return res.status(400).send(error);
     }
@@ -19,19 +19,20 @@ router.post('/jobseeker/:companyId/reviews', async (req, res) => {
       redisCli.setex(
         companyReviewsRedisUrl,
         3600,
-        JSON.stringify({ reviews: results.allCompanyReviews }),
+        JSON.stringify({ reviews: results.allCompanyReviews })
       );
     }
     return res.status(200).send(results.data);
   });
 });
 
-router.get('/jobseeker/:companyId/reviews', async (req, res) => {
+router.get("/jobseeker/:companyId/reviews", async (req, res) => {
   const request = {
     query: req.query,
     params: req.params,
     body: req.body,
   };
+  let metadata = {};
   const redisUrl = `/company/${req.params.companyId}/reviews`;
   redisCli.get(redisUrl, (err, data) => {
     if (err) throw err;
@@ -40,52 +41,70 @@ router.get('/jobseeker/:companyId/reviews', async (req, res) => {
       let reviewsToReturn = allReviews;
       const sortByParamAndOrder = (param, order) => {
         const paramName = {
-          rating: 'rating',
-          date: 'reviewDate',
-          helpful: 'helpfulnessPositive',
+          rating: "rating",
+          date: "reviewDate",
+          helpful: "helpfulnessPositive",
         };
-        if (order === 'desc') {
+        if (order === "desc") {
           return (a, b) => b[paramName[param]] - a[paramName[param]];
         }
         return (a, b) => a[paramName[param]] - b[paramName[param]];
       };
       try {
         if (
-          req.query.page
-          && req.query.limit
-          && req.query.sort
-          && req.query.order
+          req.query.page &&
+          req.query.limit &&
+          req.query.sort &&
+          req.query.order
         ) {
           const page = parseInt(req.query.page, 10);
           const limit = parseInt(req.query.limit, 10);
           // const skipIndex = (page - 1) * limit;
+          const totalCount = allReviews.length;
+          const noOfPagesLeft =
+            totalCount <= limit ? 0 : Math.ceil(totalCount / limit - page);
+          const totalPages = Math.ceil(totalCount / limit);
+          metadata = {
+            noOfPagesLeft,
+            totalCount,
+            totalPages,
+          };
           allReviews.sort(sortByParamAndOrder(req.query.sort, req.query.order));
           reviewsToReturn = allReviews.slice((page - 1) * limit, page * limit);
         } else if (req.query.sort && req.query.order) {
           // reviews = await Reviews.find({ companyId }).sort(sortCriteria);
           reviewsToReturn = allReviews.sort(
-            sortByParamAndOrder(req.query.sort, req.query.order),
+            sortByParamAndOrder(req.query.sort, req.query.order)
           );
         } else if (req.query.page && req.query.limit) {
           const page = parseInt(req.query.page, 10);
           const limit = parseInt(req.query.limit, 10);
           // const skipIndex = (page - 1) * limit;
           // reviews = await Reviews.find({ companyId }).limit(limit).skip(skipIndex);
+          const totalCount = allReviews.length;
+          const noOfPagesLeft =
+            totalCount <= limit ? 0 : Math.ceil(totalCount / limit - page);
+          const totalPages = Math.ceil(totalCount / limit);
+          metadata = {
+            noOfPagesLeft,
+            totalCount,
+            totalPages,
+          };
           reviewsToReturn = allReviews.slice((page - 1) * limit, page * limit);
         } else if (req.query.page || req.query.limit) {
           const error = {
-            message: 'Pass both page and limit and not just one',
+            message: "Pass both page and limit and not just one",
           };
           return res.status(400).send(error);
         } else {
           reviewsToReturn = allReviews;
         }
-        return res.status(200).send(reviewsToReturn);
+        return res.status(200).send({ metadata, reviews: reviewsToReturn });
       } catch (error) {
         return res.status(400).send(error);
       }
     } else {
-      kafka.make_request('indeed_get_reviews', request, (error, results) => {
+      kafka.make_request("indeed_get_reviews", request, (error, results) => {
         if (error) {
           res.status(400).send(error);
         } else {
@@ -93,7 +112,7 @@ router.get('/jobseeker/:companyId/reviews', async (req, res) => {
             redisCli.setex(
               redisUrl,
               3600,
-              JSON.stringify({ reviews: results.allCompanyReviews }),
+              JSON.stringify({ reviews: results.allCompanyReviews })
             );
           }
           res.status(200).send(results.data);
@@ -103,14 +122,14 @@ router.get('/jobseeker/:companyId/reviews', async (req, res) => {
   });
 });
 
-router.get('/jobseeker/reviews/:userId', async (req, res) => {
+router.get("/jobseeker/reviews/:userId", async (req, res) => {
   const request = {
     query: req.query,
     params: req.params,
     body: req.body,
   };
 
-  kafka.make_request('indeed_get_user_reviews', request, (error, results) => {
+  kafka.make_request("indeed_get_user_reviews", request, (error, results) => {
     if (error) {
       res.status(400).send(error);
     } else {
@@ -123,7 +142,7 @@ router.get('/jobseeker/reviews/:userId', async (req, res) => {
   });
 });
 
-router.post('/reviews/:reviewId/helpfullness', async (req, res) => {
+router.post("/reviews/:reviewId/helpfullness", async (req, res) => {
   const request = {
     query: req.query,
     params: req.params,
@@ -131,7 +150,7 @@ router.post('/reviews/:reviewId/helpfullness', async (req, res) => {
   };
 
   kafka.make_request(
-    'indeed_post_helpful_reviews',
+    "indeed_post_helpful_reviews",
     request,
     (error, results) => {
       if (error) {
@@ -142,15 +161,15 @@ router.post('/reviews/:reviewId/helpfullness', async (req, res) => {
         redisCli.setex(
           companyReviewsRedisUrl,
           3600,
-          JSON.stringify({ reviews: results.allCompanyReviews }),
+          JSON.stringify({ reviews: results.allCompanyReviews })
         );
       }
       return res.status(200).send(results.data);
-    },
+    }
   );
 });
 
-router.get('/jobseeker/:companyId/users/:userId/reviews', async (req, res) => {
+router.get("/jobseeker/:companyId/users/:userId/reviews", async (req, res) => {
   const request = {
     query: req.query,
     params: req.params,
@@ -158,7 +177,7 @@ router.get('/jobseeker/:companyId/users/:userId/reviews', async (req, res) => {
   };
 
   kafka.make_request(
-    'indeed_get_featured_user_reviews',
+    "indeed_get_featured_user_reviews",
     request,
     (error, results) => {
       if (error) {
@@ -166,12 +185,12 @@ router.get('/jobseeker/:companyId/users/:userId/reviews', async (req, res) => {
       } else {
         res.status(200).send(results);
       }
-    },
+    }
   );
 });
 
 router.post(
-  '/reviews/:reviewId/company/:companyId/feature',
+  "/reviews/:reviewId/company/:companyId/feature",
   async (req, res) => {
     const request = {
       query: req.query,
@@ -180,7 +199,7 @@ router.post(
     };
 
     kafka.make_request(
-      'indeed_post_featured_reviews',
+      "indeed_post_featured_reviews",
       request,
       (error, results) => {
         if (error) {
@@ -188,9 +207,9 @@ router.post(
         } else {
           res.status(200).send(results);
         }
-      },
+      }
     );
-  },
+  }
 );
 
 module.exports = router;
