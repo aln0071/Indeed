@@ -1,95 +1,46 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/button-has-type */
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import Card from '@mui/material/Card';
+import axios from 'axios';
 import CardContent from '@mui/material/CardContent';
-import { useHistory } from 'react-router-dom';
-import { Input } from '@mui/material';
-import { Button, IconButton } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-import FileUploadIcon from '@mui/icons-material/FileUpload';
 import LockIcon from '@mui/icons-material/Lock';
 import DownloadIcon from '@mui/icons-material/Download';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
 import MessageIcon from '@mui/icons-material/Message';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import EditProfile from './EditProfile';
-import JobSeekerNavbar from '../../Navbars/JobSeekerNavbar';
 import Message from '../../Chat/Message';
 import '../../styles.css';
-import {
-  getProfileAction,
-  setUserDetailsAction,
-} from '../../../store/actions/user';
-import { uploadResumeAction } from '../../../store/actions/resume';
 import { setOpenChatBox } from '../../../store/actions/message';
-import { baseUrl, urls } from '../../../utils/constants';
+import EmployerNavbar from '../../Navbars/EmployerNavbar';
+import { baseUrl } from '../../../utils/constants';
 
-function ProfileDetails() {
+function EmployerJobseekerProfile() {
   const [isEdit, setIsEdit] = useState(false);
-  const history = useHistory();
+  const [userProfile, setUserProfile] = useState({});
   const dispatch = useDispatch();
-  const resumeKey = useSelector((state) => state.resume.resumeKey);
-  const [isResume, setIsResume] = useState(resumeKey);
   const onMessage = () => {
     dispatch(setOpenChatBox(true));
   };
-  const userProfile = useSelector((state) => state.user);
   function stringAvatar(name) {
     return {
       children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
     };
   }
-
-  const handleUploadResume = async (e) => {
-    const file = e.target.files[0];
-    const fileData = new FormData();
-    fileData.append('resume', file);
-    if (fileData) {
-      const response = await axios.post(
-        'http://localhost:3003/indeed/files/upload/resume',
-        fileData,
-      );
-      dispatch(uploadResumeAction(response.data.fileKey));
-    }
-  };
-
-  useEffect(() => {
-    dispatch(getProfileAction(userProfile.userId));
+  useEffect(async () => {
+    const userId = sessionStorage.getItem('selectedUser');
+    const response = await axios.get(
+      `${baseUrl}indeed/user/UserDetailsForId/${userId}`,
+    );
+    setUserProfile(response.data);
   }, []);
-
-  const postUserProfile = async () => {
-    const url = `${baseUrl}${urls.updateUserProfile}`;
-    const body = {
-      userId: userProfile.userId,
-      resume: resumeKey,
-    };
-    const headers = {
-      // Authorization: token,
-    };
-    try {
-      const res = await axios.post(url, body, { headers });
-      console.log('response', res.data);
-      // TODO Fetch User Profile
-      await dispatch(setUserDetailsAction(res.data));
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    setIsResume(resumeKey);
-    postUserProfile(resumeKey);
-  }, [resumeKey]);
 
   return (
     <div>
-      <JobSeekerNavbar />
+      <EmployerNavbar />
       <Message />
       <div
         // className="landingpage"
@@ -110,18 +61,16 @@ function ProfileDetails() {
               alt="Your Name"
               sx={{ width: '56px', height: '56px' }}
               {...stringAvatar(
-                userProfile.firstName
-                  ? `${userProfile?.firstName} ${userProfile?.lastName}`
-                  : 'Your Name',
+                `${userProfile?.firstName} ${userProfile?.lastName}`,
               )}
             />
             <div style={{ marginLeft: '20px' }}>
               <h1 style={{ margin: 0, lineHeight: 'normal' }}>
-                {`${userProfile?.firstName} ${userProfile?.lastName}`}
+                {userProfile?.firstName}
+                {' '}
+                {userProfile?.lastName}
               </h1>
-              <p style={{ margin: 0 }}>
-                {`${userProfile?.address?.city} ${userProfile?.address?.zipCode}`}
-              </p>
+              <p style={{ margin: 0 }}>San Jose, CA</p>
             </div>
           </CardContent>
         </Card>
@@ -157,56 +106,10 @@ function ProfileDetails() {
                   padding: '14px',
                 }}
               >
-                <FileUploadIcon />
-                <label htmlFor="resumeApply">
-                  <Input
-                    accept="application/pdf"
-                    style={{ display: 'none' }}
-                    id="resumeApply"
-                    name="resumeApply"
-                    required
-                    autoFocus
-                    type="file"
-                    onChange={(e) => {
-                      if (Object.keys(userProfile).length === 0) {
-                        history.push('/Login');
-                      } else {
-                        handleUploadResume(e);
-                      }
-                    }}
-                  />
-                  Upload Resume
-                </label>
-              </Button>
-              <Button
-                variant="outlined"
-                color="primary"
-                style={{
-                  color: 'blue',
-                  border: '2px solid blue',
-                  borderRadius: '25px',
-                  fontWeight: 'bold',
-                  padding: '14px',
-                }}
-              >
                 <DownloadIcon />
                 Download Resume
               </Button>
               <Button
-                variant="outlined"
-                color="primary"
-                style={{
-                  color: 'blue',
-                  border: '2px solid blue',
-                  borderRadius: '25px',
-                  fontWeight: 'bold',
-                  padding: '14px',
-                }}
-              >
-                <DeleteIcon />
-                Delete Resume
-              </Button>
-              {/* <Button
                 variant="outlined"
                 color="primary"
                 onClick={() => onMessage()}
@@ -220,7 +123,7 @@ function ProfileDetails() {
               >
                 <MessageIcon />
                 Message
-              </Button> */}
+              </Button>
             </div>
           </CardContent>
         </Card>
@@ -244,14 +147,6 @@ function ProfileDetails() {
                 >
                   Contact Information
                 </Typography>
-                <IconButton
-                  style={{ top: '-1px' }}
-                  onClick={() => {
-                    setIsEdit(true);
-                  }}
-                >
-                  <EditIcon />
-                </IconButton>
               </div>
               <p style={{ color: 'grey' }}>
                 {`${userProfile?.firstName} ${userProfile?.lastName}`}
@@ -288,4 +183,4 @@ function ProfileDetails() {
   );
 }
 
-export default ProfileDetails;
+export default EmployerJobseekerProfile;

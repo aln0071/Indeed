@@ -20,6 +20,7 @@ async function handleRequest(req, callback) {
     status: 'Application Received',
     resumeLink: req.body.resumeLink,
     // coverLetter: req.body.coverLetter,
+    jobSeekerName: `${req.body.firstName} ${req.body.lastName}`,
     currentCompany: req.body.company,
     currentJobTitle: req.body.currentJobTitle,
   };

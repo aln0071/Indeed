@@ -31,7 +31,9 @@ const jobSchema = new Schema({
   applicantDetails: [
     {
       jobSeekerId: { type: String, required: true },
+      jobSeekerName: { type: String },
       status: { type: String },
+      internalStatus: { type: String },
       resumeLink: { type: String },
       appliedDate: { type: String },
       currentlyWorking: { type: String },
