@@ -92,7 +92,7 @@ function JobCardExpanded(props) {
     fileData.append('resume', file);
     if (fileData) {
       const response = await axios.post(
-        'http://localhost:3003/indeed/files/upload/resume',
+        `${baseUrl}${urls.uploadResume}`,
         fileData,
       );
       dispatch(uploadResumeAction(response.data.fileKey, isApply));
