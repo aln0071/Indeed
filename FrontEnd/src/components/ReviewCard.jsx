@@ -21,6 +21,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import Button from '@mui/material/Button';
 import axios from 'axios';
+import { baseUrl } from '../utils/constants';
 
 export default function ReviewCard(props) {
   function handlAction(action) {
