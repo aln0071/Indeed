@@ -1,8 +1,12 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/button-has-type */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
+import { useHistory } from 'react-router-dom';
+import { Input } from '@mui/material';
 import { Button, IconButton } from '@material-ui/core';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
@@ -17,11 +21,20 @@ import EditProfile from './EditProfile';
 import JobSeekerNavbar from '../../Navbars/JobSeekerNavbar';
 import Message from '../../Chat/Message';
 import '../../styles.css';
+import {
+  getProfileAction,
+  setUserDetailsAction,
+} from '../../../store/actions/user';
+import { uploadResumeAction } from '../../../store/actions/resume';
 import { setOpenChatBox } from '../../../store/actions/message';
+import { baseUrl, urls } from '../../../utils/constants';
 
 function ProfileDetails() {
   const [isEdit, setIsEdit] = useState(false);
+  const history = useHistory();
   const dispatch = useDispatch();
+  const resumeKey = useSelector((state) => state.resume.resumeKey);
+  const [isResume, setIsResume] = useState(resumeKey);
   const onMessage = () => {
     dispatch(setOpenChatBox(true));
   };
@@ -31,6 +44,48 @@ function ProfileDetails() {
       children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
     };
   }
+
+  const handleUploadResume = async (e) => {
+    const file = e.target.files[0];
+    const fileData = new FormData();
+    fileData.append('resume', file);
+    if (fileData) {
+      const response = await axios.post(
+        'http://localhost:3003/indeed/files/upload/resume',
+        fileData,
+      );
+      dispatch(uploadResumeAction(response.data.fileKey));
+    }
+  };
+
+  useEffect(() => {
+    dispatch(getProfileAction(userProfile.userId));
+  }, []);
+
+  const postUserProfile = async () => {
+    const url = `${baseUrl}${urls.updateUserProfile}`;
+    const body = {
+      userId: userProfile.userId,
+      resume: resumeKey,
+    };
+    const headers = {
+      // Authorization: token,
+    };
+    try {
+      const res = await axios.post(url, body, { headers });
+      console.log('response', res.data);
+      // TODO Fetch User Profile
+      await dispatch(setUserDetailsAction(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    setIsResume(resumeKey);
+    postUserProfile(resumeKey);
+  }, [resumeKey]);
+
   return (
     <div>
       <JobSeekerNavbar />
@@ -94,7 +149,27 @@ function ProfileDetails() {
                 }}
               >
                 <FileUploadIcon />
-                Upload Resume
+                {isResume === '' && (
+                  <label htmlFor="resumeApply">
+                    <Input
+                      accept="application/pdf"
+                      style={{ display: 'none' }}
+                      id="resumeApply"
+                      name="resumeApply"
+                      required
+                      autoFocus
+                      type="file"
+                      onChange={(e) => {
+                        if (Object.keys(userProfile).length === 0) {
+                          history.push('/Login');
+                        } else {
+                          handleUploadResume(e);
+                        }
+                      }}
+                    />
+                    Upload Resume
+                  </label>
+                )}
               </Button>
               <Button
                 variant="outlined"
