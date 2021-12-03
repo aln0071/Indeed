@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 import { toast } from 'react-toastify';
 import { getUserDetailsWithId, loginUser } from '../../utils/endpoints';
 import { CLEAR_USER_DETAILS, SET_USER_DETAILS } from './types';
@@ -18,6 +19,8 @@ export const loginUserAction = (email, password, history) => async (dispatch) =>
     dispatch(setUserDetailsAction(response));
     if (response.userType === 'jobseeker') {
       history.push('/');
+    } else if (response.userType === 'admin') {
+      history.push('/AdminHome');
     } else {
       history.push('/CompanyProfileEmployerLandingPage');
     }
