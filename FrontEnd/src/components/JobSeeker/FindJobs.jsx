@@ -80,6 +80,25 @@ function FindJobs() {
     dispatch(getSearchedJobsAction(what, where, val, 5));
   };
 
+  const postUserProfile = async () => {
+    const url = `${baseUrl}${urls.updateUserProfile}`;
+    const body = {
+      userId: user.userId,
+      resume: resumeKey,
+    };
+    const headers = {
+      // Authorization: token,
+    };
+    try {
+      const res = await axios.post(url, body, { headers });
+      console.log('response', res.data);
+      // TODO Fetch User Profile
+      await dispatch(setUserDetailsAction(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const handleUploadResume = async (e) => {
     const file = e.target.files[0];
     const fileData = new FormData();
@@ -89,7 +108,8 @@ function FindJobs() {
         'http://localhost:3003/indeed/files/upload/resume',
         fileData,
       );
-      dispatch(uploadResumeAction(response.data.fileKey));
+      await dispatch(uploadResumeAction(response.data.fileKey));
+      postUserProfile(response.data.fileKey);
     }
   };
 
@@ -114,28 +134,8 @@ function FindJobs() {
     setLastSearched(searchValues);
   }, [searchValues]);
 
-  const postUserProfile = async () => {
-    const url = `${baseUrl}${urls.updateUserProfile}`;
-    const body = {
-      userId: user.userId,
-      resume: resumeKey,
-    };
-    const headers = {
-      // Authorization: token,
-    };
-    try {
-      const res = await axios.post(url, body, { headers });
-      console.log('response', res.data);
-      // TODO Fetch User Profile
-      await dispatch(setUserDetailsAction(res.data));
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   useEffect(() => {
     setIsResume(resumeKey);
-    postUserProfile(resumeKey);
   }, [resumeKey]);
 
   return (

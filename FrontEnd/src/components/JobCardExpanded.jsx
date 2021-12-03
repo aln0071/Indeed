@@ -50,20 +50,6 @@ function JobCardExpanded(props) {
     }
   };
 
-  const handleUploadResume = async (e) => {
-    const isApply = true;
-    const file = e.target.files[0];
-    const fileData = new FormData();
-    fileData.append('resume', file);
-    if (fileData) {
-      const response = await axios.post(
-        'http://localhost:3003/indeed/files/upload/resume',
-        fileData,
-      );
-      dispatch(uploadResumeAction(response.data.fileKey, isApply));
-    }
-  };
-
   const postUserProfile = async () => {
     const url = `${baseUrl}${urls.updateUserProfile}`;
     const body = {
@@ -99,9 +85,23 @@ function JobCardExpanded(props) {
     }
   };
 
+  const handleUploadResume = async (e) => {
+    const isApply = true;
+    const file = e.target.files[0];
+    const fileData = new FormData();
+    fileData.append('resume', file);
+    if (fileData) {
+      const response = await axios.post(
+        'http://localhost:3003/indeed/files/upload/resume',
+        fileData,
+      );
+      dispatch(uploadResumeAction(response.data.fileKey, isApply));
+      postUserProfile(response.data.fileKey);
+    }
+  };
+
   useEffect(() => {
     setIsResume(resumeKey);
-    postUserProfile(resumeKey);
   }, [resumeKey]);
 
   return (

@@ -47,23 +47,6 @@ function ProfileDetails() {
     };
   }
 
-  const handleUploadResume = async (e) => {
-    const file = e.target.files[0];
-    const fileData = new FormData();
-    fileData.append('resume', file);
-    if (fileData) {
-      const response = await axios.post(
-        'http://localhost:3003/indeed/files/upload/resume',
-        fileData,
-      );
-      dispatch(uploadResumeAction(response.data.fileKey));
-    }
-  };
-
-  useEffect(() => {
-    dispatch(getProfileAction(userProfile.userId));
-  }, []);
-
   const postUserProfile = async () => {
     const url = `${baseUrl}${urls.updateUserProfile}`;
     const body = {
@@ -83,9 +66,26 @@ function ProfileDetails() {
     }
   };
 
+  const handleUploadResume = async (e) => {
+    const file = e.target.files[0];
+    const fileData = new FormData();
+    fileData.append('resume', file);
+    if (fileData) {
+      const response = await axios.post(
+        'http://localhost:3003/indeed/files/upload/resume',
+        fileData,
+      );
+      dispatch(uploadResumeAction(response.data.fileKey));
+      postUserProfile(response.data.fileKey);
+    }
+  };
+
+  useEffect(() => {
+    dispatch(getProfileAction(userProfile.userId));
+  }, []);
+
   useEffect(() => {
     setIsResume(resumeKey);
-    postUserProfile(resumeKey);
   }, [resumeKey]);
 
   return (
@@ -192,10 +192,10 @@ function ProfileDetails() {
                 onClick={() => {
                   const url = `${baseUrl}${urls.getImageFromS3.replace(
                     '{key}',
-                    'd8645b558a6a3aee50eb41e2460057d5',
+                    resumeKey,
                   )}`;
                   try {
-                    downloadFile(url, 'test.png');
+                    downloadFile(url);
                   } catch (error) {
                     console.log(error);
                   }
