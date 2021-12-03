@@ -45,7 +45,13 @@ function ReviewCard(props) {
 
   // }, [])
   return (
-    <Card sx={{ minWidth: 275 }} style={{ marginBottom: '20px' }}>
+    <Card
+      sx={{ minWidth: 275 }}
+      style={{
+        marginBottom: '20px',
+        background: props.color ? props.color : 'initial',
+      }}
+    >
       <CardContent style={{ display: 'flex' }}>
         <div style={{ width: '20%' }}>
           <Typography
@@ -100,20 +106,22 @@ function ReviewCard(props) {
           <Typography sx={{ mb: 1.5 }} color="text.secondary">
             <p>{props.review.reviewDescription}</p>
           </Typography>
-          <Typography sx={{ mb: 1 }} color="text.primary">
-            <p>
-              Feature this review ?
-              <IconButton
-                onClick={() => {
-                  feature();
-                }}
-              >
-                <StarsIcon
-                  style={{ color: featured ? 'yellowgreen' : 'black' }}
-                />
-              </IconButton>
-            </p>
-          </Typography>
+          {!props.isFeatured && (
+            <Typography sx={{ mb: 1 }} color="text.primary">
+              <p>
+                Feature this review ?
+                <IconButton
+                  onClick={() => {
+                    feature();
+                  }}
+                >
+                  <StarsIcon
+                    style={{ color: featured ? 'yellowgreen' : 'black' }}
+                  />
+                </IconButton>
+              </p>
+            </Typography>
+          )}
         </div>
       </CardContent>
     </Card>
@@ -122,5 +130,7 @@ function ReviewCard(props) {
 ReviewCard.propTypes = {
   // ...prop type definitions here
   review: PropTypes.object,
+  isFeatured: PropTypes.bool,
+  color: PropTypes.string,
 };
 export default ReviewCard;

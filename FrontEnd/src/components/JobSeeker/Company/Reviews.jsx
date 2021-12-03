@@ -12,7 +12,10 @@ import Button from '@mui/material/Button';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import { getReviewAction } from '../../../store/actions/review';
+import {
+  getReviewAction,
+  getFeaturedReviewsAction,
+} from '../../../store/actions/review';
 import { ColorButton2 } from '../../customComponents/index';
 import ReviewCard from './ReviewCard';
 import ReviewModal from './ReviewModal';
@@ -57,6 +60,15 @@ function Reviews() {
   const [allCompanyReviews, setAllCompanyReviews] = useState(
     allReviews.reviews,
   );
+
+  useEffect(() => {
+    dispatch(
+      getFeaturedReviewsAction({
+        companyId: '61a32673a0660ee943876fc0',
+        userId: undefined,
+      }),
+    );
+  }, []);
   // location.search.split('=')[1],
   useEffect(() => {
     const params = {
