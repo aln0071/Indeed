@@ -65,6 +65,14 @@ const menuItems = [
     listPath: '/Products',
   },
   {
+    listText: 'View Company Reviews',
+    listPath: '/employee/ViewCompanyReviews',
+  },
+  {
+    listText: 'Posted Jobs',
+    listPath: '/employee/ViewPostedJobs',
+  },
+  {
     listText: 'Resources',
     listPath: '/Resources',
   },
@@ -217,6 +225,22 @@ const EmployerNavbar = () => {
                   style={{ color: '#fff' }}
                 >
                   Products
+                </Link>
+                <Link
+                  id="ViewCompanyReviews"
+                  className="navEmployee"
+                  to="/employee/ViewCompanyReviews"
+                  style={{ color: '#fff' }}
+                >
+                  View Company Reviews
+                </Link>
+                <Link
+                  id="ViewPostedJobs"
+                  className="navEmployee"
+                  to="/employee/ViewPostedJobs"
+                  style={{ color: '#fff' }}
+                >
+                  View Posted Jobs
                 </Link>
                 <Link
                   id="Resources"

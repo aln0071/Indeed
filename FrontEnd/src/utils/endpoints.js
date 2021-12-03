@@ -73,6 +73,11 @@ export const getSearchedJobs = (params) => {
 //   return post(url, params).then(handleResponse);
 // };
 
+export const getCompanyJobs = (params) => {
+  const url = `${baseUrl}${urls.getCompanySpecificJobs}/${params.companyId}/jobs?page=${params.page}&limit=${params.limit}`;
+  return get(url, params).then(handleResponse);
+};
+
 export const postReviews = (params) => {
   const url = `${baseUrl}${urls.postReview}/${params.companyId}/reviews`;
   return post(url, params).then(handleResponse);
@@ -141,4 +146,14 @@ export const postInitialConversation = async (room, message) => {
   const payload = { ...message, chatRoomId: response.chatRoomId };
   postConversation(payload);
   return response;
+};
+
+export const makeReviewFeatured = (params) => {
+  const url = `${baseUrl}${urls.featureReview}/${params.reviewId}/company/${params.companyId}/feature`;
+  return post(url, params).then(handleResponse);
+};
+
+export const getFeaturedReviews = (params) => {
+  const url = `${baseUrl}${urls.fetchFeatured}/${params.companyId}/users/${params.userId}/reviews`;
+  return get(url, params).then(handleResponse);
 };

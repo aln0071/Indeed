@@ -3,12 +3,14 @@ import {
   getAllJobs,
   getSpecificJob,
   getSearchedJobs,
+  getCompanyJobs,
   postJob,
 } from '../../utils/endpoints';
 import {
   GET_ALL_JOBS,
   GET_SPECIFIC_JOB,
   GET_SEARCHED_JOB,
+  GET_COMPANY_SPECIFIC_JOBS,
   // SAVE_JOB,
   // UNSAVE_JOB,
   STORE_SEARCHED_RESULTS,
@@ -78,4 +80,16 @@ export const postEmployerJob = (job) => async (dispatch) => {
     type: POST_JOB,
     payload: response,
   });
+};
+
+export const getCompanySpecificJobs = (companyId, page, limit) => async (dispatch) => {
+  try {
+    const response = await getCompanyJobs({ companyId, page, limit });
+    dispatch({
+      type: GET_COMPANY_SPECIFIC_JOBS,
+      payload: response,
+    });
+  } catch (error) {
+    toast.error(createToastBody(error), toastOptions);
+  }
 };

@@ -4,6 +4,7 @@ import {
   GET_SEARCHED_JOB,
   STORE_SEARCHED_RESULTS,
   POST_JOB,
+  GET_COMPANY_SPECIFIC_JOBS,
 } from '../actions/types';
 
 const initialState = {
@@ -12,6 +13,8 @@ const initialState = {
   searchedJobs: {
     jobs: [],
   },
+  // searchedJobs: [],
+  companySpecificJobs: [],
   searchedValues: [],
   employerPostedJob: {},
 };
@@ -42,6 +45,11 @@ const jobs = (state = { ...initialState }, action) => {
       return {
         ...state,
         employerPostedJob: action.payload,
+      };
+    case GET_COMPANY_SPECIFIC_JOBS:
+      return {
+        ...state,
+        companySpecificJobs: action.payload,
       };
     default:
       return state;

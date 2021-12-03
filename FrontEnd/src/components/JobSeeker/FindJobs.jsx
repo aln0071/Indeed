@@ -72,13 +72,6 @@ function FindJobs() {
     dispatch(getSearchedJobsAction(what, where, val, 5));
   };
 
-  // const clearSearch = () => {
-  //   setWhat('');
-  //   setWhere('');
-  //   setSearchResults([]);
-  //   dispatch(getSearchedJobsAction('', '', 1, 10));
-  // };
-
   useEffect(() => {
     setSearchResults(searchedJobs);
     if (searchedJobs[0]) {

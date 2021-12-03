@@ -3,20 +3,47 @@
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable react/no-unused-prop-types */
 /* eslint-disable react/require-default-props */
-import React from 'react';
+import React, { useState } from 'react';
 import { PropTypes } from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
+import { IconButton } from '@mui/material';
 import Card from '@mui/material/Card';
+import StarsIcon from '@mui/icons-material/Stars';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import CustomRating from '../../customComponents/Rating';
+import CustomRating from '../customComponents/Rating';
+import { featureAReview } from '../../store/actions/review';
 
 function ReviewCard(props) {
   const dispatch = useDispatch();
-  const userType = useSelector((state) => state.user.userType);
+  // const userType = useSelector((state) => state.user.userType);
+  const [featured, setFeatured] = useState(false);
+
+  const feature = () => {
+    if (featured) {
+      setFeatured(false);
+      dispatch(
+        featureAReview({
+          isFeatured: false,
+          reviewId: props.review.reviewId,
+          companyId: props.review.companyId,
+        }),
+      );
+    } else {
+      setFeatured(true);
+      dispatch(
+        featureAReview({
+          isFeatured: true,
+          reviewId: props.review.reviewId,
+          companyId: props.review.companyId,
+        }),
+      );
+    }
+  };
+
+  // useEffect(() => {
+
+  // }, [])
   return (
     <Card sx={{ minWidth: 275 }} style={{ marginBottom: '20px' }}>
       <CardContent style={{ display: 'flex' }}>
@@ -75,14 +102,16 @@ function ReviewCard(props) {
           </Typography>
           <Typography sx={{ mb: 1 }} color="text.primary">
             <p>
-              Was this Review Helpful ?
-              <FormGroup>
-                <FormControlLabel
-                  control={<Checkbox defaultChecked />}
-                  label="Yes"
+              Feature this review ?
+              <IconButton
+                onClick={() => {
+                  feature();
+                }}
+              >
+                <StarsIcon
+                  style={{ color: featured ? 'yellowgreen' : 'black' }}
                 />
-                <FormControlLabel control={<Checkbox />} label="No" />
-              </FormGroup>
+              </IconButton>
             </p>
           </Typography>
         </div>
