@@ -5,7 +5,7 @@ async function handleRequest(req, callback) {
     let jobs = {};
     let error = {};
     const { companyId } = req.params;
-    jobs = await Jobs.find({ companyId });
+    jobs = await Jobs.find({ companyId }).populate('company');
     if (req.query.page && req.query.limit) {
       const page = parseInt(req.query.page, 10);
       const limit = parseInt(req.query.limit, 10);

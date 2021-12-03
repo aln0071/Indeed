@@ -134,3 +134,11 @@ export const getCompanyProfileByCompanyId = (companyId) => {
   )}`;
   return get(url).then(handleResponse);
 };
+
+export const postInitialConversation = async (room, message) => {
+  const chatRoomUrl = `${baseUrl}indeed/api/chatRooms`;
+  const response = await post(chatRoomUrl, room).then(handleResponse);
+  const payload = { ...message, chatRoomId: response.chatRoomId };
+  postConversation(payload);
+  return response;
+};

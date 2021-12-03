@@ -8,6 +8,8 @@ export const SET_CURRENT_ROOM = 'SET_CURRENT_ROOM';
 export const UPDATE_CONVERSATION = 'UPDATE_CONVERSATION';
 export const SET_SENDER = 'SET_SENDER';
 export const SET_RECEIVER = 'SET_RECEIVER';
+export const CREATE_ROOM = 'CREATE_ROOM';
+export const OPEN_MESSAGE_BOX = 'OPEN_MESSAGE_BOX';
 
 export const GET_ALL_JOBS = 'GET_ALL_JOBS';
 export const GET_SPECIFIC_JOB = 'GET_SPECIFIC_JOB';

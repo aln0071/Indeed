@@ -20,19 +20,21 @@ async function handleRequest(req, callback) {
       },
     };
 
-    const user = await User.find({ userId: req.params.userId });
-    if (!user) {
-      callback(null, { msg: 'User Not Found' });
+    const { userId } = payload;
+    if (userId === undefined) {
+      callback({ error: 'unable to determine user' }, null);
     }
-    User.findOneAndUpdate(
-      { userId: req.params.userId },
-      payload,
-      { new: true },
-      (err, updatedUser) => {
-        if (err) callback(null, err);
-        callback(null, updatedUser);
+    const user = await User.findOneAndUpdate(
+      { userId },
+      {
+        $set: { ...payload },
       },
-    );
+      {
+        new: true,
+        upsert: true,
+      },
+    ).populate('profilePicId');
+    callback(null, user);
   } catch (error) {
     console.log('error', error);
     callback(error, null);
