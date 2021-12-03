@@ -182,3 +182,16 @@ export const applyForaJob = (params) => {
   const url = `${baseUrl}${urls.applyJob}/${params.jobSeekerId}/applyJob/${params.jobId}/${params.companyId}`;
   return post(url, params).then(handleResponse);
 };
+
+export const downloadFile = (url, fileName = 'resume.pdf') => get(url)
+  .then((response) => response.blob())
+  .then((blob) => URL.createObjectURL(blob))
+  .then((objectUrl) => {
+    const downloadLink = window.document.createElement('a');
+    downloadLink.href = objectUrl;
+    downloadLink.download = fileName;
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+  })
+  .then(handleResponse);

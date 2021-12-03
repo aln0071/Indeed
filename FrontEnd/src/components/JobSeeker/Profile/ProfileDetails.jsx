@@ -29,6 +29,7 @@ import {
 import { uploadResumeAction } from '../../../store/actions/resume';
 import { setOpenChatBox } from '../../../store/actions/message';
 import { baseUrl, urls } from '../../../utils/constants';
+import { downloadFile } from '../../../utils/endpoints';
 
 function ProfileDetails() {
   const [isEdit, setIsEdit] = useState(false);
@@ -45,23 +46,6 @@ function ProfileDetails() {
       children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
     };
   }
-
-  const handleUploadResume = async (e) => {
-    const file = e.target.files[0];
-    const fileData = new FormData();
-    fileData.append('resume', file);
-    if (fileData) {
-      const response = await axios.post(
-        'http://localhost:3003/indeed/files/upload/resume',
-        fileData,
-      );
-      dispatch(uploadResumeAction(response.data.fileKey));
-    }
-  };
-
-  useEffect(() => {
-    dispatch(getProfileAction(userProfile.userId));
-  }, []);
 
   const postUserProfile = async () => {
     const url = `${baseUrl}${urls.updateUserProfile}`;
@@ -82,9 +66,26 @@ function ProfileDetails() {
     }
   };
 
+  const handleUploadResume = async (e) => {
+    const file = e.target.files[0];
+    const fileData = new FormData();
+    fileData.append('resume', file);
+    if (fileData) {
+      const response = await axios.post(
+        `${baseUrl}${urls.uploadResume}`,
+        fileData,
+      );
+      dispatch(uploadResumeAction(response.data.fileKey));
+      postUserProfile(response.data.fileKey);
+    }
+  };
+
+  useEffect(() => {
+    dispatch(getProfileAction(userProfile.userId));
+  }, []);
+
   useEffect(() => {
     setIsResume(resumeKey);
-    postUserProfile(resumeKey);
   }, [resumeKey]);
 
   return (
@@ -187,6 +188,17 @@ function ProfileDetails() {
                   borderRadius: '25px',
                   fontWeight: 'bold',
                   padding: '14px',
+                }}
+                onClick={() => {
+                  const url = `${baseUrl}${urls.getImageFromS3.replace(
+                    '{key}',
+                    resumeKey,
+                  )}`;
+                  try {
+                    downloadFile(url);
+                  } catch (error) {
+                    console.log(error);
+                  }
                 }}
               >
                 <DownloadIcon />
