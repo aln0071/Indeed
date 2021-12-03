@@ -46,6 +46,7 @@ function Reviews() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const allReviews = useSelector((state) => state.review.allReviews);
+  const featured = useSelector((state) => state.review.featured);
   const history = useHistory();
   const [helpful, setHelpful] = useState(false);
   const [rating, setRating] = useState(false);
@@ -55,6 +56,7 @@ function Reviews() {
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [meta, setMeta] = useState({});
+  const [allFeatured, setAllFeatured] = useState(featured);
   const location = useLocation();
 
   const [allCompanyReviews, setAllCompanyReviews] = useState(
@@ -65,11 +67,16 @@ function Reviews() {
     dispatch(
       getFeaturedReviewsAction({
         companyId: '61a32673a0660ee943876fc0',
-        userId: undefined,
+        userId: user.userId,
       }),
     );
   }, []);
   // location.search.split('=')[1],
+
+  useEffect(() => {
+    setAllFeatured(featured);
+  }, [featured]);
+
   useEffect(() => {
     const params = {
       companyId: '61a32673a0660ee943876fc0',
@@ -238,6 +245,18 @@ function Reviews() {
           Write Review
         </ColorButton2>
       </div>
+      {allFeatured
+        && allFeatured.userReviews
+        && allFeatured.userReviews.length > 0
+        && allFeatured.userReviews.map((item, index) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <ReviewCard
+            review={item}
+            key={`featuredUnderCompany-${item.reviewId}`}
+            isFeatured
+            color="thistle"
+          />
+        ))}
       {allCompanyReviews
         && allCompanyReviews.map((item, index) => (
           // eslint-disable-next-line react/no-array-index-key

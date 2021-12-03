@@ -39,23 +39,6 @@ export const getReviewAction = (params) => async (dispatch) => {
   }
 };
 
-export const featureAReview = (params) => async (dispatch) => {
-  try {
-    const response = await makeReviewFeatured(params);
-    dispatch({
-      type: FEATURE_A_REVIEW,
-      payload: response,
-    });
-    if (params.isFeatured) {
-      toast.success('Review featured successfully', toastOptions);
-    } else {
-      toast.success('Review removed from featured', toastOptions);
-    }
-  } catch (error) {
-    toast.error(createToastBody(error), toastOptions);
-  }
-};
-
 export const getFeaturedReviewsAction = (params) => async (dispatch) => {
   try {
     const response = await getFeaturedReviews(params);
@@ -63,6 +46,29 @@ export const getFeaturedReviewsAction = (params) => async (dispatch) => {
       type: GET_FEATURED_REVIEWS,
       payload: response,
     });
+  } catch (error) {
+    toast.error(createToastBody(error), toastOptions);
+  }
+};
+
+export const featureAReview = (params) => async (dispatch) => {
+  try {
+    const response = await makeReviewFeatured(params);
+    dispatch({
+      type: FEATURE_A_REVIEW,
+      payload: response,
+    });
+    dispatch(
+      getFeaturedReviewsAction({
+        companyId: params.companyId,
+        userId: undefined,
+      }),
+    );
+    if (params.isFeatured) {
+      toast.success('Review featured successfully', toastOptions);
+    } else {
+      toast.success('Review removed from featured', toastOptions);
+    }
   } catch (error) {
     toast.error(createToastBody(error), toastOptions);
   }

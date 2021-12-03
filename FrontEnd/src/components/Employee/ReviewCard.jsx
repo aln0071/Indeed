@@ -115,9 +115,8 @@ function ReviewCard(props) {
                     feature();
                   }}
                 >
-                  <StarsIcon
-                    style={{ color: featured ? 'yellowgreen' : 'black' }}
-                  />
+                  <StarsIcon />
+                  {/* // style={{ color: featured ? 'yellowgreen' : 'black' }}/> */}
                 </IconButton>
               </p>
             </Typography>
